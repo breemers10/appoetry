@@ -115,7 +115,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step 1 of 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FlM-4p-Nxo">
-                                <rect key="frame" x="143" y="463" width="89" height="23"/>
+                                <rect key="frame" x="143" y="505" width="87.5" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-MediumItalic" family="Futura" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -135,14 +135,14 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password confirm *" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UJN-II-ZTi">
-                                <rect key="frame" x="85" y="285" width="205" height="30"/>
+                                <rect key="frame" x="84.5" y="285" width="205" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0u-WE-vqy">
-                                <rect key="frame" x="146" y="361" width="82" height="35"/>
+                                <rect key="frame" x="168" y="361" width="38" height="35"/>
                                 <color key="backgroundColor" red="0.76636213060000002" green="0.83528548479999998" blue="0.65743744370000001" alpha="0.18723244859999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <state key="normal" title="Next">
@@ -152,8 +152,8 @@
                                     <action selector="nextFromFirstStep:" destination="O5S-Ug-HrN" eventType="touchUpInside" id="7kb-Ld-GdK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngh-ME-84g">
-                                <rect key="frame" x="160" y="524" width="55" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngh-ME-84g">
+                                <rect key="frame" x="160" y="424" width="54" height="32"/>
                                 <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.17712970890410962" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                 <state key="normal" title="Back">
@@ -166,28 +166,28 @@
                         </subviews>
                         <color key="backgroundColor" red="0.90563851594924927" green="0.94731312990188599" blue="0.86765587329864502" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="UJN-II-ZTi" firstAttribute="top" secondItem="9Oe-sP-bmA" secondAttribute="bottom" constant="24" id="5v9-gC-cfX"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="Ngh-ME-84g" secondAttribute="trailing" constant="160" id="7Ti-pW-AgW"/>
-                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="143" id="8FA-q1-3US"/>
-                            <constraint firstItem="Ngh-ME-84g" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="160" id="8jl-M2-u6k"/>
-                            <constraint firstItem="UJN-II-ZTi" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="Akh-2M-hEa"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="9Oe-sP-bmA" secondAttribute="trailing" constant="85" id="KH7-kq-hsB"/>
-                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="PGg-nV-UhK"/>
-                            <constraint firstItem="l0u-WE-vqy" firstAttribute="top" secondItem="UJN-II-ZTi" secondAttribute="bottom" constant="46" id="QNA-fg-UWk"/>
-                            <constraint firstItem="Ngh-ME-84g" firstAttribute="top" secondItem="FlM-4p-Nxo" secondAttribute="bottom" constant="38" id="USC-EL-mXv"/>
-                            <constraint firstItem="B5a-E7-70k" firstAttribute="top" secondItem="RPw-sr-4ng" secondAttribute="top" constant="80" id="Vz3-Iy-tRH"/>
-                            <constraint firstItem="l0u-WE-vqy" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="146" id="WYN-4I-bCx"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="UJN-II-ZTi" secondAttribute="trailing" constant="85" id="Yxz-SX-8C3"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="B5a-E7-70k" secondAttribute="trailing" constant="149" id="bnT-vp-I1G"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="RIx-f9-xkH" secondAttribute="trailing" constant="85" id="f3p-77-uae"/>
-                            <constraint firstItem="RIx-f9-xkH" firstAttribute="top" secondItem="B5a-E7-70k" secondAttribute="bottom" constant="54" id="hTS-Je-e8q"/>
-                            <constraint firstItem="B5a-E7-70k" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="149" id="ihl-RM-Wj8"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="bottom" secondItem="Ngh-ME-84g" secondAttribute="bottom" constant="109" id="ov2-XH-cLx"/>
-                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="top" secondItem="l0u-WE-vqy" secondAttribute="bottom" constant="67" id="tSy-zA-1ZR"/>
-                            <constraint firstItem="RIx-f9-xkH" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="vld-fA-Ldp"/>
-                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="top" secondItem="RIx-f9-xkH" secondAttribute="bottom" constant="24" id="wbr-rG-mBC"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="FlM-4p-Nxo" secondAttribute="trailing" constant="143" id="x9b-dy-cCj"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="l0u-WE-vqy" secondAttribute="trailing" constant="147" id="yaF-F3-OJm"/>
+                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="top" secondItem="RIx-f9-xkH" secondAttribute="bottom" constant="24" id="0z3-4t-aGe"/>
+                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="centerX" secondItem="UJN-II-ZTi" secondAttribute="centerX" id="28Z-nH-jdG"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="9Oe-sP-bmA" secondAttribute="trailing" constant="85" id="3uV-N2-Q3w"/>
+                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="7Dp-QB-vSq"/>
+                            <constraint firstItem="RIx-f9-xkH" firstAttribute="top" secondItem="B5a-E7-70k" secondAttribute="bottom" constant="54" id="7qn-Ie-Rm3"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="bottom" secondItem="FlM-4p-Nxo" secondAttribute="bottom" constant="139" id="BSI-HM-lbD"/>
+                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="centerX" secondItem="l0u-WE-vqy" secondAttribute="centerX" id="Bk0-44-9x5"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UJN-II-ZTi" secondAttribute="trailing" id="D8x-cZ-SiV"/>
+                            <constraint firstItem="B5a-E7-70k" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="149" id="K8f-V4-dL4"/>
+                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="143" id="Rdl-Sd-fjY"/>
+                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="width" secondItem="UJN-II-ZTi" secondAttribute="width" id="XPa-GO-kZB"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="Ngh-ME-84g" secondAttribute="trailing" constant="161" id="Xn2-PP-ady"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ngh-ME-84g" secondAttribute="trailing" symbolic="YES" id="b9E-0w-GLV"/>
+                            <constraint firstItem="RIx-f9-xkH" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="bAQ-be-cqj"/>
+                            <constraint firstItem="B5a-E7-70k" firstAttribute="top" secondItem="RPw-sr-4ng" secondAttribute="top" constant="80" id="eOQ-Cq-dVM"/>
+                            <constraint firstItem="UJN-II-ZTi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RPw-sr-4ng" secondAttribute="leading" id="gNg-3K-sGA"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="RIx-f9-xkH" secondAttribute="trailing" constant="85" id="igm-Nk-UDv"/>
+                            <constraint firstItem="Ngh-ME-84g" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="160" id="pKz-TI-HTK"/>
+                            <constraint firstItem="l0u-WE-vqy" firstAttribute="top" secondItem="UJN-II-ZTi" secondAttribute="bottom" constant="46" id="sj1-y6-RS9"/>
+                            <constraint firstItem="UJN-II-ZTi" firstAttribute="top" secondItem="9Oe-sP-bmA" secondAttribute="bottom" constant="24" id="smL-en-9Hg"/>
+                            <constraint firstItem="Ngh-ME-84g" firstAttribute="top" secondItem="l0u-WE-vqy" secondAttribute="bottom" constant="28" id="tl2-81-mqB"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="B5a-E7-70k" secondAttribute="trailing" constant="149" id="vR8-1C-qfM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RPw-sr-4ng"/>
                     </view>
