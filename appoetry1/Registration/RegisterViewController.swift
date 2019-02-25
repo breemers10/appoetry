@@ -24,6 +24,7 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func nextFromFirstStep(_ sender: Any) {
+         NotificationCenter.default.post(name: Notification.Name("goToRegStep2"), object: nil)
     }
     @IBAction func backToLogin(_ sender: Any) {
         NotificationCenter.default.post(name: Notification.Name("goToLogin"), object: nil)

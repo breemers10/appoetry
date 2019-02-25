@@ -16,31 +16,24 @@ class RegFlow: FlowController {
         return UIStoryboard(name: "Login", bundle: Bundle.main)
     }()
     
-    private var registerViewController: RegisterViewController? {
+    private var registerViewController1: RegisterViewController? {
         return loginSB.instantiateViewController(withIdentifier: "Register1VC") as? RegisterViewController
+    }
+    private var registerStep2ViewController: RegisterStep2ViewController? {
+        return loginSB.instantiateViewController(withIdentifier: "Register2VC") as? RegisterStep2ViewController
     }
     
     func start() {
-        guard let vc = registerViewController else {
+        guard let vc = registerViewController1 else {
             fatalError("Could not get register vc")
         }
-        
-        vc.showMeAgain = { [weak self] in
-            self?.pushAgain()
-        }
-        
         self.rootController.setViewControllers([vc], animated: false)
     }
-    func pushAgain() {
-        
-        guard let vc = registerViewController else {
-            fatalError("Could not push to login vc")
-        }
-        
-        vc.showMeAgain = { [weak self] in
-            self?.pushAgain()
-        }
-        self.rootController.pushViewController(vc, animated: true)
-    }
     
+    func secondStep() {
+        guard let vc2 = registerStep2ViewController else {
+            fatalError("Could not get register vc")
+        }  
+        self.rootController.setViewControllers([vc2], animated: false)
+    }
 }
