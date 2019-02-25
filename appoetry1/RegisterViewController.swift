@@ -9,6 +9,8 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
+    
+        var showMeAgain: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()

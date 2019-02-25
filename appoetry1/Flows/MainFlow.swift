@@ -8,6 +8,27 @@
 
 import UIKit
 
-class MainFlow: NSObject {
-
+class MainFlow: FlowController {
+    
+    let rootController = UINavigationController()
+    
+    private lazy var mainSB: UIStoryboard = {
+        return UIStoryboard(name: "Main", bundle: Bundle.main)
+    }()
+    
+    private var mainViewController: MainViewController? {
+        return mainSB.instantiateViewController(withIdentifier: "MainVC") as? MainViewController
+    }
+    
+    func start() {
+        guard let vc = mainViewController else {
+            fatalError("Could not get main vc")
+        }
+        
+        //        vc.showMeAgain = { [weak self] in
+        //            self?.pushAgain()
+        //        }
+        
+        self.rootController.setViewControllers([vc], animated: false)
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  appoetry1
 //
 //  Created by Kristaps Brēmers on 25.02.19.
@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class MainViewController: UIViewController {
+    
+    var showMeAgain: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
