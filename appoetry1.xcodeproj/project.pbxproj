@@ -12,10 +12,6 @@
 		6318BC1E2223EFB2003EF60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6318BC1D2223EFB2003EF60E /* Main.storyboard */; };
 		6318BC212223F09F003EF60E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC202223F09F003EF60E /* LoginViewController.swift */; };
 		6318BC232223F0D1003EF60E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC222223F0D1003EF60E /* RegisterViewController.swift */; };
-		6318BC252223F114003EF60E /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC242223F114003EF60E /* AppFlow.swift */; };
-		6318BC272223F120003EF60E /* MainFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC262223F120003EF60E /* MainFlow.swift */; };
-		6318BC292223F12E003EF60E /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC282223F12E003EF60E /* LoginFlow.swift */; };
-		6318BC2B2223F137003EF60E /* RegFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC2A2223F137003EF60E /* RegFlow.swift */; };
 		636A57E42223D8DA0021D197 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A57E32223D8DA0021D197 /* AppDelegate.swift */; };
 		636A57E62223D8DA0021D197 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A57E52223D8DA0021D197 /* MainViewController.swift */; };
 		636A57E92223D8DA0021D197 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 636A57E72223D8DA0021D197 /* Login.storyboard */; };
@@ -30,10 +26,6 @@
 		6318BC1D2223EFB2003EF60E /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6318BC202223F09F003EF60E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6318BC222223F0D1003EF60E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		6318BC242223F114003EF60E /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
-		6318BC262223F120003EF60E /* MainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlow.swift; sourceTree = "<group>"; };
-		6318BC282223F12E003EF60E /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
-		6318BC2A2223F137003EF60E /* RegFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegFlow.swift; sourceTree = "<group>"; };
 		636A57E02223D8DA0021D197 /* appoetry1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appoetry1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		636A57E32223D8DA0021D197 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		636A57E52223D8DA0021D197 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -56,17 +48,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6318BC1F2223EFE1003EF60E /* Flows */ = {
-			isa = PBXGroup;
-			children = (
-				6318BC242223F114003EF60E /* AppFlow.swift */,
-				6318BC262223F120003EF60E /* MainFlow.swift */,
-				6318BC282223F12E003EF60E /* LoginFlow.swift */,
-				6318BC2A2223F137003EF60E /* RegFlow.swift */,
-			);
-			path = Flows;
-			sourceTree = "<group>";
-		};
 		636A57D72223D8D90021D197 = {
 			isa = PBXGroup;
 			children = (
@@ -98,7 +79,6 @@
 				6318BC1D2223EFB2003EF60E /* Main.storyboard */,
 				636A57EF2223D8DC0021D197 /* Info.plist */,
 				6318BC1B2223EF84003EF60E /* GoogleService-Info-3.plist */,
-				6318BC1F2223EFE1003EF60E /* Flows */,
 			);
 			path = appoetry1;
 			sourceTree = "<group>";
@@ -250,11 +230,7 @@
 			files = (
 				6318BC212223F09F003EF60E /* LoginViewController.swift in Sources */,
 				636A57E62223D8DA0021D197 /* MainViewController.swift in Sources */,
-				6318BC272223F120003EF60E /* MainFlow.swift in Sources */,
 				636A57E42223D8DA0021D197 /* AppDelegate.swift in Sources */,
-				6318BC252223F114003EF60E /* AppFlow.swift in Sources */,
-				6318BC292223F12E003EF60E /* LoginFlow.swift in Sources */,
-				6318BC2B2223F137003EF60E /* RegFlow.swift in Sources */,
 				6318BC232223F0D1003EF60E /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
