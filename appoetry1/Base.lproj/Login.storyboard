@@ -152,8 +152,8 @@
                                     <action selector="nextFromFirstStep:" destination="O5S-Ug-HrN" eventType="touchUpInside" id="7kb-Ld-GdK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngh-ME-84g">
-                                <rect key="frame" x="16" y="20" width="55" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngh-ME-84g">
+                                <rect key="frame" x="160" y="524" width="55" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.17712970890410962" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                 <state key="normal" title="Back">
@@ -166,29 +166,28 @@
                         </subviews>
                         <color key="backgroundColor" red="0.90563851594924927" green="0.94731312990188599" blue="0.86765587329864502" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="RIx-f9-xkH" secondAttribute="trailing" constant="85" id="0UY-3T-KFL"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="FlM-4p-Nxo" secondAttribute="trailing" constant="143" id="5KS-1a-ujv"/>
-                            <constraint firstItem="RIx-f9-xkH" firstAttribute="top" secondItem="B5a-E7-70k" secondAttribute="bottom" constant="54" id="Fra-bw-vda"/>
-                            <constraint firstItem="l0u-WE-vqy" firstAttribute="top" secondItem="UJN-II-ZTi" secondAttribute="bottom" constant="46" id="G51-Hd-6b6"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="bottom" secondItem="Ngh-ME-84g" secondAttribute="bottom" constant="613" id="Inf-Jp-g4y"/>
-                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="top" secondItem="l0u-WE-vqy" secondAttribute="bottom" constant="67" id="MlA-9w-qTc"/>
-                            <constraint firstItem="RIx-f9-xkH" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="OlT-61-OdO"/>
-                            <constraint firstItem="Ngh-ME-84g" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="16" id="POY-1O-NbZ"/>
-                            <constraint firstItem="B5a-E7-70k" firstAttribute="top" secondItem="RPw-sr-4ng" secondAttribute="top" constant="80" id="VM1-kz-63Z"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="9Oe-sP-bmA" secondAttribute="trailing" constant="85" id="VOe-gQ-eyw"/>
-                            <constraint firstItem="UJN-II-ZTi" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="VQO-R2-mAg"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="B5a-E7-70k" secondAttribute="trailing" constant="149" id="fSt-z9-8Eq"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="Ngh-ME-84g" secondAttribute="trailing" constant="304" id="h0s-mC-kGW"/>
-                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="top" secondItem="RIx-f9-xkH" secondAttribute="bottom" constant="24" id="iIZ-RA-GU5"/>
-                            <constraint firstItem="UJN-II-ZTi" firstAttribute="top" secondItem="9Oe-sP-bmA" secondAttribute="bottom" constant="24" id="lE8-mv-PTE"/>
-                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="mT7-V6-HVz"/>
-                            <constraint firstItem="B5a-E7-70k" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="149" id="ngx-CB-0Bv"/>
-                            <constraint firstItem="l0u-WE-vqy" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="146" id="qv8-Sg-QG1"/>
-                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="143" id="s33-jR-EKm"/>
-                            <constraint firstItem="Ngh-ME-84g" firstAttribute="top" secondItem="RPw-sr-4ng" secondAttribute="top" id="sfI-H3-yyp"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="l0u-WE-vqy" secondAttribute="trailing" constant="147" id="xWF-TN-Jre"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="UJN-II-ZTi" secondAttribute="trailing" constant="85" id="yGl-V2-LgJ"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="bottom" secondItem="FlM-4p-Nxo" secondAttribute="bottom" constant="181" id="zvN-xQ-ozH"/>
+                            <constraint firstItem="UJN-II-ZTi" firstAttribute="top" secondItem="9Oe-sP-bmA" secondAttribute="bottom" constant="24" id="5v9-gC-cfX"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="Ngh-ME-84g" secondAttribute="trailing" constant="160" id="7Ti-pW-AgW"/>
+                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="143" id="8FA-q1-3US"/>
+                            <constraint firstItem="Ngh-ME-84g" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="160" id="8jl-M2-u6k"/>
+                            <constraint firstItem="UJN-II-ZTi" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="Akh-2M-hEa"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="9Oe-sP-bmA" secondAttribute="trailing" constant="85" id="KH7-kq-hsB"/>
+                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="PGg-nV-UhK"/>
+                            <constraint firstItem="l0u-WE-vqy" firstAttribute="top" secondItem="UJN-II-ZTi" secondAttribute="bottom" constant="46" id="QNA-fg-UWk"/>
+                            <constraint firstItem="Ngh-ME-84g" firstAttribute="top" secondItem="FlM-4p-Nxo" secondAttribute="bottom" constant="38" id="USC-EL-mXv"/>
+                            <constraint firstItem="B5a-E7-70k" firstAttribute="top" secondItem="RPw-sr-4ng" secondAttribute="top" constant="80" id="Vz3-Iy-tRH"/>
+                            <constraint firstItem="l0u-WE-vqy" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="146" id="WYN-4I-bCx"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="UJN-II-ZTi" secondAttribute="trailing" constant="85" id="Yxz-SX-8C3"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="B5a-E7-70k" secondAttribute="trailing" constant="149" id="bnT-vp-I1G"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="RIx-f9-xkH" secondAttribute="trailing" constant="85" id="f3p-77-uae"/>
+                            <constraint firstItem="RIx-f9-xkH" firstAttribute="top" secondItem="B5a-E7-70k" secondAttribute="bottom" constant="54" id="hTS-Je-e8q"/>
+                            <constraint firstItem="B5a-E7-70k" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="149" id="ihl-RM-Wj8"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="bottom" secondItem="Ngh-ME-84g" secondAttribute="bottom" constant="109" id="ov2-XH-cLx"/>
+                            <constraint firstItem="FlM-4p-Nxo" firstAttribute="top" secondItem="l0u-WE-vqy" secondAttribute="bottom" constant="67" id="tSy-zA-1ZR"/>
+                            <constraint firstItem="RIx-f9-xkH" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="vld-fA-Ldp"/>
+                            <constraint firstItem="9Oe-sP-bmA" firstAttribute="top" secondItem="RIx-f9-xkH" secondAttribute="bottom" constant="24" id="wbr-rG-mBC"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="FlM-4p-Nxo" secondAttribute="trailing" constant="143" id="x9b-dy-cCj"/>
+                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="l0u-WE-vqy" secondAttribute="trailing" constant="147" id="yaF-F3-OJm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RPw-sr-4ng"/>
                     </view>
