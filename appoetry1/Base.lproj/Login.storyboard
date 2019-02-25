@@ -301,5 +301,54 @@
             </objects>
             <point key="canvasLocation" x="741.60000000000002" y="738.98050974512751"/>
         </scene>
+        <!--Register Step3 View Controller-->
+        <scene sceneID="aWA-KF-7mx">
+            <objects>
+                <viewController storyboardIdentifier="Register3VC" id="rUV-Zm-quf" customClass="RegisterStep3ViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lJe-7F-jBi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose your favourite genres, which will be shown on your main feed." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3w4-k4-jAh">
+                                <rect key="frame" x="36" y="73" width="302" height="44.5"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="choose a genre" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kxC-8W-Hz5">
+                                <rect key="frame" x="85" y="201" width="205" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="chooseFirstGenre:" destination="rUV-Zm-quf" eventType="touchUpInside" id="9eg-mQ-EeZ"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose your first genre" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPH-eY-zJj">
+                                <rect key="frame" x="108" y="173" width="159" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0lN-RY-xOH" firstAttribute="trailing" secondItem="3w4-k4-jAh" secondAttribute="trailing" constant="37" id="0g3-6T-j2b"/>
+                            <constraint firstItem="3w4-k4-jAh" firstAttribute="leading" secondItem="0lN-RY-xOH" secondAttribute="leading" constant="36" id="HGd-aB-hWc"/>
+                            <constraint firstItem="3w4-k4-jAh" firstAttribute="top" secondItem="0lN-RY-xOH" secondAttribute="top" constant="53" id="csp-Wf-8u7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0lN-RY-xOH"/>
+                    </view>
+                    <connections>
+                        <outlet property="firstGenreTextField" destination="kxC-8W-Hz5" id="WML-rs-pbi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VIl-C0-3uD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1453.5999999999999" y="738.98050974512751"/>
+        </scene>
     </scenes>
 </document>

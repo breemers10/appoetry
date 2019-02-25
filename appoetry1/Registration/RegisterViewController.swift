@@ -10,8 +10,6 @@ import UIKit
 
 class RegisterViewController: UIViewController {
     
-        var showMeAgain: (() -> Void)?
-    
     @IBOutlet weak var registerEmail: UITextField!
     @IBOutlet weak var registerPassword: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!

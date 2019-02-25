@@ -9,9 +9,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    
-    var showMeAgain: (() -> Void)?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

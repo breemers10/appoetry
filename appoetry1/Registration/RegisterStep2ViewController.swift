@@ -53,6 +53,7 @@ class RegisterStep2ViewController: UIViewController {
     }
     
     @IBAction func pressFromStepTwo(_ sender: Any) {
+                 NotificationCenter.default.post(name: Notification.Name("goToRegStep3"), object: nil)
     }
     
     @IBAction func backToStepOne(_ sender: Any) {

@@ -26,6 +26,7 @@ class AppFlow: FlowController {
         goToMain()
         goToReg()
         goToRegStep2()
+        goToRegStep3()
     }
     
     func start() {
@@ -76,6 +77,18 @@ class AppFlow: FlowController {
         window??.rootViewController = regFlow.rootController
         
         regFlow.secondStep()
+        childFlow = regFlow
+    }
+    
+    private func goToRegStep3() {
+        NotificationCenter.default.addObserver(self, selector: #selector(moveToRegStep3), name: Notification.Name("goToRegStep3"), object: nil)
+    }
+    
+    @objc func moveToRegStep3() {
+        let regFlow = RegFlow()
+        window??.rootViewController = regFlow.rootController
+        
+        regFlow.thirdStep()
         childFlow = regFlow
     }
 }
