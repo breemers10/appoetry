@@ -23,6 +23,7 @@ class LoginViewController: UIViewController {
     @IBAction func pressLogin(_ sender: Any) {
         NotificationCenter.default.post(name: Notification.Name("goToMain"), object: nil)
     }
+    
     @IBAction func pressRegister(_ sender: Any) {
         NotificationCenter.default.post(name: Notification.Name("goToReg"), object: nil)
     }

@@ -44,13 +44,13 @@ class AppFlow: FlowController {
     }
     
     @objc func moveToLogin() {
-        //        start()
-        let loginFlow = LoginFlow()
-        window??.rootViewController = loginFlow.rootController
-        
-        loginFlow.start()
-        childFlow = loginFlow
-        
+                start()
+//        let loginFlow = LoginFlow()
+//        window??.rootViewController = loginFlow.rootController
+//
+//        loginFlow.start()
+//        childFlow = loginFlow
+//
     }
     
     @objc func moveToMain() {

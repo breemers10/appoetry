@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="RIP-8o-aVd">
             <objects>
-                <viewController id="tiJ-za-czf" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" id="tiJ-za-czf" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eCg-C2-Czt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

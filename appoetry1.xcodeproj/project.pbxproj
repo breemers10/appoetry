@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1758915A3D71267347FF780C /* Pods_appoetry1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463AB6E0CD76989072447C33 /* Pods_appoetry1.framework */; };
-		6318BC1C2223EF84003EF60E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6318BC1B2223EF84003EF60E /* GoogleService-Info.plist */; };
 		6318BC1E2223EFB2003EF60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6318BC1D2223EFB2003EF60E /* Main.storyboard */; };
 		6318BC212223F09F003EF60E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC202223F09F003EF60E /* LoginViewController.swift */; };
 		6318BC232223F0D1003EF60E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC222223F0D1003EF60E /* RegisterViewController.swift */; };
@@ -21,12 +20,12 @@
 		637BE02F2223FFA800B4E7CC /* MainFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE02E2223FFA800B4E7CC /* MainFlow.swift */; };
 		637BE0312223FFB500B4E7CC /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE0302223FFB500B4E7CC /* LoginFlow.swift */; };
 		637BE0332223FFC000B4E7CC /* RegFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE0322223FFC000B4E7CC /* RegFlow.swift */; };
+		637BE035222415B100B4E7CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 637BE034222415B100B4E7CC /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		463AB6E0CD76989072447C33 /* Pods_appoetry1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appoetry1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47945BAC431D1A09313BE45B /* Pods-appoetry1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appoetry1.release.xcconfig"; path = "Target Support Files/Pods-appoetry1/Pods-appoetry1.release.xcconfig"; sourceTree = "<group>"; };
-		6318BC1B2223EF84003EF60E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6318BC1D2223EFB2003EF60E /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6318BC202223F09F003EF60E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6318BC222223F0D1003EF60E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +40,7 @@
 		637BE02E2223FFA800B4E7CC /* MainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlow.swift; sourceTree = "<group>"; };
 		637BE0302223FFB500B4E7CC /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		637BE0322223FFC000B4E7CC /* RegFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegFlow.swift; sourceTree = "<group>"; };
+		637BE034222415B100B4E7CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		F4D3146AC7CB5993781EB841 /* Pods-appoetry1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appoetry1.debug.xcconfig"; path = "Target Support Files/Pods-appoetry1/Pods-appoetry1.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,7 +87,7 @@
 				636A57EC2223D8DC0021D197 /* LaunchScreen.storyboard */,
 				6318BC1D2223EFB2003EF60E /* Main.storyboard */,
 				636A57EF2223D8DC0021D197 /* Info.plist */,
-				6318BC1B2223EF84003EF60E /* GoogleService-Info.plist */,
+				637BE034222415B100B4E7CC /* GoogleService-Info.plist */,
 			);
 			path = appoetry1;
 			sourceTree = "<group>";
@@ -182,9 +182,9 @@
 			files = (
 				636A57EE2223D8DC0021D197 /* LaunchScreen.storyboard in Resources */,
 				636A57EB2223D8DC0021D197 /* Assets.xcassets in Resources */,
+				637BE035222415B100B4E7CC /* GoogleService-Info.plist in Resources */,
 				636A57E92223D8DA0021D197 /* Login.storyboard in Resources */,
 				6318BC1E2223EFB2003EF60E /* Main.storyboard in Resources */,
-				6318BC1C2223EF84003EF60E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
