@@ -243,6 +243,9 @@
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="pressFromStepTwo:" destination="QV4-HE-Slp" eventType="touchUpInside" id="sim-V2-HpL"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step 2 of 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pCZ-Xz-kWL">
                                 <rect key="frame" x="143" y="500" width="89" height="23"/>
@@ -288,6 +291,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fGl-Pn-Vu8"/>
                     </view>
+                    <connections>
+                        <outlet property="dateOfBirth" destination="Ff6-2o-1Vt" id="DZx-dg-xEQ"/>
+                        <outlet property="fullName" destination="IWD-nJ-afO" id="pDp-kH-Xn8"/>
+                        <outlet property="username" destination="8ZS-QM-XIc" id="8km-Q9-NsA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gpe-0l-TJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
