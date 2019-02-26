@@ -15,7 +15,7 @@ class RegisterStep3ViewController: UIViewController {
     @IBOutlet weak var thirdGenreTextField: UITextField!
     
     let viewModel = RegisterStep3ViewModel()
-  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         createGenrePicker()
@@ -38,9 +38,9 @@ class RegisterStep3ViewController: UIViewController {
         genrePicker3.delegate = self
         thirdGenreTextField.inputView = genrePicker3
         genrePicker3.backgroundColor = .white
-
+        
     }
-
+    
     func createToolbar() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
@@ -90,10 +90,5 @@ extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSou
             viewModel.selectedGenre = viewModel.genre[row]
             thirdGenreTextField.text = viewModel.selectedGenre
         }
-        
-//        viewModel.selectedGenre = viewModel.genre[row]
-//        firstGenreTextField.text = viewModel.selectedGenre
-//        secondGenreTextField.text = viewModel.selectedGenre
     }
-  
 }

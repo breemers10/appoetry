@@ -9,13 +9,13 @@
 import UIKit
 
 protocol FlowController: class {
-    var window: UIWindow?? { get }
+    var window: UIWindow { get }
     func start()
 }
 
 extension FlowController {
-    var window: UIWindow?? {
-        return UIApplication.shared.delegate!.window
+    var window: UIWindow {
+        return (UIApplication.shared.delegate!.window ?? UIWindow()) ?? UIWindow()
     }
 }
 
@@ -31,7 +31,7 @@ class AppFlow: FlowController {
     
     func start() {
         let loginFlow = LoginFlow()
-        window??.rootViewController = loginFlow.rootController
+        window.rootViewController = loginFlow.rootController
         
         loginFlow.start()
         childFlow = loginFlow
@@ -51,8 +51,7 @@ class AppFlow: FlowController {
     
     @objc func moveToMain() {
         let mainFlow = MainFlow()
-        window??.rootViewController = mainFlow.rootController
-        
+        window.rootViewController = mainFlow.rootController
         mainFlow.start()
         childFlow = mainFlow
     }
@@ -64,22 +63,18 @@ class AppFlow: FlowController {
     let regFlow = RegFlow()
     
     @objc func moveToReg() {
-        //        let regFlow = RegFlow()
-        window??.rootViewController = regFlow.rootController
-        
+        window.rootViewController = regFlow.rootController
         regFlow.start()
         childFlow = regFlow
     }
+    
     private func goToRegStep2() {
         NotificationCenter.default.addObserver(self, selector: #selector(moveToRegStep2), name: Notification.Name("goToRegStep2"), object: nil)
     }
     
     @objc func moveToRegStep2() {
-        //        let regFlow = RegFlow()
-        window??.rootViewController = regFlow.rootController
-        
+        window.rootViewController = regFlow.rootController
         regFlow.secondStep()
-        //        childFlow = regFlow
     }
     
     private func goToRegStep3() {
@@ -87,10 +82,7 @@ class AppFlow: FlowController {
     }
     
     @objc func moveToRegStep3() {
-        //        let regFlow = RegFlow()
-        window??.rootViewController = regFlow.rootController
-        
+        window.rootViewController = regFlow.rootController
         regFlow.thirdStep()
-        //        childFlow = regFlow
     }
 }

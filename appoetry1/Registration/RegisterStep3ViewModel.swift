@@ -25,6 +25,5 @@ class RegisterStep3ViewModel: NSObject {
         "Winter"
     ]
     var selectedGenre: String?
-//        var selectedGenre2: String?
     
 }

@@ -13,7 +13,6 @@ class RegisterStep2ViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var dateOfBirth: UITextField!
     
-    
     let datePicker = UIDatePicker()
     
     override func viewDidLoad() {
@@ -21,12 +20,10 @@ class RegisterStep2ViewController: UIViewController {
         showDatePicker()
     }
     
-    
-    func showDatePicker(){
-        //Formate Date
+    func showDatePicker() {
+        
         datePicker.datePickerMode = .date
         
-        //ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
@@ -40,7 +37,7 @@ class RegisterStep2ViewController: UIViewController {
         
     }
     
-    @objc func donedatePicker(){
+    @objc func donedatePicker() {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
@@ -48,12 +45,12 @@ class RegisterStep2ViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @objc func cancelDatePicker(){
+    @objc func cancelDatePicker() {
         self.view.endEditing(true)
     }
     
     @IBAction func pressFromStepTwo(_ sender: Any) {
-                 NotificationCenter.default.post(name: Notification.Name("goToRegStep3"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("goToRegStep3"), object: nil)
     }
     
     @IBAction func backToStepOne(_ sender: Any) {

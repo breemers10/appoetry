@@ -24,7 +24,6 @@ class MainFlow: FlowController {
         guard let vc = mainViewController else {
             fatalError("Could not get main vc")
         }
-
         self.rootController.pushViewController(vc, animated: true)
     }
 }

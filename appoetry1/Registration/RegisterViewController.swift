@@ -13,12 +13,10 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var registerEmail: UITextField!
     @IBOutlet weak var registerPassword: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func nextFromFirstStep(_ sender: Any) {
