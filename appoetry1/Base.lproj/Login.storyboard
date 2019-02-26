@@ -66,20 +66,11 @@
                                     <action selector="pressRegister:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5td-Vs-j6Z"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8i-Gp-VIE">
-                                <rect key="frame" x="107" y="163" width="161" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.9137254901960784" green="0.94509803921568625" blue="0.87450980392156863" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Tf9-Ud-s8J" secondAttribute="trailing" constant="131" id="0ZO-tT-57b"/>
-                            <constraint firstItem="c4G-Zc-crs" firstAttribute="top" secondItem="t8i-Gp-VIE" secondAttribute="bottom" id="6DN-z7-7FQ"/>
-                            <constraint firstItem="t8i-Gp-VIE" firstAttribute="trailing" secondItem="c4G-Zc-crs" secondAttribute="trailing" id="7xT-Q7-xGc"/>
                             <constraint firstItem="d4e-Aj-PVz" firstAttribute="top" secondItem="Ltr-FD-jD0" secondAttribute="bottom" constant="29" id="BAn-se-BgQ"/>
-                            <constraint firstItem="t8i-Gp-VIE" firstAttribute="leading" secondItem="c4G-Zc-crs" secondAttribute="leading" id="FNQ-sx-pmO"/>
                             <constraint firstItem="c4G-Zc-crs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="107" id="IJg-u7-iRF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Y8N-2J-dGg" secondAttribute="trailing" constant="131" id="IXv-b9-Izx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4YZ-uk-Nb2" secondAttribute="trailing" constant="96.5" id="LAR-Fx-IvL"/>
@@ -90,7 +81,6 @@
                             <constraint firstItem="d4e-Aj-PVz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="150" id="YPf-ej-aJi"/>
                             <constraint firstItem="Tf9-Ud-s8J" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="130" id="Yfm-E3-cz0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ltr-FD-jD0" secondAttribute="trailing" constant="107" id="Z1o-m3-PEB"/>
-                            <constraint firstItem="t8i-Gp-VIE" firstAttribute="top" secondItem="4YZ-uk-Nb2" secondAttribute="bottom" constant="18" id="akb-0H-lbA"/>
                             <constraint firstItem="Ltr-FD-jD0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="107" id="cM6-C1-lXi"/>
                             <constraint firstItem="Tf9-Ud-s8J" firstAttribute="top" secondItem="d4e-Aj-PVz" secondAttribute="bottom" constant="15" id="e5R-L4-efL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="d4e-Aj-PVz" secondAttribute="trailing" constant="151" id="hd2-w2-5kC"/>
@@ -104,7 +94,6 @@
                     <connections>
                         <outlet property="emailLogin" destination="c4G-Zc-crs" id="Cx1-GE-93w"/>
                         <outlet property="passwordLogin" destination="Ltr-FD-jD0" id="pjt-7V-240"/>
-                        <outlet property="validationMessage" destination="t8i-Gp-VIE" id="AUR-Mh-oIq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
