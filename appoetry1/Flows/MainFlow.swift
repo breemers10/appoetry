@@ -24,11 +24,7 @@ class MainFlow: FlowController {
         guard let vc = mainViewController else {
             fatalError("Could not get main vc")
         }
-        
-        //        vc.showMeAgain = { [weak self] in
-        //            self?.pushAgain()
-        //        }
-        
-        self.rootController.setViewControllers([vc], animated: false)
+
+        self.rootController.pushViewController(vc, animated: true)
     }
 }

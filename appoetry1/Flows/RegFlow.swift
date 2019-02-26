@@ -30,21 +30,21 @@ class RegFlow: FlowController {
         guard let vc = registerViewController1 else {
             fatalError("Could not get register vc")
         }
-        self.rootController.setViewControllers([vc], animated: false)
+        self.rootController.pushViewController(vc, animated: true)
     }
     
     func secondStep() {
         guard let vc2 = registerStep2ViewController else {
             fatalError("Could not get register vc")
         }  
-        self.rootController.setViewControllers([vc2], animated: false)
+        self.rootController.pushViewController(vc2, animated: true)
     }
 
 func thirdStep() {
     guard let vc3 = registerStep3ViewController else {
         fatalError("Could not get register vc")
     }
-    self.rootController.setViewControllers([vc3], animated: false)
+    self.rootController.pushViewController(vc3, animated: true)
 }
 }
 

@@ -11,39 +11,36 @@ import UIKit
 class RegisterStep3ViewController: UIViewController {
     
     @IBOutlet weak var firstGenreTextField: UITextField!
+    @IBOutlet weak var secondGenreTextField: UITextField!
+    @IBOutlet weak var thirdGenreTextField: UITextField!
     
     let viewModel = RegisterStep3ViewModel()
-//    let genre = [
-//        "Birthday",
-//        "Christmas",
-//        "Comedy",
-//        "Erotic",
-//        "Life",
-//        "Love",
-//        "Nature",
-//        "Non-sense",
-//        "Spring",
-//        "Summer",
-//        "Winter"
-//    ]
-//    var selectedGenre: String?
-//    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         createGenrePicker()
         createToolbar()
     }
     
- 
-    func createGenrePicker() {
-        let genrePicker = UIPickerView()
-        genrePicker.delegate = self
-        
-        firstGenreTextField.inputView = genrePicker
-        
-        genrePicker.backgroundColor = .white
-    }
+    fileprivate let genrePicker1 = UIPickerView()
+    fileprivate let genrePicker2 = UIPickerView()
+    fileprivate let genrePicker3 = UIPickerView()
     
+    func createGenrePicker() {
+        genrePicker1.delegate = self
+        firstGenreTextField.inputView = genrePicker1
+        genrePicker1.backgroundColor = .white
+        
+        genrePicker2.delegate = self
+        secondGenreTextField.inputView = genrePicker2
+        genrePicker2.backgroundColor = .white
+        
+        genrePicker3.delegate = self
+        thirdGenreTextField.inputView = genrePicker3
+        genrePicker3.backgroundColor = .white
+
+    }
+
     func createToolbar() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
@@ -54,6 +51,8 @@ class RegisterStep3ViewController: UIViewController {
         toolBar.isUserInteractionEnabled = true
         
         firstGenreTextField.inputAccessoryView = toolBar
+        secondGenreTextField.inputAccessoryView = toolBar
+        thirdGenreTextField.inputAccessoryView = toolBar
         
         toolBar.barTintColor = .white
         toolBar.backgroundColor = .white
@@ -63,8 +62,6 @@ class RegisterStep3ViewController: UIViewController {
         view.endEditing(true)
     }
 }
-
-
 
 extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -80,7 +77,19 @@ extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        viewModel.selectedGenre = viewModel.genre[row]
-        firstGenreTextField.text = viewModel.selectedGenre
+        if pickerView == genrePicker1 {
+            viewModel.selectedGenre = viewModel.genre[row]
+            firstGenreTextField.text = viewModel.selectedGenre
+        } else if pickerView == genrePicker2 {
+            viewModel.selectedGenre = viewModel.genre[row]
+            secondGenreTextField.text = viewModel.selectedGenre
+        } else if pickerView == genrePicker3 {
+            viewModel.selectedGenre = viewModel.genre[row]
+            thirdGenreTextField.text = viewModel.selectedGenre
+        }
+//        viewModel.selectedGenre = viewModel.genre[row]
+//        firstGenreTextField.text = viewModel.selectedGenre
+//        secondGenreTextField.text = viewModel.selectedGenre
     }
+  
 }

@@ -13,22 +13,6 @@ class LoginFlow:  FlowController {
         guard let vc = loginViewController else {
             fatalError("Could not get login vc")
         }
-        
-        vc.showMeAgain = { [weak self] in
-            self?.pushAgain()
-        }
-        
-        self.rootController.setViewControllers([vc], animated: false)
-    }
-    func pushAgain() {
-        
-        guard let vc = loginViewController else {
-            fatalError("Could not push to login vc")
-        }
-        
-        vc.showMeAgain = { [weak self] in
-            self?.pushAgain()
-        }
         self.rootController.pushViewController(vc, animated: true)
     }
     
