@@ -57,6 +57,9 @@ class RegisterStep3ViewController: UIViewController {
         toolBar.barTintColor = .white
         toolBar.backgroundColor = .white
     }
+    @IBAction func completeRegistration(_ sender: Any) {
+        NotificationCenter.default.post(name: Notification.Name("goToMain"), object: nil)
+    }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
@@ -87,6 +90,7 @@ extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSou
             viewModel.selectedGenre = viewModel.genre[row]
             thirdGenreTextField.text = viewModel.selectedGenre
         }
+        
 //        viewModel.selectedGenre = viewModel.genre[row]
 //        firstGenreTextField.text = viewModel.selectedGenre
 //        secondGenreTextField.text = viewModel.selectedGenre
