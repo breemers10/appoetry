@@ -12,25 +12,26 @@ class RegisterStep3ViewController: UIViewController {
     
     @IBOutlet weak var firstGenreTextField: UITextField!
     
-    let genre = [
-        "Birthday",
-        "Christmas",
-        "Comedy",
-        "Erotic",
-        "Life",
-        "Love",
-        "Nature",
-        "Non-sense",
-        "Spring",
-        "Summer",
-        "Winter"
-    ]
-    var selectedGenre: String?
-    
+    let viewModel = RegisterStep3ViewModel()
+//    let genre = [
+//        "Birthday",
+//        "Christmas",
+//        "Comedy",
+//        "Erotic",
+//        "Life",
+//        "Love",
+//        "Nature",
+//        "Non-sense",
+//        "Spring",
+//        "Summer",
+//        "Winter"
+//    ]
+//    var selectedGenre: String?
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         createGenrePicker()
-        
+        createToolbar()
     }
     
  
@@ -39,25 +40,47 @@ class RegisterStep3ViewController: UIViewController {
         genrePicker.delegate = self
         
         firstGenreTextField.inputView = genrePicker
+        
+        genrePicker.backgroundColor = .white
     }
     
+    func createToolbar() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(RegisterStep3ViewController.dismissKeyboard))
+        
+        toolBar.setItems([doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        firstGenreTextField.inputAccessoryView = toolBar
+        
+        toolBar.barTintColor = .white
+        toolBar.backgroundColor = .white
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
+
+
+
 extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return genre.count
+        return viewModel.genre.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return genre[row]
+        return viewModel.genre[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        selectedGenre = genre[row]
-        firstGenreTextField.text = selectedGenre
+        viewModel.selectedGenre = viewModel.genre[row]
+        firstGenreTextField.text = viewModel.selectedGenre
     }
 }
