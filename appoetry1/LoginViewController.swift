@@ -11,13 +11,13 @@ import UIKit
 class LoginViewController: UIViewController {
     @IBOutlet weak var emailLogin: UITextField!
     @IBOutlet weak var passwordLogin: UITextField!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func pressLogin(_ sender: Any) {
-
+        
         let providedEmailAddress = emailLogin.text
         
         let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
@@ -50,23 +50,22 @@ class LoginViewController: UIViewController {
             print("invalid regex: \(error.localizedDescription)")
             returnValue = false
         }
-        
         return  returnValue
     }
-    func displayAlertMessage(messageToDisplay: String)
-    {
+    
+    func displayAlertMessage(messageToDisplay: String) {
         let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
             
             print("Ok button tapped");
-            }
+        }
         
         alertController.addAction(OKAction)
         
         self.present(alertController, animated: true, completion:nil)
     }
-
+    
     @IBAction func pressRegister(_ sender: Any) {
         NotificationCenter.default.post(name: Notification.Name("goToReg"), object: nil)
     }
