@@ -12,11 +12,15 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private var window: UIWindow!
-    let appFlow = AppFlow()
+    private var rootWindow: UIWindow!
+    private var appFlow: AppFlow!
+
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+    
+        rootWindow = UIWindow()
+        appFlow = AppFlow(with: rootWindow)
         appFlow.start()
         return true
     }

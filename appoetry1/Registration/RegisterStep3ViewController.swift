@@ -72,23 +72,24 @@ extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return viewModel.genre.count
+        return Genres.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return viewModel.genre[row]
+        return Genres(rawValue: row)?.selectedGenre
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == genrePicker1 {
-            viewModel.selectedGenre = viewModel.genre[row]
-            firstGenreTextField.text = viewModel.selectedGenre
+            viewModel.realGenre = Genres(rawValue: row)
+            firstGenreTextField.text = viewModel.realGenre?.selectedGenre
+            
         } else if pickerView == genrePicker2 {
-            viewModel.selectedGenre = viewModel.genre[row]
-            secondGenreTextField.text = viewModel.selectedGenre
+            viewModel.realGenre = Genres(rawValue: row)
+            secondGenreTextField.text = viewModel.realGenre?.selectedGenre
         } else if pickerView == genrePicker3 {
-            viewModel.selectedGenre = viewModel.genre[row]
-            thirdGenreTextField.text = viewModel.selectedGenre
+            viewModel.realGenre = Genres(rawValue: row)
+            thirdGenreTextField.text = viewModel.realGenre?.selectedGenre
         }
     }
 }

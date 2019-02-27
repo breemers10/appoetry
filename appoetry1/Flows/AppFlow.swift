@@ -9,7 +9,6 @@
 import UIKit
 
 protocol FlowController: class {
-    var window: UIWindow { get }
     func start()
 }
 
@@ -20,68 +19,48 @@ extension FlowController {
 }
 
 class AppFlow: FlowController {
+    var window: UIWindow
     fileprivate var childFlow: FlowController?
-    init() {
-        goToLogin()
-        goToMain()
-        goToReg()
-        goToRegStep2()
-        goToRegStep3()
+    init(with window: UIWindow) {
+        self.window = window
     }
     
     func start() {
-        let loginFlow = LoginFlow()
-        window.rootViewController = loginFlow.rootController
-        
-        loginFlow.start()
+    
+        let loginFlow = LoginFlow(with: window)
+        loginFlow.start(with: {
+            debugPrint("Hey I am AppFLow and looks like Login button was preseed!")
+            self.moveToMain()
+        })
         childFlow = loginFlow
     }
-    
-    private func goToMain() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToMain), name: Notification.Name("goToMain"), object: nil)
-    }
-    
-    private func goToLogin() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToLogin), name: Notification.Name("goToLogin"), object: nil)
-    }
-    
-    @objc func moveToLogin() {
+
+    func moveToLogin() {
         start()
     }
     
-    @objc func moveToMain() {
+    func moveToMain() {
         let mainFlow = MainFlow()
         window.rootViewController = mainFlow.rootController
+        window.makeKeyAndVisible()
         mainFlow.start()
         childFlow = mainFlow
     }
     
-    private func goToReg() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToReg), name: Notification.Name("goToReg"), object: nil)
-    }
-    
     let regFlow = RegFlow()
     
-    @objc func moveToReg() {
+    func moveToReg() {
         window.rootViewController = regFlow.rootController
         regFlow.start()
         childFlow = regFlow
     }
-    
-    private func goToRegStep2() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToRegStep2), name: Notification.Name("goToRegStep2"), object: nil)
-    }
-    
-    @objc func moveToRegStep2() {
+
+    func moveToRegStep2() {
         window.rootViewController = regFlow.rootController
         regFlow.secondStep()
     }
     
-    private func goToRegStep3() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToRegStep3), name: Notification.Name("goToRegStep3"), object: nil)
-    }
-    
-    @objc func moveToRegStep3() {
+    func moveToRegStep3() {
         window.rootViewController = regFlow.rootController
         regFlow.thirdStep()
     }

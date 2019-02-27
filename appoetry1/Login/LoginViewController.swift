@@ -11,6 +11,8 @@ import UIKit
 class LoginViewController: UIViewController {
     @IBOutlet weak var emailLogin: UITextField!
     @IBOutlet weak var passwordLogin: UITextField!
+//    var onCompletion: (() -> Void)?
+    var viewModel: LoginViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,7 @@ class LoginViewController: UIViewController {
             print("Email address is not valid")
             displayAlertMessage(messageToDisplay: "Email address is not valid")
         }
+        viewModel?.onCompletion?()
     }
     
     func isValidEmailAddress(emailAddressString: String) -> Bool {
