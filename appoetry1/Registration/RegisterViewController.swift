@@ -55,6 +55,17 @@ class RegisterViewController: UIViewController {
         return  returnValue
     }
     
+    func isValidPassword(testStr:String?) -> Bool {
+        guard testStr != nil else { return false }
+        
+        // at least one uppercase,
+        // at least one digit
+        // at least one lowercase
+        // 8 characters total
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
+        return passwordTest.evaluate(with: testStr)
+    }
+    
     func displayAlertMessage(messageToDisplay: String) {
         let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
         
