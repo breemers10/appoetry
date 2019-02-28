@@ -8,10 +8,16 @@
 
 import UIKit
 
-
-
 class LoginViewModel {
-
-var onCompletion: (() -> Void)?
     
+    var onCompletion: (() -> Void)?
+    var onSignUp: (() -> Void)?
+
+    func signUp() {
+        onSignUp?()
+    }
+    
+    func signIn() {
+        onCompletion?()
+    }
 }

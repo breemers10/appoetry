@@ -11,11 +11,16 @@ import UIKit
 class MainViewController: UIViewController {
         
     @IBOutlet weak var welcomeLabel: UILabel!
+    var onCompletion: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+}
 
-
+extension MainViewController: ClassName {
+    static var className: String {
+        return String(describing: self)
+    }
 }
 

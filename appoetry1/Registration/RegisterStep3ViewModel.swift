@@ -41,7 +41,13 @@ enum Genres: Int {
         }
     }
 }
+
 class RegisterStep3ViewModel: NSObject {
     
     var realGenre: Genres?
+    var onMainScreen: (() -> Void)?
+    
+    func toMainScreen() {
+        onMainScreen?()
+    }
 }

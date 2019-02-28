@@ -13,6 +13,7 @@ class RegisterStep2ViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var dateOfBirth: UITextField!
     
+    var viewModel: RegisterStep2ViewModel?
     let datePicker = UIDatePicker()
     
     override func viewDidLoad() {
@@ -21,7 +22,6 @@ class RegisterStep2ViewController: UIViewController {
     }
     
     func showDatePicker() {
-        
         datePicker.datePickerMode = .date
         
         let toolbar = UIToolbar();
@@ -34,7 +34,6 @@ class RegisterStep2ViewController: UIViewController {
         
         dateOfBirth?.inputAccessoryView = toolbar
         dateOfBirth?.inputView = datePicker
-        
     }
     
     @objc func donedatePicker() {
@@ -50,12 +49,16 @@ class RegisterStep2ViewController: UIViewController {
     }
     
     @IBAction func pressFromStepTwo(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("goToRegStep3"), object: nil)
+        viewModel?.toThirdStep()
     }
     
-    @IBAction func backToStepOne(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("goToReg"), object: nil)
+//    @IBAction func backToStepOne(_ sender: Any) {
+//        viewModel?.toFirstStep()
+//    }
+}
+
+extension RegisterStep2ViewController: ClassName {
+    static var className: String {
+        return String(describing: self)
     }
-    
-    
 }

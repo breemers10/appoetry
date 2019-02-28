@@ -8,22 +8,33 @@
 
 import UIKit
 
-class MainFlow: FlowController {
+class MainFlow: PFlowController {
+    func start() {
+        debugPrint("Will need this later ...")
+    }
     
-    let rootController = UINavigationController()
+    var onCompletion: (() -> Void)?
+    private var mainWindow: UIWindow
+    
+    init(with window: UIWindow) {
+        self.mainWindow = window
+    }
     
     private lazy var mainSB: UIStoryboard = {
-        return UIStoryboard(name: "Main", bundle: Bundle.main)
+        return UIStoryboard(name: Storyboard.main.rawValue, bundle: Bundle.main)
     }()
     
     private var mainViewController: MainViewController? {
-        return mainSB.instantiateViewController(withIdentifier: "MainVC") as? MainViewController
+        return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainViewController
     }
     
-    func start() {
-        guard let vc = mainViewController else {
-            fatalError("Could not get main vc")
+    func start(with completionHandler: @escaping (() -> Void)) {
+        guard let vc = mainViewController else { return }
+        let rootController = UINavigationController(rootViewController: vc)
+        mainWindow.rootViewController = rootController
+        mainWindow.makeKeyAndVisible()
+        vc.onCompletion = { [weak self] in
+            self?.onCompletion?()
         }
-        self.rootController.pushViewController(vc, animated: true)
     }
 }

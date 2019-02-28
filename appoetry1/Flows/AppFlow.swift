@@ -8,60 +8,21 @@
 
 import UIKit
 
-protocol FlowController: class {
-    func start()
-}
-
-extension FlowController {
-    var window: UIWindow {
-        return (UIApplication.shared.delegate!.window ?? UIWindow()) ?? UIWindow()
-    }
-}
-
-class AppFlow: FlowController {
+class AppFlow: PFlowController {
+    
     var window: UIWindow
-    fileprivate var childFlow: FlowController?
+    fileprivate var childFlow: PFlowController?
+    
     init(with window: UIWindow) {
         self.window = window
     }
     
     func start() {
-    
         let loginFlow = LoginFlow(with: window)
         loginFlow.start(with: {
-            debugPrint("Hey I am AppFLow and looks like Login button was preseed!")
-            self.moveToMain()
+            debugPrint("Let's get this party started!")
         })
         childFlow = loginFlow
-    }
-
-    func moveToLogin() {
-        start()
-    }
-    
-    func moveToMain() {
-        let mainFlow = MainFlow()
-        window.rootViewController = mainFlow.rootController
-        window.makeKeyAndVisible()
-        mainFlow.start()
-        childFlow = mainFlow
-    }
-    
-    let regFlow = RegFlow()
-    
-    func moveToReg() {
-        window.rootViewController = regFlow.rootController
-        regFlow.start()
-        childFlow = regFlow
-    }
-
-    func moveToRegStep2() {
-        window.rootViewController = regFlow.rootController
-        regFlow.secondStep()
-    }
-    
-    func moveToRegStep3() {
-        window.rootViewController = regFlow.rootController
-        regFlow.thirdStep()
+        
     }
 }

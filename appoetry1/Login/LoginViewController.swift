@@ -11,7 +11,6 @@ import UIKit
 class LoginViewController: UIViewController {
     @IBOutlet weak var emailLogin: UITextField!
     @IBOutlet weak var passwordLogin: UITextField!
-//    var onCompletion: (() -> Void)?
     var viewModel: LoginViewModel?
     
     override func viewDidLoad() {
@@ -25,13 +24,12 @@ class LoginViewController: UIViewController {
         let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
         
         if isEmailAddressValid {
-            
             print("Email address is valid")
+            viewModel?.signIn()
         } else {
             print("Email address is not valid")
             displayAlertMessage(messageToDisplay: "Email address is not valid")
         }
-        viewModel?.onCompletion?()
     }
     
     func isValidEmailAddress(emailAddressString: String) -> Bool {
@@ -70,6 +68,12 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func pressRegister(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("goToReg"), object: nil)
+        viewModel?.signUp()
+    }
+}
+
+extension LoginViewController: ClassName {
+    static var className: String {
+        return String(describing: self)
     }
 }

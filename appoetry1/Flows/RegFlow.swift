@@ -8,43 +8,103 @@
 
 import UIKit
 
-class RegFlow: FlowController {
+class RegFlow: PFlowController {
     
-    let rootController = UINavigationController()
+    private var registerWindow: UIWindow
+    var rootController: UINavigationController?
+    var child: PFlowController?
     
-    private lazy var loginSB: UIStoryboard = {
-        return UIStoryboard(name: "Login", bundle: Bundle.main)
-    }()
-    
-    private var registerViewController1: RegisterViewController? {
-        return loginSB.instantiateViewController(withIdentifier: "Register1VC") as? RegisterViewController
-    }
-    private var registerStep2ViewController: RegisterStep2ViewController? {
-        return loginSB.instantiateViewController(withIdentifier: "Register2VC") as? RegisterStep2ViewController
-    }
-    private var registerStep3ViewController: RegisterStep3ViewController? {
-        return loginSB.instantiateViewController(withIdentifier: "Register3VC") as? RegisterStep3ViewController
+    init(with window: UIWindow) {
+        self.registerWindow = window
     }
     
     func start() {
-        guard let vc = registerViewController1 else {
-            fatalError("Could not get register vc")
-        }
-        self.rootController.pushViewController(vc, animated: true)
     }
     
-    func secondStep() {
-        guard let vc2 = registerStep2ViewController else {
-            fatalError("Could not get register vc")
-        }  
-        self.rootController.pushViewController(vc2, animated: true)
+    private lazy var loginSB: UIStoryboard = {
+        return UIStoryboard(name: Storyboard.login.rawValue, bundle: Bundle.main)
+    }()
+    
+    private lazy var regSB: UIStoryboard = {
+        return UIStoryboard(name: Storyboard.register.rawValue, bundle: Bundle.main)
+    }()
+    
+    private lazy var mainSB: UIStoryboard = {
+        return UIStoryboard(name: Storyboard.main.rawValue, bundle: Bundle.main)
+    }()
+    
+    private var loginViewController: LoginViewController? {
+        return loginSB.instantiateViewController(withIdentifier: LoginViewController.className) as? LoginViewController
+    }
+    
+    private var registerViewController: RegisterViewController? {
+        return regSB.instantiateViewController(withIdentifier: RegisterViewController.className) as? RegisterViewController
+    }
+    
+    private var registerStep2ViewController: RegisterStep2ViewController? {
+        return regSB.instantiateViewController(withIdentifier: RegisterStep2ViewController.className) as? RegisterStep2ViewController
+    }
+    
+    private var registerStep3ViewController: RegisterStep3ViewController? {
+        return regSB.instantiateViewController(withIdentifier: RegisterStep3ViewController.className) as? RegisterStep3ViewController
+    }
+    
+    private var mainViewController: MainViewController? {
+        return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainViewController
+    }
+    
+    func start(with completionHandler: @escaping (() -> Void)) {
+        guard let vc = registerViewController else { return }
+        
+        rootController = UINavigationController(rootViewController: vc)
+        
+        registerWindow.rootViewController = rootController
+        registerWindow.makeKeyAndVisible()
+        
+        let viewModel = RegisterViewModel()
+        viewModel.onSecondStep = { [weak self] in
+            self?.moveToRegStep2()
+        }
+        viewModel.onLogin = { [weak self] in
+            self?.moveToLogin()
+        }
+        vc.viewModel = viewModel
+    }
+    
+    func moveToRegStep2() {
+        guard let regStep2VC = registerStep2ViewController else { return }
+        let vm2 = RegisterStep2ViewModel()
+        vm2.onThirdStep = { [weak self] in
+            self?.moveToRegStep3()
+        }
+        regStep2VC.viewModel = vm2
+        self.rootController?.pushViewController(regStep2VC, animated: true)
+    }
+    
+    func moveToRegStep3() {
+        guard let regStep3VC = registerStep3ViewController else { return }
+        let vm3 = RegisterStep3ViewModel()
+        vm3.onMainScreen = { [weak self] in
+            self?.moveToMain()
+        }
+        regStep3VC.viewModel = vm3
+        self.rootController?.pushViewController(regStep3VC, animated: true)
     }
 
-func thirdStep() {
-    guard let vc3 = registerStep3ViewController else {
-        fatalError("Could not get register vc")
+    func moveToMain() {
+        let main = MainFlow(with: registerWindow)
+        main.start(with: {
+            debugPrint("Flow to main has started")
+        })
+        child = main
     }
-    self.rootController.pushViewController(vc3, animated: true)
-}
+    
+    func moveToLogin() {
+        let login = LoginFlow(with: registerWindow)
+        login.start(with: {
+            debugPrint("Flow to main has started")
+        })
+        child = login
+    }
 }
 

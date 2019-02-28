@@ -14,43 +14,43 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var registerPassword: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
     
+    var viewModel: RegisterViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
     
     @IBAction func nextFromFirstStep(_ sender: Any) {
-        let providedEmailAddress = registerEmail.text
-        let providedPassword = registerPassword.text
-        
-        let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
-        let isPasswordValid = isValidPassword(testStr: providedPassword)
-        
-        if isEmailAddressValid {
-            
-            print("Email address is valid")
-        } else {
-            print("Email address is not valid")
-            displayAlertMessage(messageToDisplay: "Email address is not valid")
-        }
-        
-        if isPasswordValid {
-            
-            print("Password is valid")
-        } else {
-            print("Password is not valid")
-            displayAlertMessage(messageToDisplay: "Password is not valid")
-        }
-        
-        if self.confirmPassword.text == self.registerPassword.text {
-            print("All good Senjor")
-            NotificationCenter.default.post(name: Notification.Name("goToRegStep2"), object: nil)
-            
-        } else {
-            print("Passwords does not match!")
-            displayAlertMessage(messageToDisplay: "Passwords does not match!")
-        }
-        
+        //        let providedEmailAddress = registerEmail.text
+        //        let providedPassword = registerPassword.text
+        //
+        //        let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
+        //        let isPasswordValid = isValidPassword(testStr: providedPassword)
+        //
+        //        if isEmailAddressValid {
+        //
+        //            print("Email address is valid")
+        //        } else {
+        //            print("Email address is not valid")
+        //            displayAlertMessage(messageToDisplay: "Email address is not valid")
+        //        }
+        //
+        //        if isPasswordValid {
+        //
+        //            print("Password is valid")
+        //        } else {
+        //            print("Password is not valid")
+        //            displayAlertMessage(messageToDisplay: "Password is not valid")
+        //        }
+        //
+        //        if self.confirmPassword.text == self.registerPassword.text {
+        //            print("All good Senjor")
+        viewModel?.secondStep()
+        //        } else {
+        //            print("Passwords does not match!")
+        //            displayAlertMessage(messageToDisplay: "Passwords does not match!")
+        //        }
     }
     
     func isValidEmailAddress(emailAddressString: String) -> Bool {
@@ -71,16 +71,12 @@ class RegisterViewController: UIViewController {
             print("invalid regex: \(error.localizedDescription)")
             returnValue = false
         }
-        return  returnValue
+        return returnValue
     }
     
     func isValidPassword(testStr:String?) -> Bool {
         guard testStr != nil else { return false }
         
-        // at least one uppercase,
-        // at least one digit
-        // at least one lowercase
-        // 8 characters total
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
         return passwordTest.evaluate(with: testStr)
     }
@@ -99,7 +95,12 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func backToLogin(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("goToLogin"), object: nil)
+        viewModel?.backToSignIn()
     }
-    
+}
+
+extension RegisterViewController: ClassName {
+    static var className: String {
+        return String(describing: self)
+    }
 }
