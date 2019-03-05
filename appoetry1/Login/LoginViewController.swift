@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var emailLogin: UITextField!
@@ -15,20 +16,16 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        emailLogin.text = "123@123.lv"
+        passwordLogin.text = "123123"
     }
     
     @IBAction func pressLogin(_ sender: Any) {
         
-        let providedEmailAddress = emailLogin.text
-        
-        let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
-        
-        if isEmailAddressValid {
-            print("Email address is valid")
-            viewModel?.signIn()
-        } else {
-            print("Email address is not valid")
-            displayAlertMessage(messageToDisplay: "Email address is not valid")
+        viewModel?.signIn(email: emailLogin.text, password: passwordLogin.text)
+        viewModel?.wrongCredentials = { [weak self] in
+            self?.displayAlertMessage(messageToDisplay: "E-mail or password are not correct!")
         }
     }
     

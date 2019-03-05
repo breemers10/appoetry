@@ -9,32 +9,34 @@
 import UIKit
 
 class MainFlow: PFlowController {
-    func start() {
-        debugPrint("Will need this later ...")
-    }
     
     var onCompletion: (() -> Void)?
-    private var mainWindow: UIWindow
+    fileprivate var childFlow: PFlowController?
+    private var presenterVC: UIViewController
     
-    init(with window: UIWindow) {
-        self.mainWindow = window
+    init(with controller: UIViewController) {
+        presenterVC = controller
     }
     
-    private lazy var mainSB: UIStoryboard = {
-        return UIStoryboard(name: Storyboard.main.rawValue, bundle: Bundle.main)
-    }()
-    
-    private var mainViewController: MainViewController? {
-        return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainViewController
-    }
-    
-    func start(with completionHandler: @escaping (() -> Void)) {
+    func start() {
         guard let vc = mainViewController else { return }
-        let rootController = UINavigationController(rootViewController: vc)
-        mainWindow.rootViewController = rootController
-        mainWindow.makeKeyAndVisible()
-        vc.onCompletion = { [weak self] in
+        
+        let viewModel = MainViewModel()
+        viewModel.onCompletion = { [weak self] in
             self?.onCompletion?()
         }
+        vc.viewModel = viewModel
+        presenterVC.present(vc, animated: false, completion: nil)
+    }
+}
+
+extension MainFlow {
+    
+    fileprivate var mainSB: UIStoryboard {
+        return UIStoryboard(name: Storyboard.main.rawValue, bundle: Bundle.main)
+    }
+    
+    fileprivate var mainViewController: MainViewController? {
+        return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainViewController
     }
 }

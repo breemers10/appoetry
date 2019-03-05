@@ -51,10 +51,6 @@ class RegisterStep2ViewController: UIViewController {
     @IBAction func pressFromStepTwo(_ sender: Any) {
         viewModel?.toThirdStep()
     }
-    
-//    @IBAction func backToStepOne(_ sender: Any) {
-//        viewModel?.toFirstStep()
-//    }
 }
 
 extension RegisterStep2ViewController: ClassName {

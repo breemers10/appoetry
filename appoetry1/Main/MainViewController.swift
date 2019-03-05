@@ -11,8 +11,8 @@ import UIKit
 class MainViewController: UIViewController {
         
     @IBOutlet weak var welcomeLabel: UILabel!
-    var onCompletion: (() -> Void)?
-    
+    var viewModel: MainViewModel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

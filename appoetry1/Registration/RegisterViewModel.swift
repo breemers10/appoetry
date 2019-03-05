@@ -10,11 +10,11 @@ import UIKit
 
 class RegisterViewModel {
     
-    var onSecondStep: (() -> Void)?
+    var onFirstStepCompletion: (() -> Void)?
     var onLogin: (() -> Void)?
     
     func secondStep() {
-        onSecondStep?()
+        onFirstStepCompletion?()
     }
     
     func backToSignIn() {

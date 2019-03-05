@@ -21,11 +21,11 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to main!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agx-uR-2FJ">
                                 <rect key="frame" x="54" y="312.5" width="267.5" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                <color key="textColor" red="0.73814970254898071" green="0.92179369926452637" blue="0.61139768362045288" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="agx-uR-2FJ" firstAttribute="centerX" secondItem="eCg-C2-Czt" secondAttribute="centerX" id="GIV-JE-rZL"/>
                             <constraint firstItem="agx-uR-2FJ" firstAttribute="centerY" secondItem="eCg-C2-Czt" secondAttribute="centerY" id="YIY-pK-oQT"/>
