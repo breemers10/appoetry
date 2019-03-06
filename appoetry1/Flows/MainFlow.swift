@@ -12,24 +12,51 @@ class MainFlow: PFlowController {
     
     var onCompletion: (() -> Void)?
     fileprivate var childFlow: PFlowController?
-    private var presenterVC: UIViewController
+    private var presenterVC: UITabBarController
     
-    init(with controller: UIViewController) {
+//    private var mainTab: MainTabBarController? {
+//        return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainTabBarController
+//    }
+    
+    init(with controller: UITabBarController) {
         presenterVC = controller
+        
+        guard let main = mainViewController else { return }
+        let mainWrapper = UINavigationController(rootViewController: main)
+        main.tabBarItem.image = UIImage(named: "for_you")
+        presenterVC.viewControllers = [mainWrapper] as? [UIViewController]
     }
     
     func start() {
-        guard let vc = mainViewController else { return }
+        setupMainTab()
+        setupSearchTab()
+        setupProfileTab()
+        setupFavoritesTab()
         
-        let viewModel = MainViewModel()
-        viewModel.onCompletion = { [weak self] in
-            self?.onCompletion?()
-        }
-        vc.viewModel = viewModel
-        presenterVC.present(vc, animated: false, completion: nil)
+        
+    }
+    
+    private func setupMainTab() {
+        let mainController = UINavigationController(rootViewController: mainViewController!)
+        mainViewController?.tabBarItem.image = UIImage(named: "for_you")
+//        mainController.tabBarItem.image = UIImage(named: "for_you")
+    }
+    private func setupSearchTab() {
+        let searchController = UINavigationController(rootViewController: SearchViewController())
+        searchController.tabBarItem.image = UIImage(named: "search")
+    }
+    
+    private func setupProfileTab() {
+        let profileController = UINavigationController(rootViewController: ProfileViewController())
+        profileController.tabBarItem.image = UIImage(named: "user_male")
+        profileController.tabBarItem.selectedImage = UIImage(named: "user_male")
+        profileController.tabBarItem = UITabBarItem(title: "My Profile", image: UIImage(named: "user_male"), selectedImage: UIImage(named: "user_male"))
+    }
+    private func setupFavoritesTab() {
+        let favoritesController = UINavigationController(rootViewController: FavouritesViewController())
+        favoritesController.tabBarItem.image = UIImage(named: "star")
     }
 }
-
 extension MainFlow {
     
     fileprivate var mainSB: UIStoryboard {
@@ -38,5 +65,15 @@ extension MainFlow {
     
     fileprivate var mainViewController: MainViewController? {
         return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainViewController
+    }
+    
+    fileprivate var searchViewController: SearchViewController? {
+        return mainSB.instantiateViewController(withIdentifier: SearchViewController.className) as? SearchViewController
+    }
+    fileprivate var favouritesViewController: FavouritesViewController? {
+        return mainSB.instantiateViewController(withIdentifier: FavouritesViewController.className) as? FavouritesViewController
+    }
+    fileprivate var profileViewController: ProfileViewController? {
+        return mainSB.instantiateViewController(withIdentifier: ProfileViewController.className) as? ProfileViewController
     }
 }

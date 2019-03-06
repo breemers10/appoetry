@@ -11,34 +11,64 @@
     </dependencies>
     <scenes>
         <!--Main View Controller-->
-        <scene sceneID="RIP-8o-aVd">
+        <scene sceneID="OHA-2f-Glm">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="tiJ-za-czf" customClass="MainViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="eCg-C2-Czt">
+                <viewController storyboardIdentifier="MainViewController" id="eGS-oN-xjq" customClass="MainViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Bn-wu-iRs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to main!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agx-uR-2FJ">
-                                <rect key="frame" x="54" y="312.5" width="267.5" height="42"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="agx-uR-2FJ" firstAttribute="centerX" secondItem="eCg-C2-Czt" secondAttribute="centerX" id="GIV-JE-rZL"/>
-                            <constraint firstItem="agx-uR-2FJ" firstAttribute="centerY" secondItem="eCg-C2-Czt" secondAttribute="centerY" id="YIY-pK-oQT"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="hLT-MY-Wz4"/>
+                        <viewLayoutGuide key="safeArea" id="Mr3-Tl-ji7"/>
                     </view>
-                    <connections>
-                        <outlet property="welcomeLabel" destination="agx-uR-2FJ" id="F3S-9f-Yae"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J0S-EW-2aI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1jE-2D-o74" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="189.59999999999999" y="-47.226386806596707"/>
+            <point key="canvasLocation" x="-3466" y="-1005"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="De9-kn-rEo">
+            <objects>
+                <viewController storyboardIdentifier="SearchViewController" id="tRw-2X-sjj" customClass="SearchViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Yia-0c-PsF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="7hB-14-L6s"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J5Y-7V-9yt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2582" y="-1002"/>
+        </scene>
+        <!--Favourites View Controller-->
+        <scene sceneID="SI8-Qb-Fdc">
+            <objects>
+                <viewController storyboardIdentifier="FavouritesViewController" id="VCz-X0-CRu" customClass="FavouritesViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QqS-Nv-kBP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.43137254899999999" green="0.1450980392" blue="0.1450980392" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                        <viewLayoutGuide key="safeArea" id="3LE-yU-qzh"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yyn-84-qr9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1764" y="-1010"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="4Be-35-hxl">
+            <objects>
+                <viewController storyboardIdentifier="ProfileViewController" id="hgR-wL-DRJ" customClass="ProfileViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xe7-WI-bCr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="nfz-e6-cll"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aaL-fS-Nwp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-940" y="-1010"/>
         </scene>
     </scenes>
 </document>

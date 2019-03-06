@@ -14,17 +14,18 @@ class LoginFlow:  PFlowController {
     var onRegistrationTap: (()->())?
     
     private var presenterVC: UIViewController
-    
+    private var userService: PUserService?
     private var child: PFlowController?
     
-    init(with controller: UIViewController) {
+    init(with controller: UIViewController, userService: PUserService) {
         presenterVC = controller
+        self.userService = userService
     }
     
     func start() {
         guard let vc = loginViewController else { return }
         
-        let viewModel = LoginViewModel()
+        let viewModel = LoginViewModel(userService: userService!)
         viewModel.onCompletion = { [weak self] in
             self?.onSuccessfullLogin?()
         }

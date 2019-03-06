@@ -14,20 +14,25 @@ class LoginViewModel {
     var onCompletion: (() -> Void)?
     var onSignUp: (() -> Void)?
     var wrongCredentials: (()->Void)?
+    var userService: PUserService?
 
     func signUp() {
         onSignUp?()
     }
     
+    init(userService: PUserService) {
+        self.userService = userService
+    }
+    
     func signIn(email: String?, password: String?) {
         guard email?.isEmpty != true, password?.isEmpty != true else {return}
-        Dependencies.instance.userService.loginWithEmailAndPassword(with: email!, with: password!, with: { user, error  in
+        userService?.loginWithEmailAndPassword(with: email!, with: password!, with: { user, error  in
             if error != nil {
                 self.wrongCredentials?()
             } else {
             self.onCompletion?()
             }
-            print("Received: \(String(describing: Dependencies.instance.userService.user?.email)))")
+            print("Received: \(String(describing: self.userService?.user?.email)))")
         })
     }
 }

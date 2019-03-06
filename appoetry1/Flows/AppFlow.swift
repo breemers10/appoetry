@@ -13,19 +13,19 @@ class AppFlow: PFlowController {
     var window: UIWindow
     
     fileprivate var childFlow: PFlowController?
-    
-    var rootVC = UIViewController()
+    var userService = DumbUserService()
+    var rootVC: UITabBarController!
     
     init(with window: UIWindow) {
         self.window = window
-        guard let mainVC = mainViewController else { return }
-        rootVC = mainVC
+        rootVC = MainTabBarController()
+
         window.rootViewController = rootVC
         window.makeKeyAndVisible()
     }
     
     func start() {
-        let loginFlow = LoginFlow(with: rootVC)
+        let loginFlow = LoginFlow(with: rootVC, userService: userService)
         loginFlow.start()
         
         loginFlow.onSuccessfullLogin = {[weak self] in
@@ -58,7 +58,7 @@ class AppFlow: PFlowController {
         regFlow.start()
         childFlow = regFlow
     }
-    
+
     private func showMainScreen() {
         let mainFlow = MainFlow(with: rootVC)
         mainFlow.start()

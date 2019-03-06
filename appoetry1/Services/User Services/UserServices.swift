@@ -34,4 +34,8 @@ class UserService: PUserService {
             completionHandler(self.user, nil)
         }
     }
+    
+    public func weirdFunction() {
+        
+    }
 }

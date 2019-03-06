@@ -8,9 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1758915A3D71267347FF780C /* Pods_appoetry1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463AB6E0CD76989072447C33 /* Pods_appoetry1.framework */; };
+		630C7379222FAE260020C2FC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630C7378222FAE260020C2FC /* SearchViewController.swift */; };
+		630C737C222FAE450020C2FC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630C737B222FAE450020C2FC /* ProfileViewController.swift */; };
+		630C737F222FAE6B0020C2FC /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630C737E222FAE6B0020C2FC /* FavouritesViewController.swift */; };
+		630C7381222FCB440020C2FC /* DumbUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630C7380222FCB440020C2FC /* DumbUserService.swift */; };
 		6318BC1E2223EFB2003EF60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6318BC1D2223EFB2003EF60E /* Main.storyboard */; };
 		6318BC212223F09F003EF60E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC202223F09F003EF60E /* LoginViewController.swift */; };
 		6318BC232223F0D1003EF60E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6318BC222223F0D1003EF60E /* RegisterViewController.swift */; };
+		63553FE7222FAA5700F1659F /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63553FE6222FAA5700F1659F /* MainTabBarController.swift */; };
 		636A57E42223D8DA0021D197 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A57E32223D8DA0021D197 /* AppDelegate.swift */; };
 		636A57E62223D8DA0021D197 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A57E52223D8DA0021D197 /* MainViewController.swift */; };
 		636A57E92223D8DA0021D197 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 636A57E72223D8DA0021D197 /* Register.storyboard */; };
@@ -39,9 +44,14 @@
 /* Begin PBXFileReference section */
 		463AB6E0CD76989072447C33 /* Pods_appoetry1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appoetry1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47945BAC431D1A09313BE45B /* Pods-appoetry1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appoetry1.release.xcconfig"; path = "Target Support Files/Pods-appoetry1/Pods-appoetry1.release.xcconfig"; sourceTree = "<group>"; };
+		630C7378222FAE260020C2FC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		630C737B222FAE450020C2FC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		630C737E222FAE6B0020C2FC /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
+		630C7380222FCB440020C2FC /* DumbUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumbUserService.swift; sourceTree = "<group>"; };
 		6318BC1D2223EFB2003EF60E /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6318BC202223F09F003EF60E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6318BC222223F0D1003EF60E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		63553FE6222FAA5700F1659F /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		636A57E02223D8DA0021D197 /* appoetry1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appoetry1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		636A57E32223D8DA0021D197 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		636A57E52223D8DA0021D197 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +92,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		630C7377222FADDB0020C2FC /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				630C7378222FAE260020C2FC /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		630C737A222FAE2C0020C2FC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				630C737B222FAE450020C2FC /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		630C737D222FAE490020C2FC /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				630C737E222FAE6B0020C2FC /* FavouritesViewController.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 		636A57D72223D8D90021D197 = {
 			isa = PBXGroup;
 			children = (
@@ -104,15 +138,18 @@
 			isa = PBXGroup;
 			children = (
 				636A57E32223D8DA0021D197 /* AppDelegate.swift */,
+				63553FE6222FAA5700F1659F /* MainTabBarController.swift */,
 				63D60D4E22280E6E000ECAA8 /* Util */,
 				63D5E5EB222697B3008D9163 /* Login */,
+				630C737D222FAE490020C2FC /* Favorites */,
+				630C737A222FAE2C0020C2FC /* Profile */,
+				630C7377222FADDB0020C2FC /* Search */,
 				63D60D452227C989000ECAA8 /* Main */,
 				637BE0362224299700B4E7CC /* Registration */,
 				63D60D56222959EE000ECAA8 /* Dependencies */,
 				63D60D522229212D000ECAA8 /* Services */,
 				637BE02B2223FF8200B4E7CC /* Flows */,
 				636A57EA2223D8DC0021D197 /* Assets.xcassets */,
-				636A57EC2223D8DC0021D197 /* LaunchScreen.storyboard */,
 				636A57EF2223D8DC0021D197 /* Info.plist */,
 				637BE034222415B100B4E7CC /* GoogleService-Info.plist */,
 			);
@@ -178,6 +215,7 @@
 				6318BC1D2223EFB2003EF60E /* Main.storyboard */,
 				636A57E72223D8DA0021D197 /* Register.storyboard */,
 				63D60D4A2228028C000ECAA8 /* Login.storyboard */,
+				636A57EC2223D8DC0021D197 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -194,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				63D60D542229215B000ECAA8 /* UserServices.swift */,
+				630C7380222FCB440020C2FC /* DumbUserService.swift */,
 			);
 			path = "User Services";
 			sourceTree = "<group>";
@@ -352,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630C737F222FAE6B0020C2FC /* FavouritesViewController.swift in Sources */,
 				63D60D5922295A1C000ECAA8 /* Dependencies.swift in Sources */,
 				6318BC212223F09F003EF60E /* LoginViewController.swift in Sources */,
 				63D60D4D22280D13000ECAA8 /* ClassName.swift in Sources */,
@@ -362,13 +402,17 @@
 				63D60D472227CEF3000ECAA8 /* PFlowController.swift in Sources */,
 				63D60D552229215B000ECAA8 /* UserServices.swift in Sources */,
 				63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */,
+				630C7381222FCB440020C2FC /* DumbUserService.swift in Sources */,
 				637BE03A2224361200B4E7CC /* RegisterStep3ViewController.swift in Sources */,
 				636A57E42223D8DA0021D197 /* AppDelegate.swift in Sources */,
+				630C7379222FAE260020C2FC /* SearchViewController.swift in Sources */,
 				637BE02D2223FF9E00B4E7CC /* AppFlow.swift in Sources */,
 				63D5E5ED222697C6008D9163 /* LoginViewModel.swift in Sources */,
+				630C737C222FAE450020C2FC /* ProfileViewController.swift in Sources */,
 				63D60D442227C3D9000ECAA8 /* RegisterViewModel.swift in Sources */,
 				63D60D5B22295D8B000ECAA8 /* MainViewModel.swift in Sources */,
 				637BE0312223FFB500B4E7CC /* LoginFlow.swift in Sources */,
+				63553FE7222FAA5700F1659F /* MainTabBarController.swift in Sources */,
 				637BE0332223FFC000B4E7CC /* RegFlow.swift in Sources */,
 				637BE038222429D200B4E7CC /* RegisterStep2ViewController.swift in Sources */,
 				6318BC232223F0D1003EF60E /* RegisterViewController.swift in Sources */,
