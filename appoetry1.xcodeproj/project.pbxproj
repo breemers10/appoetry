@@ -30,6 +30,7 @@
 		637BE038222429D200B4E7CC /* RegisterStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE037222429D200B4E7CC /* RegisterStep2ViewController.swift */; };
 		637BE03A2224361200B4E7CC /* RegisterStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE0392224361200B4E7CC /* RegisterStep3ViewController.swift */; };
 		63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */; };
+		63C777C5223174B800CC753C /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C777C4223174B800CC753C /* CreatePostViewController.swift */; };
 		63D5E5ED222697C6008D9163 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D5E5EC222697C6008D9163 /* LoginViewModel.swift */; };
 		63D60D442227C3D9000ECAA8 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D60D432227C3D9000ECAA8 /* RegisterViewModel.swift */; };
 		63D60D472227CEF3000ECAA8 /* PFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D60D462227CEF3000ECAA8 /* PFlowController.swift */; };
@@ -83,6 +84,7 @@
 		637BE037222429D200B4E7CC /* RegisterStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStep2ViewController.swift; sourceTree = "<group>"; };
 		637BE0392224361200B4E7CC /* RegisterStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStep3ViewController.swift; sourceTree = "<group>"; };
 		63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStep3ViewModel.swift; sourceTree = "<group>"; };
+		63C777C4223174B800CC753C /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		63D5E5EC222697C6008D9163 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		63D60D432227C3D9000ECAA8 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		63D60D462227CEF3000ECAA8 /* PFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowController.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				636A57E32223D8DA0021D197 /* AppDelegate.swift */,
 				63553FE6222FAA5700F1659F /* MainTabBarController.swift */,
+				63C777C32231747900CC753C /* Create a Post */,
 				63D60D4E22280E6E000ECAA8 /* Util */,
 				63D5E5EB222697B3008D9163 /* Login */,
 				630C737D222FAE490020C2FC /* Favorites */,
@@ -217,6 +220,14 @@
 				63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		63C777C32231747900CC753C /* Create a Post */ = {
+			isa = PBXGroup;
+			children = (
+				63C777C4223174B800CC753C /* CreatePostViewController.swift */,
+			);
+			path = "Create a Post";
 			sourceTree = "<group>";
 		};
 		63D5E5EB222697B3008D9163 /* Login */ = {
@@ -537,6 +548,7 @@
 				630C7381222FCB440020C2FC /* DumbUserService.swift in Sources */,
 				637BE03A2224361200B4E7CC /* RegisterStep3ViewController.swift in Sources */,
 				636A57E42223D8DA0021D197 /* AppDelegate.swift in Sources */,
+				63C777C5223174B800CC753C /* CreatePostViewController.swift in Sources */,
 				630C7379222FAE260020C2FC /* SearchViewController.swift in Sources */,
 				637BE02D2223FF9E00B4E7CC /* AppFlow.swift in Sources */,
 				63D5E5ED222697C6008D9163 /* LoginViewModel.swift in Sources */,
