@@ -26,18 +26,23 @@ class MainFlow: PFlowController {
         guard let main = mainViewController else { return }
         let mainWrapper = UINavigationController(rootViewController: main)
         main.tabBarItem.image = UIImage(named: "for_you")
+        main.tabBarItem.title = "Main Feed"
         
         guard let search = searchViewController else { return }
         let searchWrapper = UINavigationController(rootViewController: search)
         search.tabBarItem.image = UIImage(named: "search")
+        search.tabBarItem.title = "Search"
         
         guard let favourites = favouritesViewController else { return }
         let favouritesWrapper = UINavigationController(rootViewController: favourites)
         favourites.tabBarItem.image = UIImage(named: "star")
+        favourites.tabBarItem.title = "Favorites"
         
         guard let profile = profileViewController else { return }
         let profileWrapper = UINavigationController(rootViewController: profile)
         profile.tabBarItem.image = UIImage(named: "user_male")
+        profile.tabBarItem.title = "My Profile"
+
         
         presenterVC.viewControllers = [mainWrapper, searchWrapper, favouritesWrapper, profileWrapper]
     }
