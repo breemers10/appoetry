@@ -19,7 +19,6 @@ class AppFlow: PFlowController {
     init(with window: UIWindow) {
         self.window = window
         rootVC = MainTabBarController()
-
         window.rootViewController = rootVC
         window.makeKeyAndVisible()
     }

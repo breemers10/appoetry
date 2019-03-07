@@ -22,13 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         appFlow = AppFlow(with: rootWindow)
         appFlow.start()
-////        
-//        UITabBarItem.appearance().badgeColor = .green
-////
-//        UITabBar.appearance().tintColor = UIColor(red: 0/255, green: 0/255, blue: 255/255, alpha: 1.0)
-//        UITabBar.appearance().barTintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
-//        UITabBar.appearance().unselectedItemTintColor = UIColor(red: 0/255, green: 255/255, blue: 0/255, alpha: 1.0)
-////
+
         return true
     }
     

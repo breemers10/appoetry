@@ -8,3 +8,10 @@ target 'appoetry1' do
   pod 'Firebase/Auth'
   pod 'Kingfisher', '~> 5.0'
 end
+target 'appoetry1Tests' do
+  pod 'Firebase'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Kingfisher', '~> 5.0'
+end
