@@ -57,7 +57,7 @@ class AppFlow: PFlowController {
         regFlow.start()
         childFlow = regFlow
     }
-
+    
     private func showMainScreen() {
         let mainFlow = MainFlow(with: rootVC)
         mainFlow.start()

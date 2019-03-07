@@ -15,9 +15,9 @@ class SearchViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Search"
-        
     }
 }
+
 extension SearchViewController: ClassName {
     static var className: String {
         return String(describing: self)

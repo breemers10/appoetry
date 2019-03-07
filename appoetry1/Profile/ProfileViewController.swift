@@ -15,9 +15,9 @@ class ProfileViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "My Profile"
-        
     }
 }
+
 extension ProfileViewController: ClassName {
     static var className: String {
         return String(describing: self)

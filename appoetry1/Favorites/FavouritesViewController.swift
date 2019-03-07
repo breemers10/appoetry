@@ -15,9 +15,9 @@ class FavouritesViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Favourites"
-        
     }
 }
+
 extension FavouritesViewController: ClassName {
     static var className: String {
         return String(describing: self)

@@ -13,7 +13,7 @@ class MainFlow: PFlowController {
     var onCompletion: (() -> Void)?
     fileprivate var childFlow: PFlowController?
     private var presenterVC: UITabBarController
- 
+    
     init(with controller: UITabBarController) {
         presenterVC = controller
     }
@@ -26,15 +26,15 @@ class MainFlow: PFlowController {
         guard let main = mainViewController else { return }
         let mainWrapper = UINavigationController(rootViewController: main)
         main.tabBarItem.image = UIImage(named: "for_you")
-    
+        
         guard let search = searchViewController else { return }
         let searchWrapper = UINavigationController(rootViewController: search)
         search.tabBarItem.image = UIImage(named: "search")
-    
+        
         guard let favourites = favouritesViewController else { return }
         let favouritesWrapper = UINavigationController(rootViewController: favourites)
         favourites.tabBarItem.image = UIImage(named: "star")
-    
+        
         guard let profile = profileViewController else { return }
         let profileWrapper = UINavigationController(rootViewController: profile)
         profile.tabBarItem.image = UIImage(named: "user_male")
