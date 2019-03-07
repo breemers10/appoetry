@@ -29,7 +29,6 @@ class SearchViewController: UIViewController {
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
-        
     }
 }
 

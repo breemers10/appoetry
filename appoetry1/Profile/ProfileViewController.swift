@@ -13,7 +13,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
-        
     }
     
     private func setupNavigationBarItems() {
@@ -29,7 +28,6 @@ class ProfileViewController: UIViewController {
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
-        
     }
 }
 

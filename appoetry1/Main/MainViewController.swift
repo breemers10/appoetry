@@ -16,14 +16,16 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
-        
-        createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
+        addingTargetToCreatePostVC()
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
     }
     
+    private func addingTargetToCreatePostVC() {
+        createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
+    }
     
     private func setupNavigationBarItems() {
         
@@ -31,14 +33,11 @@ class MainViewController: UIViewController {
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
  
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
-        
-      
-
+ 
         let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
-        
     }
 }
 

@@ -37,10 +37,9 @@ class MainFlow: PFlowController {
       }
     
     func moveToCreatePost() {
-        guard let createPostVC = createPostViewController else { return }
         
+        guard let createPostVC = createPostViewController else { return }
         navigationController?.pushViewController(createPostVC, animated: false)
-       
     }
     
     private func setupTabBar() {
