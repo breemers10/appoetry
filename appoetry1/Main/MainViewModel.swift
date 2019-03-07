@@ -11,4 +11,9 @@ import UIKit
 class MainViewModel: NSObject {
     
     var onCompletion: (() -> Void)?
+    var onCreatePostTap: (() -> Void)?
+    
+    func createPost() {
+        onCreatePostTap?()
+    }
 }

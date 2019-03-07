@@ -13,13 +13,34 @@ class MainFlow: PFlowController {
     var onCompletion: (() -> Void)?
     fileprivate var childFlow: PFlowController?
     private var presenterVC: UITabBarController
-    
+    private var navigationController: UINavigationController?
+
     init(with controller: UITabBarController) {
         presenterVC = controller
     }
     
     func start() {
+        
         setupTabBar()
+        
+        guard let vc = mainViewController else { return }
+
+        let viewModel = MainViewModel()
+        viewModel.onCreatePostTap = { [weak self] in
+            self?.moveToCreatePost()
+        }
+        vc.viewModel = viewModel
+        
+        navigationController = UINavigationController(rootViewController: vc)
+        guard let navController = navigationController else { return }
+        presenterVC.present(navController, animated: false, completion: nil)
+      }
+    
+    func moveToCreatePost() {
+        guard let createPostVC = createPostViewController else { return }
+        
+        navigationController?.pushViewController(createPostVC, animated: false)
+       
     }
     
     private func setupTabBar() {
@@ -63,6 +84,9 @@ extension MainFlow {
     }
     fileprivate var profileViewController: ProfileViewController? {
         return mainSB.instantiateViewController(withIdentifier: ProfileViewController.className) as? ProfileViewController
+    }
+    fileprivate var createPostViewController: CreatePostViewController? {
+        return mainSB.instantiateViewController(withIdentifier: CreatePostViewController.className) as? CreatePostViewController
     }
 }
 
