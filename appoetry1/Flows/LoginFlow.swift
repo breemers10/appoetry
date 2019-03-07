@@ -14,10 +14,10 @@ class LoginFlow:  PFlowController {
     var onRegistrationTap: (()->())?
     
     private var presenterVC: UIViewController
-    private var userService: PUserService?
+    private var userService: DumbUserService?
     private var child: PFlowController?
     
-    init(with controller: UIViewController, userService: PUserService) {
+    init(with controller: UIViewController, userService: DumbUserService) {
         presenterVC = controller
         self.userService = userService
     }

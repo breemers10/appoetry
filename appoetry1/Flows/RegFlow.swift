@@ -37,7 +37,7 @@ class RegFlow: PFlowController {
         
         navigationController = UINavigationController(rootViewController: vc)
         guard let navController = navigationController else { return }
-        presenterVC.present(navController, animated: true, completion: nil)
+        presenterVC.present(navController, animated: false, completion: nil)
     }
     
     func moveToRegStep2() {

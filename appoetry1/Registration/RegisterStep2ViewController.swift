@@ -26,7 +26,7 @@ class RegisterStep2ViewController: UIViewController {
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneDatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         
@@ -36,8 +36,7 @@ class RegisterStep2ViewController: UIViewController {
         dateOfBirth?.inputView = datePicker
     }
     
-    @objc func donedatePicker() {
-        
+    @objc func doneDatePicker() {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         dateOfBirth.text = formatter.string(from: datePicker.date)

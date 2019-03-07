@@ -12,15 +12,62 @@ import XCTest
 
 class UserServiceTests: XCTestCase {
     
-    var userService: PUserService?
+    var userService: DumbUserService?
+    var loginViewModel: LoginViewModel?
     
     override func setUp() {
         userService = DumbUserService()
-        print("Setup code")
+        loginViewModel = LoginViewModel(userService: userService!)
     }
     
     override func tearDown() {
         userService = nil
+        loginViewModel = nil
+    }
+
+    func testDumbEmailIsValid() {
+        loginViewModel?.signIn(email: "123@123.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "All gucci senjor")
+        
+        loginViewModel?.signIn(email: "a@a.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "All gucci senjor")
+        
+        loginViewModel?.signIn(email: "abcabcab@abc.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "All gucci senjor")
+        
+        loginViewModel?.signIn(email: ".mail@email.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "All gucci senjor")
+        
+        loginViewModel?.signIn(email: ".@email.com", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "All gucci senjor")
+        
+        loginViewModel?.signIn(email: "abc@email.co.om", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "All gucci senjor")
+        
+        
+        loginViewModel?.signIn(email: "@abc.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: "abc", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: "abc@.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: "abc@abc.l", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: "abc@", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: "", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: ".lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
+        
+        loginViewModel?.signIn(email: "abc@abc@abc.lv", password: "parole")
+        XCTAssertTrue(loginViewModel?.error == "Not good homie")
     }
     
     func testEmailIsValid() {

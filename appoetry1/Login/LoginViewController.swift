@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         emailLogin.text = "123@123.lv"
         passwordLogin.text = "123123"
     }
@@ -58,7 +58,6 @@ class LoginViewController: UIViewController {
             
             print("Ok button tapped");
         }
-        
         alertController.addAction(OKAction)
         
         self.present(alertController, animated: true, completion:nil)
