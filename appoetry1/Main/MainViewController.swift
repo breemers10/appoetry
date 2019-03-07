@@ -14,9 +14,18 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupNavigationBarItems()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Main feed"
+    }
+    
+    private func setupNavigationBarItems() {
+        
+        let createPostButton = UIButton(type: .system)
+        createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
+        
     }
 }
 
