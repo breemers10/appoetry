@@ -20,19 +20,21 @@ class MainFlow: PFlowController {
     }
     
     func start() {
-        guard let vc = mainViewController else { return }
-
-        navigationController = UINavigationController(rootViewController: vc)
-        guard let navController = navigationController else { return }
-        presenterVC.setViewControllers([navController], animated: true)
-        setupTabBar()
         
 
-        let viewModel = MainViewModel()
-        viewModel.onCreatePostTap = { [weak self] in
-            self?.moveToCreatePost()
-        }
-        vc.viewModel = viewModel
+//        guard let vc = mainViewController else { return }
+//
+//        let viewModel = MainViewModel()
+//        viewModel.onCreatePostTap = { [weak self] in
+//            self?.moveToCreatePost()
+//        }
+//        vc.viewModel = viewModel
+//
+//        navigationController = UINavigationController(rootViewController: vc)
+//        guard let navController = navigationController else { return }
+//        presenterVC.setViewControllers([navController], animated: true)
+        setupTabBar()
+
       }
     
     func moveToCreatePost() {
@@ -43,7 +45,12 @@ class MainFlow: PFlowController {
     
     private func setupTabBar() {
         guard let main = mainViewController else { return }
-        let mainWrapper = UINavigationController(rootViewController: main)
+        let viewModel = MainViewModel()
+        viewModel.onCreatePostTap = { [weak self] in
+            self?.moveToCreatePost()
+        }
+        main.viewModel = viewModel
+        navigationController = UINavigationController(rootViewController: main)
         main.tabBarItem.image = UIImage(named: "for_you")
         main.tabBarItem.title = "Main Feed"
         
@@ -63,7 +70,7 @@ class MainFlow: PFlowController {
         profile.tabBarItem.title = "My Profile"
 
         
-        presenterVC.viewControllers = [mainWrapper, searchWrapper, favouritesWrapper, profileWrapper]
+        presenterVC.viewControllers = [navigationController!, searchWrapper, favouritesWrapper, profileWrapper]
     }
 }
 extension MainFlow {
