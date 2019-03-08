@@ -20,20 +20,19 @@ class MainFlow: PFlowController {
     }
     
     func start() {
-        
+        guard let vc = mainViewController else { return }
+
+        navigationController = UINavigationController(rootViewController: vc)
+        guard let navController = navigationController else { return }
+        presenterVC.setViewControllers([navController], animated: true)
         setupTabBar()
         
-        guard let vc = mainViewController else { return }
 
         let viewModel = MainViewModel()
         viewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePost()
         }
         vc.viewModel = viewModel
-        
-        navigationController = UINavigationController(rootViewController: vc)
-        guard let navController = navigationController else { return }
-        presenterVC.present(navController, animated: false, completion: nil)
       }
     
     func moveToCreatePost() {
