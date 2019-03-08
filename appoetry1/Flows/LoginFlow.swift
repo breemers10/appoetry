@@ -10,30 +10,47 @@ import UIKit
 
 class LoginFlow:  PFlowController {
     
-    var onSuccessfullLogin: (()->())?
+    var onSuccessfullLogin: (() -> ())?
     var onRegistrationTap: (()->())?
-    
-    private var presenterVC: UIViewController
-    private var userService: DumbUserService?
+    var onLoginStart: ((UINavigationController) -> Void)?
+
+    private var presenterVC: UINavigationController?
+    private var userService: PUserService
     private var child: PFlowController?
     
-    init(with controller: UIViewController, userService: DumbUserService) {
-        presenterVC = controller
+    
+    init(userService: PUserService) {
         self.userService = userService
     }
     
     func start() {
         guard let vc = loginViewController else { return }
         
-        let viewModel = LoginViewModel(userService: userService!)
+        let viewModel = LoginViewModel(userService: userService)
+        
         viewModel.onCompletion = { [weak self] in
             self?.onSuccessfullLogin?()
         }
         viewModel.onSignUp = { [weak self] in
-            self?.onRegistrationTap?()
+            self?.getToRegistrationScreen()
         }
         vc.viewModel = viewModel
-        presenterVC.present(vc, animated: false, completion: nil)
+        presenterVC = UINavigationController(rootViewController: vc)
+        guard let loginVC = presenterVC else { return }
+        self.onLoginStart?(loginVC)
+    }
+    
+    private func getToRegistrationScreen() {
+        guard let regVC = presenterVC else { return }
+
+        let regFlow = RegFlow(navCtrllr: regVC)
+        
+        
+        regFlow.onThirdStepNextTap = { [weak self] in
+            self?.onSuccessfullLogin?()
+        }
+        
+        regFlow.start()
     }
 }
 

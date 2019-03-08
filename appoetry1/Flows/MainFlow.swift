@@ -11,66 +11,97 @@ import UIKit
 class MainFlow: PFlowController {
     
     var onCompletion: (() -> Void)?
+    var onMainStart: ((UITabBarController) -> Void)?
+    var userService: PUserService
     fileprivate var childFlow: PFlowController?
-    private var presenterVC: UITabBarController
-    private var navigationController: UINavigationController?
+    private var presenterVC: UITabBarController?
+    private var mainWrapper: UINavigationController?
+    private var searchWrapper: UINavigationController?
+    private var favouritesWrapper: UINavigationController?
+    private var profileWrapper: UINavigationController?
 
-    init(with controller: UITabBarController) {
-        presenterVC = controller
+    init(userService: PUserService) {
+        self.userService = userService
     }
     
     func start() {
         
-
-//        guard let vc = mainViewController else { return }
-//
-//        let viewModel = MainViewModel()
-//        viewModel.onCreatePostTap = { [weak self] in
-//            self?.moveToCreatePost()
-//        }
-//        vc.viewModel = viewModel
-//
-//        navigationController = UINavigationController(rootViewController: vc)
-//        guard let navController = navigationController else { return }
-//        presenterVC.setViewControllers([navController], animated: true)
         setupTabBar()
-
+        guard let mainRootVC = presenterVC else { return }
+        onMainStart?(mainRootVC)
       }
     
-    func moveToCreatePost() {
+    func moveToCreatePostFromMain() {
         
         guard let createPostVC = createPostViewController else { return }
-        navigationController?.pushViewController(createPostVC, animated: false)
+        mainWrapper?.pushViewController(createPostVC, animated: false)
+    }
+    
+    func moveToCreatePostFromSearch() {
+        
+        guard let createPostVC = createPostViewController else { return }
+        searchWrapper?.pushViewController(createPostVC, animated: false)
+    }
+    
+    func moveToCreatePostFromFavourites() {
+        
+        guard let createPostVC = createPostViewController else { return }
+        favouritesWrapper?.pushViewController(createPostVC, animated: false)
+    }
+    
+    func moveToCreatePostFromProfile() {
+        
+        guard let createPostVC = createPostViewController else { return }
+        profileWrapper?.pushViewController(createPostVC, animated: false)
     }
     
     private func setupTabBar() {
+        presenterVC = UITabBarController()
         guard let main = mainViewController else { return }
         let viewModel = MainViewModel()
         viewModel.onCreatePostTap = { [weak self] in
-            self?.moveToCreatePost()
+            self?.moveToCreatePostFromMain()
         }
         main.viewModel = viewModel
-        navigationController = UINavigationController(rootViewController: main)
+        mainWrapper = UINavigationController(rootViewController: main)
+        guard let mw = mainWrapper else { return }
         main.tabBarItem.image = UIImage(named: "for_you")
         main.tabBarItem.title = "Main Feed"
         
         guard let search = searchViewController else { return }
-        let searchWrapper = UINavigationController(rootViewController: search)
+        let searchViewModel = SearchViewModel()
+        searchViewModel.onCreatePostTap = { [weak self] in
+            self?.moveToCreatePostFromSearch()
+        }
+        search.viewModel = searchViewModel
+        searchWrapper = UINavigationController(rootViewController: search)
+        guard let sw = searchWrapper else { return }
         search.tabBarItem.image = UIImage(named: "search")
         search.tabBarItem.title = "Search"
         
         guard let favourites = favouritesViewController else { return }
-        let favouritesWrapper = UINavigationController(rootViewController: favourites)
+        let favouritesViewModel = FavouritesViewModel()
+        favouritesViewModel.onCreatePostTap = { [weak self] in
+            self?.moveToCreatePostFromFavourites()
+        }
+        favourites.viewModel = favouritesViewModel
+        favouritesWrapper = UINavigationController(rootViewController: favourites)
+        guard let fw = favouritesWrapper else { return }
         favourites.tabBarItem.image = UIImage(named: "star")
         favourites.tabBarItem.title = "Favorites"
         
         guard let profile = profileViewController else { return }
-        let profileWrapper = UINavigationController(rootViewController: profile)
+        let profileViewModel = ProfileViewModel()
+        profileViewModel.onCreatePostTap = { [weak self] in
+            self?.moveToCreatePostFromProfile()
+        }
+        profile.viewModel = profileViewModel
+        profileWrapper = UINavigationController(rootViewController: profile)
+        guard let pw = profileWrapper else { return }
         profile.tabBarItem.image = UIImage(named: "user_male")
         profile.tabBarItem.title = "My Profile"
 
-        
-        presenterVC.viewControllers = [navigationController!, searchWrapper, favouritesWrapper, profileWrapper]
+        presenterVC?.viewControllers = [mw, sw, fw, pw]
     }
 }
 extension MainFlow {

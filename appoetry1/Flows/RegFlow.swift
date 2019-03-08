@@ -15,29 +15,23 @@ class RegFlow: PFlowController {
     var onThirdStepNextTap: (()->())?
     var onBackButtonTap: (()->())?
     
-    private var presenterVC: UIViewController
-    private var navigationController: UINavigationController?
+    private var navigationController: UINavigationController
     var child: PFlowController?
     
-    init(with controller: UIViewController) {
-        self.presenterVC = controller
+    init(navCtrllr: UINavigationController) {
+        navigationController = navCtrllr
     }
     
     func start() {
         guard let vc = registerViewController else { return }
         
         let viewModel = RegisterViewModel()
-        viewModel.onFirstStepCompletion = { [weak self] in
-            self?.moveToRegStep2()
+        viewModel.onFirstStepCompletion = {
+            self.moveToRegStep2()
         }
-        viewModel.onLogin = { [weak self] in
-            self?.onBackButtonTap?()
-        }
-        vc.viewModel = viewModel
         
-        navigationController = UINavigationController(rootViewController: vc)
-        guard let navController = navigationController else { return }
-        presenterVC.present(navController, animated: false, completion: nil)
+        vc.viewModel = viewModel
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func moveToRegStep2() {
@@ -47,7 +41,7 @@ class RegFlow: PFlowController {
             self?.moveToRegStep3()
         }
         regStep2VC.viewModel = viewModel2
-        navigationController?.pushViewController(regStep2VC, animated: false)
+        navigationController.pushViewController(regStep2VC, animated: false)
     }
     
     func moveToRegStep3() {
@@ -57,16 +51,16 @@ class RegFlow: PFlowController {
             self?.onThirdStepNextTap?()
         }
         regStep3VC.viewModel = viewModel3
-        navigationController?.pushViewController(regStep3VC, animated: false)
+        navigationController.pushViewController(regStep3VC, animated: false)
     }
 }
 
 extension RegFlow {
-
+    
     private var regSB: UIStoryboard {
         return UIStoryboard(name: Storyboard.register.rawValue, bundle: Bundle.main)
     }
-
+    
     private var registerViewController: RegisterViewController? {
         return regSB.instantiateViewController(withIdentifier: RegisterViewController.className) as? RegisterViewController
     }
@@ -79,4 +73,3 @@ extension RegFlow {
         return regSB.instantiateViewController(withIdentifier: RegisterStep3ViewController.className) as? RegisterStep3ViewController
     }
 }
-

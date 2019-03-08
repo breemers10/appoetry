@@ -10,16 +10,25 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    var viewModel: SearchViewModel?
+    let createPostButton = UIButton(type: .system)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
-        
+        addingTargetToCreatePostVC()
+    }
+    
+    @objc func createPostButtonPressed(sender: UIButton) {
+        viewModel?.createPost()
+    }
+    
+    private func addingTargetToCreatePostVC() {
+        createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
     }
     
     private func setupNavigationBarItems() {
-        
-        let createPostButton = UIButton(type: .system)
-        
+                
         createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         

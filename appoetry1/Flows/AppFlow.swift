@@ -13,53 +13,34 @@ class AppFlow: PFlowController {
     var window: UIWindow
     
     fileprivate var childFlow: PFlowController?
-    var userService = DumbUserService()
-    var rootVC: UITabBarController!
+    var userService: PUserService
     
     init(with window: UIWindow) {
         self.window = window
-        rootVC = MainTabBarController()
-        window.rootViewController = rootVC
-        window.makeKeyAndVisible()
+        userService = DumbUserService()
     }
     
     func start() {
-        let loginFlow = LoginFlow(with: rootVC, userService: userService)
-        loginFlow.start()
+        let loginFlow = LoginFlow(userService: userService)
+        
+        loginFlow.onLoginStart = {[unowned self] rootController in
+            self.window.rootViewController = rootController
+            self.window.makeKeyAndVisible()
+        }
         
         loginFlow.onSuccessfullLogin = {[weak self] in
-            self?.rootVC.dismiss(animated: false, completion: nil)
             self?.showMainScreen()
             debugPrint("LoginFlow completed with successful login")
         }
-        
-        loginFlow.onRegistrationTap = {[weak self] in
-            self?.rootVC.dismiss(animated: false, completion: nil)
-            self?.getToRegistrationScreen()
-            debugPrint("LoginFlow completed on register button tap")
-        }
+        loginFlow.start()
         childFlow = loginFlow
     }
     
-    private func getToRegistrationScreen() {
-        let regFlow = RegFlow(with: rootVC)
-        
-        regFlow.onBackButtonTap = { [weak self] in
-            self?.rootVC.dismiss(animated: false, completion: nil)
-            self?.start()
-        }
-        
-        regFlow.onThirdStepNextTap = { [weak self] in
-            self?.rootVC.dismiss(animated: false, completion: nil)
-            self?.showMainScreen()
-        }
-        
-        regFlow.start()
-        childFlow = regFlow
-    }
-    
     private func showMainScreen() {
-        let mainFlow = MainFlow(with: rootVC)
+        let mainFlow = MainFlow(userService: userService)
+        mainFlow.onMainStart = { [weak self] rootController in
+            self?.window.rootViewController = rootController
+        }
         mainFlow.start()
         childFlow = mainFlow
     }

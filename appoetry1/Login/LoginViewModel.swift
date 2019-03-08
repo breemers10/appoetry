@@ -14,14 +14,14 @@ class LoginViewModel {
     var onCompletion: (() -> Void)?
     var onSignUp: (() -> Void)?
     var wrongCredentials: (()->Void)?
-    var userService: DumbUserService?
+    var userService: PUserService?
     var error: String?
     
     func signUp() {
         onSignUp?()
     }
     
-    init(userService: DumbUserService) {
+    init(userService: PUserService) {
         self.userService = userService
     }
     
