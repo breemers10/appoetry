@@ -46,6 +46,12 @@ class RegisterViewController: UIViewController {
         
         if self.confirmPassword.text == self.registerPassword.text {
             print("All good Senjor")
+            guard
+                let email = registerEmail.text,
+            let password = registerPassword.text
+            else { return }
+            
+            viewModel?.addSmth(email: email, password: password)
             viewModel?.secondStep()
         } else {
             print("Passwords does not match!")

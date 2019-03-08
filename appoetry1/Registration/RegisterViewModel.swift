@@ -13,6 +13,11 @@ class RegisterViewModel {
     var onFirstStepCompletion: (() -> Void)?
     var onLogin: (() -> Void)?
     
+    func addSmth(email: String, password: String) {
+        MySharedInstance.instance.userRegister.email = email
+        MySharedInstance.instance.userRegister.password = password
+    }
+    
     func secondStep() {
         onFirstStepCompletion?()
     }

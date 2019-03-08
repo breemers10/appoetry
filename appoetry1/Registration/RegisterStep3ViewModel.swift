@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 enum Genres: Int {
     case none = 0
@@ -42,12 +44,22 @@ enum Genres: Int {
     }
 }
 
-class RegisterStep3ViewModel: NSObject {
+class RegisterStep3ViewModel {
     
     var realGenre: Genres?
     var onMainScreen: (() -> Void)?
+    var databaseHandle: DatabaseHandle?
     
     func toMainScreen() {
+//
+//        databaseHandle = MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
+//            let usersObject = snapshot.value as? String
+//            guard
+//                let username = usersObject?["username"] as? String,
+//                let fullName = usersObject?["fullName"] as? String
+//                else { return }
+        
+//        })
         onMainScreen?()
     }
 }

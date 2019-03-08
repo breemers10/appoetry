@@ -26,8 +26,8 @@ class RegFlow: PFlowController {
         guard let vc = registerViewController else { return }
         
         let viewModel = RegisterViewModel()
-        viewModel.onFirstStepCompletion = {
-            self.moveToRegStep2()
+        viewModel.onFirstStepCompletion = { [weak self] in
+            self?.moveToRegStep2()
         }
         
         vc.viewModel = viewModel

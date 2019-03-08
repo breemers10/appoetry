@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 class RegisterStep3ViewController: UIViewController {
     
@@ -15,6 +17,7 @@ class RegisterStep3ViewController: UIViewController {
     @IBOutlet weak var thirdGenreTextField: UITextField!
     
     var viewModel: RegisterStep3ViewModel?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +61,23 @@ class RegisterStep3ViewController: UIViewController {
     }
     
     @IBAction func completeRegistration(_ sender: Any) {
-        viewModel?.toMainScreen()
+        guard
+            let email = MySharedInstance.instance.userRegister.email,
+            let password = MySharedInstance.instance.userRegister.password
+            else { return }
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if user != nil {
+                print("User has signed up")
+            }
+            guard error == nil else { return }
+            guard let id = Auth.auth().currentUser?.uid else { return }
+            MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
+                let usersObject = snapshot.value as? String
+            })
+                
+                self.viewModel?.toMainScreen()
+        }
     }
-    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }

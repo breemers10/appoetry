@@ -9,6 +9,7 @@
 import UIKit
 
 class LoginFlow:  PFlowController {
+    fileprivate var childFlow: PFlowController?
     
     var onSuccessfullLogin: (() -> ())?
     var onRegistrationTap: (()->())?
@@ -51,6 +52,8 @@ class LoginFlow:  PFlowController {
         }
         
         regFlow.start()
+        
+        childFlow = regFlow
     }
 }
 
