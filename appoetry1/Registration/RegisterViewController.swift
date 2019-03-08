@@ -48,10 +48,10 @@ class RegisterViewController: UIViewController {
             print("All good Senjor")
             guard
                 let email = registerEmail.text,
-            let password = registerPassword.text
-            else { return }
+                let password = registerPassword.text
+                else { return }
             
-            viewModel?.addSmth(email: email, password: password)
+            viewModel?.addCredentials(email: email, password: password)
             viewModel?.secondStep()
         } else {
             print("Passwords does not match!")

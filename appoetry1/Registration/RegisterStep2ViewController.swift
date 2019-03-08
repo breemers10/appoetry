@@ -48,6 +48,12 @@ class RegisterStep2ViewController: UIViewController {
     }
     
     @IBAction func pressFromStepTwo(_ sender: Any) {
+        guard
+        let username = username.text,
+        let fullName = fullName.text,
+        let date = dateOfBirth.text
+        else { return }
+        viewModel?.addSecondStepCredentials(username: username, fullName: fullName, dateOfBirth: date)
         viewModel?.toThirdStep()
     }
 }

@@ -62,22 +62,15 @@ class RegisterStep3ViewController: UIViewController {
     
     @IBAction func completeRegistration(_ sender: Any) {
         guard
-            let email = MySharedInstance.instance.userRegister.email,
-            let password = MySharedInstance.instance.userRegister.password
+            let firstGenre = firstGenreTextField.text,
+            let secondGenre = secondGenreTextField.text,
+            let thirdGenre = thirdGenreTextField.text
             else { return }
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-            if user != nil {
-                print("User has signed up")
-            }
-            guard error == nil else { return }
-            guard let id = Auth.auth().currentUser?.uid else { return }
-            MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
-                let usersObject = snapshot.value as? String
-            })
-                
-                self.viewModel?.toMainScreen()
-        }
+        viewModel?.addThirdStepCredentials(firstGenre: firstGenre, secondGenre: secondGenre, thirdGenre: thirdGenre)
+      
+        viewModel?.toMainScreen()
     }
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
