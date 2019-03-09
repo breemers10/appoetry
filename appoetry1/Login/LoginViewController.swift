@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
         
         viewModel?.signIn(email: emailLogin.text, password: passwordLogin.text)
         viewModel?.wrongCredentials = { [weak self] in
-            self?.displayAlertMessage(messageToDisplay: "E-mail or password are not correct!")
+            self?.displayAlertMessage(messageToDisplay: "E-mail or password are incorrect!")
         }
     }
     

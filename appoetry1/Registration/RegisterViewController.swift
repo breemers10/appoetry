@@ -99,10 +99,6 @@ class RegisterViewController: UIViewController {
         
         self.present(alertController, animated: true, completion:nil)
     }
-    
-    @IBAction func backToLogin(_ sender: Any) {
-        viewModel?.backToSignIn()
-    }
 }
 
 extension RegisterViewController: ClassName {

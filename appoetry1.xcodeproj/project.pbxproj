@@ -200,6 +200,7 @@
 				63D60D452227C989000ECAA8 /* Main */,
 				637BE0362224299700B4E7CC /* Registration */,
 				63D60D56222959EE000ECAA8 /* Dependencies */,
+				63D60D51222819D0000ECAA8 /* Storyboards */,
 				63D60D522229212D000ECAA8 /* Services */,
 				637BE02B2223FF8200B4E7CC /* Flows */,
 				636A57EA2223D8DC0021D197 /* Assets.xcassets */,
@@ -217,7 +218,6 @@
 				637BE02E2223FFA800B4E7CC /* MainFlow.swift */,
 				637BE0302223FFB500B4E7CC /* LoginFlow.swift */,
 				637BE0322223FFC000B4E7CC /* RegFlow.swift */,
-				63D60D51222819D0000ECAA8 /* Storyboards */,
 			);
 			path = Flows;
 			sourceTree = "<group>";

@@ -21,9 +21,5 @@ class RegisterViewModel {
     func secondStep() {
         onFirstStepCompletion?()
     }
-    
-    func backToSignIn() {
-        onLogin?()
-    }
 }
 

@@ -62,17 +62,6 @@
                                     <action selector="nextFromFirstStep:" destination="O5S-Ug-HrN" eventType="touchUpInside" id="7kb-Ld-GdK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngh-ME-84g">
-                                <rect key="frame" x="133" y="424" width="108" height="32"/>
-                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.17712970890410962" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
-                                <state key="normal" title="Back to login">
-                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="backToLogin:" destination="O5S-Ug-HrN" eventType="touchUpInside" id="aZa-9S-BN4"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90563851594924927" green="0.94731312990188599" blue="0.86765587329864502" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -87,16 +76,12 @@
                             <constraint firstItem="B5a-E7-70k" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="149" id="K8f-V4-dL4"/>
                             <constraint firstItem="FlM-4p-Nxo" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="143" id="Rdl-Sd-fjY"/>
                             <constraint firstItem="9Oe-sP-bmA" firstAttribute="width" secondItem="UJN-II-ZTi" secondAttribute="width" id="XPa-GO-kZB"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="Ngh-ME-84g" secondAttribute="trailing" constant="134" id="Xn2-PP-ady"/>
-                            <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ngh-ME-84g" secondAttribute="trailing" symbolic="YES" id="b9E-0w-GLV"/>
                             <constraint firstItem="RIx-f9-xkH" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="85" id="bAQ-be-cqj"/>
                             <constraint firstItem="B5a-E7-70k" firstAttribute="top" secondItem="RPw-sr-4ng" secondAttribute="top" constant="80" id="eOQ-Cq-dVM"/>
                             <constraint firstItem="UJN-II-ZTi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RPw-sr-4ng" secondAttribute="leading" id="gNg-3K-sGA"/>
                             <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="RIx-f9-xkH" secondAttribute="trailing" constant="85" id="igm-Nk-UDv"/>
-                            <constraint firstItem="Ngh-ME-84g" firstAttribute="leading" secondItem="RPw-sr-4ng" secondAttribute="leading" constant="133" id="pKz-TI-HTK"/>
                             <constraint firstItem="l0u-WE-vqy" firstAttribute="top" secondItem="UJN-II-ZTi" secondAttribute="bottom" constant="46" id="sj1-y6-RS9"/>
                             <constraint firstItem="UJN-II-ZTi" firstAttribute="top" secondItem="9Oe-sP-bmA" secondAttribute="bottom" constant="24" id="smL-en-9Hg"/>
-                            <constraint firstItem="Ngh-ME-84g" firstAttribute="top" secondItem="l0u-WE-vqy" secondAttribute="bottom" constant="28" id="tl2-81-mqB"/>
                             <constraint firstItem="RPw-sr-4ng" firstAttribute="trailing" secondItem="B5a-E7-70k" secondAttribute="trailing" constant="149" id="vR8-1C-qfM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RPw-sr-4ng"/>

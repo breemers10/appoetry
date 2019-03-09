@@ -53,8 +53,30 @@ class RegisterStep2ViewController: UIViewController {
         let fullName = fullName.text,
         let date = dateOfBirth.text
         else { return }
+        
+        if fullName.isEmpty == true {
+            displayAlertMessage(messageToDisplay: "Full name field is empty!")
+            return
+        }
+        if username.isEmpty == true {
+            displayAlertMessage(messageToDisplay: "Username field is empty!")
+            return
+        }
         viewModel?.addSecondStepCredentials(username: username, fullName: fullName, dateOfBirth: date)
         viewModel?.toThirdStep()
+        }
+    
+    func displayAlertMessage(messageToDisplay: String) {
+        let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+            
+            print("Ok button tapped");
+        }
+        
+        alertController.addAction(OKAction)
+        
+        self.present(alertController, animated: true, completion:nil)
     }
 }
 
