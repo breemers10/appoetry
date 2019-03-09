@@ -26,19 +26,24 @@ class RegisterViewController: UIViewController {
         let providedPassword = registerPassword.text
         
         let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
+        let isEmailAddressUsed = isEmailAlreadyTaken(emailAddressString: providedEmailAddress!)
         let isPasswordValid = isValidPassword(testStr: providedPassword)
         
         if isEmailAddressValid {
             
-            print("Email address is valid")
         } else {
             print("Email address is not valid")
             displayAlertMessage(messageToDisplay: "Email address is not valid")
         }
         
-        if isPasswordValid {
+        if isEmailAddressUsed {
+            self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
             
+        } else {    }
+        
+        if isPasswordValid {
             print("Password is valid")
+            
         } else {
             print("Password is not valid")
             displayAlertMessage(messageToDisplay: "Password is not valid")
@@ -50,15 +55,14 @@ class RegisterViewController: UIViewController {
                 let email = registerEmail.text,
                 let password = registerPassword.text
                 else { return }
-            
             viewModel?.addCredentials(email: email, password: password)
             viewModel?.secondStep()
+            
         } else {
             print("Passwords does not match!")
             displayAlertMessage(messageToDisplay: "Passwords does not match!")
         }
     }
-    
     func isValidEmailAddress(emailAddressString: String) -> Bool {
         
         var returnValue = true
@@ -78,6 +82,19 @@ class RegisterViewController: UIViewController {
             returnValue = false
         }
         return returnValue
+    }
+    
+    func isEmailAlreadyTaken(emailAddressString: String) -> Bool {
+        var itIsUsed = true
+        
+        MySharedInstance.instance.ref.queryOrdered(byChild: "email").queryEqual(toValue: registerEmail.text!).observe(.value) { snapshot in
+            if snapshot.exists() {
+                itIsUsed = false
+            } else {
+                itIsUsed = true
+            }
+        }
+        return itIsUsed
     }
     
     func isValidPassword(testStr:String?) -> Bool {

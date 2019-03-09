@@ -26,7 +26,8 @@ struct UserRegister {
             "firstGenre": firstGenre,
             "secondGenre": secondGenre,
             "thirdGenre": thirdGenre,
-            "dateOfBirth": dateOfBirth
+            "dateOfBirth": dateOfBirth,
+            "email": email
         ]
     }
 }
