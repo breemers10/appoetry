@@ -54,17 +54,30 @@ class RegisterStep2ViewController: UIViewController {
         let date = dateOfBirth.text
         else { return }
         
+        let isUsernameValid = isValidUsername(testStr: username)
+        
         if fullName.isEmpty == true {
             displayAlertMessage(messageToDisplay: "Full name field is empty!")
             return
         }
-        if username.isEmpty == true {
-            displayAlertMessage(messageToDisplay: "Username field is empty!")
-            return
+
+        if isUsernameValid {
+            print("Username is valid")
+            
+        } else {
+            print("Username is not valid")
+            displayAlertMessage(messageToDisplay: "Username is not valid. Required at least 4 characters! ")
         }
         viewModel?.addSecondStepCredentials(username: username, fullName: fullName, dateOfBirth: date)
         viewModel?.toThirdStep()
         }
+    
+    func isValidUsername(testStr:String?) -> Bool {
+        guard testStr != nil else { return false }
+        
+        let usernameTest = NSPredicate(format: "SELF MATCHES %@", "([A-Z0-9a-z._]).{4,}")
+        return usernameTest.evaluate(with: testStr)
+    }
     
     func displayAlertMessage(messageToDisplay: String) {
         let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)

@@ -37,9 +37,11 @@ class RegisterViewController: UIViewController {
         }
         
         if isEmailAddressUsed {
-            self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
             
-        } else {    }
+        } else {
+            self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
+
+        }
         
         if isPasswordValid {
             print("Password is valid")
