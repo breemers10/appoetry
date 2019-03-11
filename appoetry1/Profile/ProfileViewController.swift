@@ -13,11 +13,15 @@ class ProfileViewController: UIViewController {
     
     var viewModel: ProfileViewModel?
     let createPostButton = UIButton(type: .system)
+    @IBOutlet weak var profileInfoLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
+        profileInfoLabel.text = viewModel?.username
+    
+//        viewModel?.sendProfileInfo(username: profileInfoLabel.text)
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {

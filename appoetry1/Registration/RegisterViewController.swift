@@ -37,10 +37,10 @@ class RegisterViewController: UIViewController {
         }
         
         if isEmailAddressUsed {
-            
-        } else {
             self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
 
+        } else {
+            print("Email is not taken so you can use it!")
         }
         
         if isPasswordValid {
@@ -87,15 +87,16 @@ class RegisterViewController: UIViewController {
     }
     
     func isEmailAlreadyTaken(emailAddressString: String) -> Bool {
-        var itIsUsed = true
+        var itIsUsed = false
         
-        MySharedInstance.instance.ref.queryOrdered(byChild: "email").queryEqual(toValue: registerEmail.text!).observe(.value) { snapshot in
+        MySharedInstance.instance.ref.child("users").queryOrdered(byChild: "email").observeSingleEvent(of: .value, with: { (snapshot) in
+            
             if snapshot.exists() {
-                itIsUsed = false
-            } else {
                 itIsUsed = true
+            } else {
+                print("all guccccii")
             }
-        }
+        })
         return itIsUsed
     }
     

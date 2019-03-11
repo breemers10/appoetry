@@ -66,7 +66,7 @@ class RegisterStep2ViewController: UIViewController {
             
         } else {
             print("Username is not valid")
-            displayAlertMessage(messageToDisplay: "Username is not valid. Required at least 4 characters! ")
+            displayAlertMessage(messageToDisplay: "Username is not valid. Required at least 4 characters!")
         }
         viewModel?.addSecondStepCredentials(username: username, fullName: fullName, dateOfBirth: date)
         viewModel?.toThirdStep()
