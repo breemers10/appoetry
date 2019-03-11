@@ -64,7 +64,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giO-oa-e8W" userLabel="Username Label">
-                                <rect key="frame" x="137" y="52" width="215" height="34"/>
+                                <rect key="frame" x="137" y="52" width="215" height="26"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -75,26 +75,26 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-me-GWy">
-                                <rect key="frame" x="137" y="115" width="215" height="16"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXQ-TO-cIJ">
-                                <rect key="frame" x="137" y="156" width="127" height="16"/>
+                                <rect key="frame" x="137" y="139" width="127" height="16"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af7-MW-Tq3">
-                                <rect key="frame" x="137" y="172" width="127" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af7-MW-Tq3">
+                                <rect key="frame" x="137" y="162" width="127" height="19"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSw-mr-ev7">
-                                <rect key="frame" x="137" y="196" width="127" height="16"/>
+                                <rect key="frame" x="137" y="186" width="127" height="16"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-me-GWy">
+                                <rect key="frame" x="137" y="115" width="215" height="16"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -102,25 +102,25 @@
                         </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="GMf-me-GWy" firstAttribute="top" secondItem="SRm-s3-iB0" secondAttribute="bottom" constant="8" id="2Zz-dW-Fqm"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="Af7-MW-Tq3" secondAttribute="leading" id="3Lw-hf-F98"/>
-                            <constraint firstItem="gSw-mr-ev7" firstAttribute="top" secondItem="Af7-MW-Tq3" secondAttribute="bottom" constant="8" symbolic="YES" id="8Bi-YZ-CFp"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="GMf-me-GWy" secondAttribute="trailing" constant="23" id="GIm-de-6jO"/>
-                            <constraint firstItem="HXQ-TO-cIJ" firstAttribute="top" secondItem="GMf-me-GWy" secondAttribute="bottom" constant="25" id="Gj7-Ex-FbS"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="trailing" secondItem="SRm-s3-iB0" secondAttribute="trailing" id="JCx-2W-272"/>
-                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="top" secondItem="HXQ-TO-cIJ" secondAttribute="bottom" id="Jm9-2m-3Pj"/>
-                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="trailing" secondItem="gSw-mr-ev7" secondAttribute="trailing" id="LeW-Pe-IhU"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="gSw-mr-ev7" secondAttribute="leading" id="R7u-wD-Pkw"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="HXQ-TO-cIJ" secondAttribute="leading" id="R9g-WJ-ceN"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="SRm-s3-iB0" secondAttribute="leading" id="VRa-N7-VGc"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="top" secondItem="nfz-e6-cll" secondAttribute="top" constant="32" id="cV2-vI-FKp"/>
-                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="top" secondItem="xe7-WI-bCr" secondAttribute="top" constant="172" id="daW-0P-eh0"/>
-                            <constraint firstItem="GMf-me-GWy" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="gos-Ao-2rd"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="miR-Q6-5KH"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="giO-oa-e8W" secondAttribute="trailing" constant="23" id="oMc-d6-Z8k"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="Af7-MW-Tq3" secondAttribute="trailing" constant="111" id="pgS-9t-3UI"/>
-                            <constraint firstItem="SRm-s3-iB0" firstAttribute="top" secondItem="giO-oa-e8W" secondAttribute="bottom" id="vxq-hp-4X3"/>
-                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="trailing" secondItem="HXQ-TO-cIJ" secondAttribute="trailing" id="yTR-ds-dEc"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="HXQ-TO-cIJ" secondAttribute="trailing" constant="111" id="7hd-3z-T3M"/>
+                            <constraint firstItem="GMf-me-GWy" firstAttribute="top" secondItem="SRm-s3-iB0" secondAttribute="bottom" constant="8" symbolic="YES" id="8fl-cg-qvI"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="giO-oa-e8W" secondAttribute="trailing" constant="23" id="94X-6P-Clh"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="top" secondItem="HXQ-TO-cIJ" secondAttribute="bottom" constant="7" id="9Zi-1b-mEH"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="top" secondItem="nfz-e6-cll" secondAttribute="top" constant="32" id="ArH-qF-VvK"/>
+                            <constraint firstItem="gSw-mr-ev7" firstAttribute="top" secondItem="Af7-MW-Tq3" secondAttribute="bottom" constant="5" id="Bwv-cu-o4t"/>
+                            <constraint firstItem="gSw-mr-ev7" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="HVt-NU-mh3"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="GMf-me-GWy" secondAttribute="trailing" constant="23" id="K5A-MV-g2G"/>
+                            <constraint firstItem="HXQ-TO-cIJ" firstAttribute="top" secondItem="GMf-me-GWy" secondAttribute="bottom" constant="8" id="Kv9-Ct-3Y8"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="bottom" secondItem="gSw-mr-ev7" secondAttribute="bottom" constant="465" id="LjG-N6-VJm"/>
+                            <constraint firstItem="SRm-s3-iB0" firstAttribute="top" secondItem="giO-oa-e8W" secondAttribute="bottom" constant="8" symbolic="YES" id="Mwy-6b-bhb"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="Okg-le-MHw"/>
+                            <constraint firstItem="SRm-s3-iB0" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="Tv5-PJ-78G"/>
+                            <constraint firstItem="HXQ-TO-cIJ" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="f5T-xy-3YG"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="fSi-wN-73c"/>
+                            <constraint firstItem="GMf-me-GWy" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="igK-wf-4V8"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="SRm-s3-iB0" secondAttribute="trailing" constant="23" id="q8O-Cj-vte"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="Af7-MW-Tq3" secondAttribute="trailing" constant="111" id="rDc-eT-NUS"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="gSw-mr-ev7" secondAttribute="trailing" constant="111" id="tg0-9l-moh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nfz-e6-cll"/>
                     </view>
