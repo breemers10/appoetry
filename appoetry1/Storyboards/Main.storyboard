@@ -63,30 +63,74 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giO-oa-e8W">
-                                <rect key="frame" x="137" y="52" width="214" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giO-oa-e8W" userLabel="Username Label">
+                                <rect key="frame" x="137" y="52" width="215" height="34"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cuQ-TL-k8z">
-                                <rect key="frame" x="16" y="52" width="100" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRm-s3-iB0">
-                                <rect key="frame" x="137" y="84" width="214" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRm-s3-iB0">
+                                <rect key="frame" x="137" y="86" width="215" height="21"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-me-GWy">
+                                <rect key="frame" x="137" y="115" width="215" height="16"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXQ-TO-cIJ">
+                                <rect key="frame" x="137" y="156" width="127" height="16"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af7-MW-Tq3">
+                                <rect key="frame" x="137" y="172" width="127" height="16"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSw-mr-ev7">
+                                <rect key="frame" x="137" y="196" width="127" height="16"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="GMf-me-GWy" firstAttribute="top" secondItem="SRm-s3-iB0" secondAttribute="bottom" constant="8" id="2Zz-dW-Fqm"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="Af7-MW-Tq3" secondAttribute="leading" id="3Lw-hf-F98"/>
+                            <constraint firstItem="gSw-mr-ev7" firstAttribute="top" secondItem="Af7-MW-Tq3" secondAttribute="bottom" constant="8" symbolic="YES" id="8Bi-YZ-CFp"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="GMf-me-GWy" secondAttribute="trailing" constant="23" id="GIm-de-6jO"/>
+                            <constraint firstItem="HXQ-TO-cIJ" firstAttribute="top" secondItem="GMf-me-GWy" secondAttribute="bottom" constant="25" id="Gj7-Ex-FbS"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="trailing" secondItem="SRm-s3-iB0" secondAttribute="trailing" id="JCx-2W-272"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="top" secondItem="HXQ-TO-cIJ" secondAttribute="bottom" id="Jm9-2m-3Pj"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="trailing" secondItem="gSw-mr-ev7" secondAttribute="trailing" id="LeW-Pe-IhU"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="gSw-mr-ev7" secondAttribute="leading" id="R7u-wD-Pkw"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="HXQ-TO-cIJ" secondAttribute="leading" id="R9g-WJ-ceN"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="SRm-s3-iB0" secondAttribute="leading" id="VRa-N7-VGc"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="top" secondItem="nfz-e6-cll" secondAttribute="top" constant="32" id="cV2-vI-FKp"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="top" secondItem="xe7-WI-bCr" secondAttribute="top" constant="172" id="daW-0P-eh0"/>
+                            <constraint firstItem="GMf-me-GWy" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="gos-Ao-2rd"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="miR-Q6-5KH"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="giO-oa-e8W" secondAttribute="trailing" constant="23" id="oMc-d6-Z8k"/>
+                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="Af7-MW-Tq3" secondAttribute="trailing" constant="111" id="pgS-9t-3UI"/>
+                            <constraint firstItem="SRm-s3-iB0" firstAttribute="top" secondItem="giO-oa-e8W" secondAttribute="bottom" id="vxq-hp-4X3"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="trailing" secondItem="HXQ-TO-cIJ" secondAttribute="trailing" id="yTR-ds-dEc"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="nfz-e6-cll"/>
                     </view>
                     <connections>
-                        <outlet property="profileInfoLabel" destination="giO-oa-e8W" id="p9h-JG-q0K"/>
+                        <outlet property="emailLabel" destination="GMf-me-GWy" id="pfO-ej-iJQ"/>
+                        <outlet property="firstGenreLabel" destination="HXQ-TO-cIJ" id="Ks2-6m-BYa"/>
+                        <outlet property="fullNameLabel" destination="SRm-s3-iB0" id="8pf-Qh-89R"/>
+                        <outlet property="secondGenreLabel" destination="Af7-MW-Tq3" id="XaM-aL-6Qc"/>
+                        <outlet property="thirdGenreLabel" destination="gSw-mr-ev7" id="Suw-dY-ymr"/>
+                        <outlet property="usernameLabel" destination="giO-oa-e8W" id="mgo-Io-ROc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aaL-fS-Nwp" userLabel="First Responder" sceneMemberID="firstResponder"/>

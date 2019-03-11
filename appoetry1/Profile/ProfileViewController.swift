@@ -13,15 +13,24 @@ class ProfileViewController: UIViewController {
     
     var viewModel: ProfileViewModel?
     let createPostButton = UIButton(type: .system)
-    @IBOutlet weak var profileInfoLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var fullNameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var firstGenreLabel: UILabel!
+    @IBOutlet weak var secondGenreLabel: UILabel!
+    @IBOutlet weak var thirdGenreLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
-        profileInfoLabel.text = viewModel?.username
-    
-//        viewModel?.sendProfileInfo(username: profileInfoLabel.text)
+        
+        usernameLabel.text = viewModel?.username
+        fullNameLabel.text = viewModel?.fullName
+        emailLabel.text = viewModel?.email
+        firstGenreLabel.text = viewModel?.firstGenre
+        secondGenreLabel.text = viewModel?.secondGenre
+        thirdGenreLabel.text = viewModel?.thirdGenre
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
