@@ -19,10 +19,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var firstGenreLabel: UILabel!
     @IBOutlet weak var secondGenreLabel: UILabel!
     @IBOutlet weak var thirdGenreLabel: UILabel!
+    @IBOutlet weak var favouriteGenresLabel: UILabel!
+    @IBOutlet weak var firstNumberLabel: UILabel!
+    @IBOutlet weak var secondNumberLabel: UILabel!
+    @IBOutlet weak var thirdNumberLabel: UILabel!
+    
     @IBOutlet weak var profilePicture: UIImageView!
+    
+    let picker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        picker.delegate = self
+        picker.allowsEditing = true
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         
@@ -30,29 +40,40 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         profilePicture.isUserInteractionEnabled = true
   
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.usernameLabel.text = self.viewModel?.username
             self.fullNameLabel.text = self.viewModel?.fullName
             self.emailLabel.text = self.viewModel?.email
             self.firstGenreLabel.text = self.viewModel?.firstGenre
             self.secondGenreLabel.text = self.viewModel?.secondGenre
             self.thirdGenreLabel.text = self.viewModel?.thirdGenre
+            self.favouriteGenresLabel.text = "Favourite genres:"
+            self.firstNumberLabel.text = "1."
+            self.secondNumberLabel.text = "2."
+            self.thirdNumberLabel.text = "3."
         }
     }
     
     @objc func handleSelectProfileImageView() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
     }
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        var selectedImageFromPicker: UIImage?
+        
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            selectedImageFromPicker = editedImage
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            selectedImageFromPicker = originalImage
+        }
+
+        if let selectedImage = selectedImageFromPicker {
+            profilePicture.image = selectedImage
+        }
+        dismiss(animated: true, completion: nil)
     }
-        
-    
-    
+ 
     @objc func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
     }
