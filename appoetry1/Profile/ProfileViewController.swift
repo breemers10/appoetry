@@ -9,7 +9,7 @@
 import UIKit
 
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var viewModel: ProfileViewModel?
     let createPostButton = UIButton(type: .system)
@@ -19,11 +19,16 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var firstGenreLabel: UILabel!
     @IBOutlet weak var secondGenreLabel: UILabel!
     @IBOutlet weak var thirdGenreLabel: UILabel!
+    @IBOutlet weak var profilePicture: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
+        
+        profilePicture.image = UIImage(named: "user-default")
+        profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
+        profilePicture.isUserInteractionEnabled = true
   
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.usernameLabel.text = self.viewModel?.username
@@ -34,6 +39,19 @@ class ProfileViewController: UIViewController {
             self.thirdGenreLabel.text = self.viewModel?.thirdGenre
         }
     }
+    
+    @objc func handleSelectProfileImageView() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        present(picker, animated: true, completion: nil)
+    }
+    
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+    }
+        
+    
     
     @objc func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
