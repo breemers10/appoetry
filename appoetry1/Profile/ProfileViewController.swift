@@ -37,6 +37,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         addingTargetToCreatePostVC()
         
         profilePicture.image = UIImage(named: "user-default")
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
+        profilePicture.clipsToBounds = true
         profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         profilePicture.isUserInteractionEnabled = true
   
@@ -83,7 +85,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     private func setupNavigationBarItems() {
-                
         createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
@@ -93,7 +94,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
-        
     }
 }
 
