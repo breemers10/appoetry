@@ -63,38 +63,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giO-oa-e8W" userLabel="Username Label">
-                                <rect key="frame" x="137" y="52" width="215" height="26"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRm-s3-iB0">
-                                <rect key="frame" x="137" y="86" width="215" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRm-s3-iB0">
+                                <rect key="frame" x="187.5" y="86" width="0.0" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="jf9-tm-HTO"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXQ-TO-cIJ">
-                                <rect key="frame" x="137" y="139" width="127" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-me-GWy">
+                                <rect key="frame" x="187.5" y="115" width="0.0" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="muy-4t-c27"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af7-MW-Tq3">
-                                <rect key="frame" x="137" y="162" width="127" height="19"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giO-oa-e8W" userLabel="Username Label">
+                                <rect key="frame" x="187.5" y="52" width="0.0" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="Ilx-zk-nPt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXQ-TO-cIJ">
+                                <rect key="frame" x="187.5" y="139" width="0.0" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="tbb-VH-rUw"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSw-mr-ev7">
-                                <rect key="frame" x="137" y="186" width="127" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af7-MW-Tq3">
+                                <rect key="frame" x="187.5" y="162" width="0.0" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="hns-iZ-mUK"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-me-GWy">
-                                <rect key="frame" x="137" y="115" width="215" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSw-mr-ev7">
+                                <rect key="frame" x="187.5" y="186" width="0.0" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="sH8-Lb-tUM"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -102,25 +120,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="HXQ-TO-cIJ" secondAttribute="trailing" constant="111" id="7hd-3z-T3M"/>
                             <constraint firstItem="GMf-me-GWy" firstAttribute="top" secondItem="SRm-s3-iB0" secondAttribute="bottom" constant="8" symbolic="YES" id="8fl-cg-qvI"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="giO-oa-e8W" secondAttribute="trailing" constant="23" id="94X-6P-Clh"/>
                             <constraint firstItem="Af7-MW-Tq3" firstAttribute="top" secondItem="HXQ-TO-cIJ" secondAttribute="bottom" constant="7" id="9Zi-1b-mEH"/>
                             <constraint firstItem="giO-oa-e8W" firstAttribute="top" secondItem="nfz-e6-cll" secondAttribute="top" constant="32" id="ArH-qF-VvK"/>
                             <constraint firstItem="gSw-mr-ev7" firstAttribute="top" secondItem="Af7-MW-Tq3" secondAttribute="bottom" constant="5" id="Bwv-cu-o4t"/>
-                            <constraint firstItem="gSw-mr-ev7" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="HVt-NU-mh3"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="GMf-me-GWy" secondAttribute="trailing" constant="23" id="K5A-MV-g2G"/>
+                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="centerX" secondItem="HXQ-TO-cIJ" secondAttribute="centerX" id="Ed0-Oj-cDj"/>
+                            <constraint firstItem="HXQ-TO-cIJ" firstAttribute="centerX" secondItem="GMf-me-GWy" secondAttribute="centerX" id="H6C-Aj-dtT"/>
                             <constraint firstItem="HXQ-TO-cIJ" firstAttribute="top" secondItem="GMf-me-GWy" secondAttribute="bottom" constant="8" id="Kv9-Ct-3Y8"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="bottom" secondItem="gSw-mr-ev7" secondAttribute="bottom" constant="465" id="LjG-N6-VJm"/>
                             <constraint firstItem="SRm-s3-iB0" firstAttribute="top" secondItem="giO-oa-e8W" secondAttribute="bottom" constant="8" symbolic="YES" id="Mwy-6b-bhb"/>
-                            <constraint firstItem="giO-oa-e8W" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="Okg-le-MHw"/>
-                            <constraint firstItem="SRm-s3-iB0" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="Tv5-PJ-78G"/>
-                            <constraint firstItem="HXQ-TO-cIJ" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="f5T-xy-3YG"/>
-                            <constraint firstItem="Af7-MW-Tq3" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="fSi-wN-73c"/>
-                            <constraint firstItem="GMf-me-GWy" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="137" id="igK-wf-4V8"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="SRm-s3-iB0" secondAttribute="trailing" constant="23" id="q8O-Cj-vte"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="Af7-MW-Tq3" secondAttribute="trailing" constant="111" id="rDc-eT-NUS"/>
-                            <constraint firstItem="nfz-e6-cll" firstAttribute="trailing" secondItem="gSw-mr-ev7" secondAttribute="trailing" constant="111" id="tg0-9l-moh"/>
+                            <constraint firstItem="gSw-mr-ev7" firstAttribute="centerX" secondItem="Af7-MW-Tq3" secondAttribute="centerX" id="Nv2-e4-UgQ"/>
+                            <constraint firstItem="SRm-s3-iB0" firstAttribute="centerX" secondItem="nfz-e6-cll" secondAttribute="centerX" id="o4E-2G-JEA"/>
+                            <constraint firstItem="giO-oa-e8W" firstAttribute="centerX" secondItem="nfz-e6-cll" secondAttribute="centerX" id="qNV-dc-4ar"/>
+                            <constraint firstItem="GMf-me-GWy" firstAttribute="centerX" secondItem="nfz-e6-cll" secondAttribute="centerX" id="wdV-7o-aGo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nfz-e6-cll"/>
                     </view>

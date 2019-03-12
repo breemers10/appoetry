@@ -24,13 +24,15 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
-        
-        usernameLabel.text = viewModel?.username
-        fullNameLabel.text = viewModel?.fullName
-        emailLabel.text = viewModel?.email
-        firstGenreLabel.text = viewModel?.firstGenre
-        secondGenreLabel.text = viewModel?.secondGenre
-        thirdGenreLabel.text = viewModel?.thirdGenre
+  
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.usernameLabel.text = self.viewModel?.username
+            self.fullNameLabel.text = self.viewModel?.fullName
+            self.emailLabel.text = self.viewModel?.email
+            self.firstGenreLabel.text = self.viewModel?.firstGenre
+            self.secondGenreLabel.text = self.viewModel?.secondGenre
+            self.thirdGenreLabel.text = self.viewModel?.thirdGenre
+        }
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {

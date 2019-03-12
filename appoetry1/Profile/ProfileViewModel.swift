@@ -36,7 +36,6 @@ class ProfileViewModel: NSObject {
             self.firstGenre = usersObject?["firstGenre"] as? String
             self.secondGenre = usersObject?["secondGenre"] as? String
             self.thirdGenre = usersObject?["thirdGenre"] as? String
-
         })
     }
     

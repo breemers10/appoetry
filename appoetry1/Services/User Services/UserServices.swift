@@ -23,7 +23,7 @@ protocol PUserService {
 class UserService: PUserService {
     
     var user: User?
-    
+
     func loginWithEmailAndPassword(with email: String, with password: String, with completionHandler: @escaping ((User?, String?) -> Void)) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             guard error == nil else {

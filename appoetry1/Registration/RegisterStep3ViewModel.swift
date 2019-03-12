@@ -54,7 +54,6 @@ class RegisterStep3ViewModel {
         MySharedInstance.instance.userRegister.firstGenre = firstGenre
         MySharedInstance.instance.userRegister.secondGenre = secondGenre
         MySharedInstance.instance.userRegister.thirdGenre = thirdGenre
-
     }
     
     func toMainScreen() {
