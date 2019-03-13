@@ -31,3 +31,8 @@ struct UserRegister {
         ]
     }
 }
+struct UserInfo {
+    var fullName: String?
+    var username: String?
+    var userID: String?
+}
