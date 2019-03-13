@@ -8,6 +8,7 @@ target 'appoetry1' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Kingfisher', '~> 5.0'
+  pod 'Firebase/Storage'
 end
 target 'appoetry1Tests' do
   pod 'Firebase'
@@ -15,4 +16,5 @@ target 'appoetry1Tests' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Kingfisher', '~> 5.0'
+  pod 'Firebase/Storage'
 end

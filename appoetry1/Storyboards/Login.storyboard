@@ -39,7 +39,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ca8-9M-rhi">
-                                <rect key="frame" x="150" y="281" width="74" height="64"/>
+                                <rect key="frame" x="150" y="281" width="74" height="35"/>
                                 <color key="backgroundColor" red="0.76636213060000002" green="0.83528548479999998" blue="0.65743744370000001" alpha="0.18723244859999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <state key="normal" title="Log in">
@@ -81,7 +81,6 @@
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="yk9-LU-muG" secondAttribute="trailing" constant="131" id="YvV-X2-IEr"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="24i-ps-1D6" secondAttribute="trailing" constant="107" id="aGX-7D-hCp"/>
                             <constraint firstItem="24i-ps-1D6" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="107" id="aWd-bd-KzM"/>
-                            <constraint firstItem="yk9-LU-muG" firstAttribute="top" secondItem="ca8-9M-rhi" secondAttribute="bottom" constant="15" id="au3-PF-QqK"/>
                             <constraint firstItem="yk9-LU-muG" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="130" id="jFP-bB-D8J"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="SdJ-2P-aFf" secondAttribute="trailing" constant="131" id="lZ1-U5-mHj"/>
                             <constraint firstItem="00b-Ho-xmK" firstAttribute="top" secondItem="24i-ps-1D6" secondAttribute="bottom" constant="8" id="n2B-8A-0vI"/>

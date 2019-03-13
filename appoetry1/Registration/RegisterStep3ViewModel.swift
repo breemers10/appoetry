@@ -68,6 +68,7 @@ class RegisterStep3ViewModel {
             guard error == nil else { return }
             guard let id = Auth.auth().currentUser?.uid else { return }
             MySharedInstance.instance.ref.child("users").child(id).setValue(MySharedInstance.instance.userRegister.sendData())
+            
             self.onMainScreen?()
         }
     }
