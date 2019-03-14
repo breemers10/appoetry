@@ -43,10 +43,10 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @IBAction func postButtonPressed(_ sender: Any) {
+        AppDelegate.instance().showActivityIndicator()
+        
         let uid = Auth.auth().currentUser!.uid
-        
-        
-    MySharedInstance.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
+        MySharedInstance.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
         if snapshot.key == "username" {
             self.username = snapshot.value as? String
         }
@@ -62,6 +62,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
             if error != nil {
                 print(error!.localizedDescription)
+                AppDelegate.instance().dismissActivityIndicator()
                 return
             }
             
@@ -76,6 +77,8 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                     let postFeed = ["\(String(describing: key))" : feed]
                     
                     MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
+                    AppDelegate.instance().dismissActivityIndicator()
+
                     
                     self.dismiss(animated: true, completion: nil)
                 }
