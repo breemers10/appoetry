@@ -13,9 +13,9 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var selectPhotoButton: UIButton!
     @IBOutlet weak var textView: UITextView!
-    
     @IBOutlet weak var previewImage: UIImageView!
     
+    var viewModel: CreatePostViewModel?
     var picker = UIImagePickerController()
     var user: [UserInfo] = []
     var username: String?
@@ -43,15 +43,16 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @IBAction func postButtonPressed(_ sender: Any) {
+        
         AppDelegate.instance().showActivityIndicator()
         
         let uid = Auth.auth().currentUser!.uid
         MySharedInstance.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
-        if snapshot.key == "username" {
-            self.username = snapshot.value as? String
-        }
-
+            if snapshot.key == "username" {
+                self.username = snapshot.value as? String
+            }
         })
+        
         let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
@@ -77,10 +78,9 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                     let postFeed = ["\(String(describing: key))" : feed]
                     
                     MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
-                    AppDelegate.instance().dismissActivityIndicator()
-
                     
-                    self.dismiss(animated: true, completion: nil)
+                    AppDelegate.instance().dismissActivityIndicator()
+                    self.viewModel?.onMainScreen?()
                 }
             })
         }

@@ -46,7 +46,6 @@ class LoginFlow:  PFlowController {
 
         let regFlow = RegFlow(navCtrllr: regVC)
         
-        
         regFlow.onThirdStepNextTap = { [weak self] in
             self?.onSuccessfullLogin?()
         }

@@ -8,6 +8,10 @@
 
 import UIKit
 
-class CreatePostViewModel: NSObject {
-
+class CreatePostViewModel {
+    var onMainScreen: (() -> Void)?
+    
+    func toMainScreen() {
+        self.onMainScreen?()
+    }
 }

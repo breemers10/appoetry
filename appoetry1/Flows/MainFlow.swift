@@ -12,6 +12,7 @@ class MainFlow: PFlowController {
     
     var onCompletion: (() -> Void)?
     var onMainStart: ((UITabBarController) -> Void)?
+    var onSuccessfullPost: (() -> ())?
     var userService: PUserService
     fileprivate var childFlow: PFlowController?
     private var presenterVC: UITabBarController?
@@ -34,25 +35,52 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromMain() {
         
         guard let createPostVC = createPostViewController else { return }
+        let createPostViewModel = CreatePostViewModel()
+        createPostViewModel.onMainScreen = { [weak self] in
+            self?.mainWrapper?.popViewController(animated: true)
+        }
+        createPostVC.viewModel = createPostViewModel
         mainWrapper?.pushViewController(createPostVC, animated: false)
     }
     
     func moveToCreatePostFromSearch() {
         
         guard let createPostVC = createPostViewController else { return }
+        let createPostViewModel = CreatePostViewModel()
+        createPostViewModel.onMainScreen = { [weak self] in
+            self?.searchWrapper?.popViewController(animated: true)
+        }
+        createPostVC.viewModel = createPostViewModel
+
         searchWrapper?.pushViewController(createPostVC, animated: false)
     }
     
     func moveToCreatePostFromFavourites() {
         
         guard let createPostVC = createPostViewController else { return }
+        let createPostViewModel = CreatePostViewModel()
+        createPostViewModel.onMainScreen = { [weak self] in
+            self?.favouritesWrapper?.popViewController(animated: true)
+        }
+        createPostVC.viewModel = createPostViewModel
+
         favouritesWrapper?.pushViewController(createPostVC, animated: false)
     }
     
     func moveToCreatePostFromProfile() {
         
         guard let createPostVC = createPostViewController else { return }
+        let createPostViewModel = CreatePostViewModel()
+        createPostViewModel.onMainScreen = { [weak self] in
+            self?.profileWrapper?.popViewController(animated: true)
+        }
+        createPostVC.viewModel = createPostViewModel
+
         profileWrapper?.pushViewController(createPostVC, animated: false)
+    }
+    
+    func moveToMainScreen() {
+        
     }
     
     private func setupTabBar() {
@@ -102,6 +130,16 @@ class MainFlow: PFlowController {
         profile.tabBarItem.title = "My Profile"
 
         presenterVC?.viewControllers = [mw, sw, fw, pw]
+        }
+    
+   private func postCreated() {
+        
+        guard let createPostVC = createPostViewController else { return }
+        let createPostViewModel = CreatePostViewModel()
+        createPostViewModel.onMainScreen = { [weak self] in
+            self?.moveToMainScreen()
+        }
+        createPostVC.viewModel = createPostViewModel
     }
 }
 extension MainFlow {
