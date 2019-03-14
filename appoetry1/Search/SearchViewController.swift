@@ -84,8 +84,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
             if !isFollower {
-                let following = ["following/\(key)" : self.user[indexPath.row].userID]
-                let followers = ["followers/\(key)" : uid]
+                let following = ["following/\(String(describing: key))" : self.user[indexPath.row].userID]
+                let followers = ["followers/\(String(describing: key))" : uid]
                 
                 MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
                 MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).updateChildValues(followers)
@@ -101,7 +101,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
                 for (_, value) in following {
-                    if value as! String == self.user[indexPath.row].userID {
+                    if value as? String == self.user[indexPath.row].userID {
                         self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
                     }
                 }

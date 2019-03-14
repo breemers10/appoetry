@@ -17,6 +17,8 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var previewImage: UIImageView!
     
     var picker = UIImagePickerController()
+    var user: [UserInfo] = []
+    var username: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,10 +44,18 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     
     @IBAction func postButtonPressed(_ sender: Any) {
         let uid = Auth.auth().currentUser!.uid
+        
+        
+    MySharedInstance.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
+        if snapshot.key == "username" {
+            self.username = snapshot.value as? String
+        }
+
+        })
         let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
-        let imageRef = storage.child("posts").child(uid).child("\(key).jpg")
+        let imageRef = storage.child("posts").child(uid).child("\(String(describing: key)).jpg")
         
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
         
@@ -61,9 +71,9 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                                 "poem" : self.textView.text,
                                 "pathToImage" : url.absoluteString,
                                 "favourites" : 0,
-                                "author" : Auth.auth().currentUser?.displayName,
-                                "postID" : key ] as [String : Any]
-                    let postFeed = ["\(key)" : feed]
+                                "author" : self.username!,
+                                "postID" : key! ] as [String : Any]
+                    let postFeed = ["\(String(describing: key))" : feed]
                     
                     MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
                     
