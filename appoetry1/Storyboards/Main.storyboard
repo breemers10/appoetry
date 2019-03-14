@@ -281,13 +281,38 @@
                     <view key="view" contentMode="scaleToFill" id="8vw-hJ-rWi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kE3-qj-bRa">
+                                <rect key="frame" x="151" y="566" width="73" height="38"/>
+                                <color key="backgroundColor" red="0.76636213064193726" green="0.835285484790802" blue="0.65743744373321533" alpha="0.18723244859999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                <state key="normal" title="Post">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="UIr-oq-tmo">
+                                <rect key="frame" x="61" y="55" width="253" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5Te-iE-cLI" firstAttribute="trailing" secondItem="UIr-oq-tmo" secondAttribute="trailing" constant="61" id="3MN-QM-QuJ"/>
+                            <constraint firstItem="kE3-qj-bRa" firstAttribute="top" secondItem="UIr-oq-tmo" secondAttribute="bottom" constant="50" id="Sm4-Ea-PS9"/>
+                            <constraint firstItem="5Te-iE-cLI" firstAttribute="bottom" secondItem="kE3-qj-bRa" secondAttribute="bottom" constant="63" id="dnv-XR-9MV"/>
+                            <constraint firstItem="UIr-oq-tmo" firstAttribute="leading" secondItem="5Te-iE-cLI" secondAttribute="leading" constant="61" id="kCU-gU-6Uh"/>
+                            <constraint firstItem="kE3-qj-bRa" firstAttribute="leading" secondItem="5Te-iE-cLI" secondAttribute="leading" constant="151" id="kMD-03-xZF"/>
+                            <constraint firstItem="5Te-iE-cLI" firstAttribute="trailing" secondItem="kE3-qj-bRa" secondAttribute="trailing" constant="151" id="nk5-Wh-6rd"/>
+                            <constraint firstItem="UIr-oq-tmo" firstAttribute="top" secondItem="5Te-iE-cLI" secondAttribute="top" constant="35" id="s7N-VQ-g39"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="5Te-iE-cLI"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oLz-CD-VMb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-94" y="-1011"/>
+            <point key="canvasLocation" x="-95.200000000000003" y="-1011.544227886057"/>
         </scene>
     </scenes>
 </document>
