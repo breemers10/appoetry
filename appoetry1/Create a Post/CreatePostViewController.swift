@@ -7,12 +7,71 @@
 //
 
 import UIKit
+import Firebase
 
-class CreatePostViewController: UIViewController {
+class CreatePostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var selectPhotoButton: UIButton!
+    @IBOutlet weak var textView: UITextView!
+    
+    @IBOutlet weak var previewImage: UIImageView!
+    
+    var picker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        picker.delegate = self
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            self.previewImage.image = image
+            selectPhotoButton.isHidden = true
+            postButton.isHidden = false
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func selectPhotoButtonPressed(_ sender: Any) {
+        picker.allowsEditing = true
+        picker.sourceType = .photoLibrary
+        
+        self.present(picker, animated: true, completion: nil)
+    }
+    
+    @IBAction func postButtonPressed(_ sender: Any) {
+        let uid = Auth.auth().currentUser!.uid
+        let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
+        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
+        
+        let imageRef = storage.child("posts").child(uid).child("\(key).jpg")
+        
+        let data = previewImage.image!.jpegData(compressionQuality: 0.6)
+        
+        let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (url, error) in
+                if let url = url {
+                    let feed = ["userID" : uid,
+                                "poem" : self.textView.text,
+                                "pathToImage" : url.absoluteString,
+                                "favourites" : 0,
+                                "author" : Auth.auth().currentUser?.displayName,
+                                "postID" : key ] as [String : Any]
+                    let postFeed = ["\(key)" : feed]
+                    
+                    MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
+                    
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+        }
+        uploadTask.resume()
     }
 }
 
