@@ -57,6 +57,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             cell.usernameLabel.text = self.user[indexPath.row].username
             cell.fullNameLabel.text = self.user[indexPath.row].fullName
+            
+            self.checkFollowing(indexPath: indexPath)
         }
         
         return cell
@@ -87,10 +89,25 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
                 MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).updateChildValues(followers)
+                
+                self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             }
         })
         MySharedInstance.instance.ref.removeAllObservers()
-        
+    }
+    
+    func checkFollowing(indexPath: IndexPath) {
+        let uid = Auth.auth().currentUser!.uid
+        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let following = snapshot.value as? [String : AnyObject] {
+                for (_, value) in following {
+                    if value as! String == self.user[indexPath.row].userID {
+                        self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+                    }
+                }
+            }
+        })
+        MySharedInstance.instance.ref.removeAllObservers()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
