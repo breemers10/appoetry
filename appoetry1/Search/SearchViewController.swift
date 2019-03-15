@@ -18,6 +18,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var user: [UserInfo] = []
     var username: String?
     var fullName: String?
+    var imageUrl: String?
     var userID: String?
     
     
@@ -37,8 +38,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let usersObject = snapshot.value as? NSDictionary
             self.username = usersObject?["username"] as? String
             self.fullName = usersObject?["fullName"] as? String
+            self.imageUrl = usersObject?["imageUrl"] as? String
             self.userID = snapshot.key
-            self.user.append(UserInfo(fullName: self.fullName, username: self.username, userID: self.userID))
+            self.user.append(UserInfo(fullName: self.fullName, username: self.username, userID: self.userID, imageUrl: self.imageUrl))
             
             self.tableView.reloadData()
         })
@@ -57,6 +59,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             cell.usernameLabel.text = self.user[indexPath.row].username
             cell.fullNameLabel.text = self.user[indexPath.row].fullName
+            cell.userImage.downloadImage(from: self.user[indexPath.row].imageUrl)
             
             self.checkFollowing(indexPath: indexPath)
         }
@@ -133,6 +136,25 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
+    }
+}
+
+extension UIImageView {
+    func downloadImage(from imgURL: String!) {
+        let url = URLRequest(url: URL(string: imgURL)!)
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if error != nil {
+                print(error!)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.image = UIImage(data: data!)
+            }
+        }
+        task.resume()
     }
 }
 
