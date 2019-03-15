@@ -25,7 +25,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewDidLoad()
         
         picker.delegate = self
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -100,15 +99,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                         print(err!.localizedDescription)
                     }
                     if let url = url {
-//                        let userInfo = ["userID" : uid,
-//                                    "imageUrl" : url.absoluteString
-//                        ]
-//                        MySharedInstance.instance.ref.child("users").child(uid).setValue(userInfo)
-                        
+
                         self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
 
                         self.viewModel?.secondStep()
-
                     }
                 })
             }
