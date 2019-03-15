@@ -29,6 +29,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
+        
+        
     }
     
     func retrieveUsers() {
@@ -60,6 +62,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.usernameLabel.text = self.user[indexPath.row].username
             cell.fullNameLabel.text = self.user[indexPath.row].fullName
             cell.userImage.downloadImage(from: self.user[indexPath.row].imageUrl)
+            
+            cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
+            cell.userImage.clipsToBounds = true
             
             self.checkFollowing(indexPath: indexPath)
         }

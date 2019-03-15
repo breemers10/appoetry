@@ -36,7 +36,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         
-        profilePicture.image = UIImage(named: "user-default")
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
         profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
@@ -53,6 +52,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.firstNumberLabel.text = "1."
             self.secondNumberLabel.text = "2."
             self.thirdNumberLabel.text = "3."
+            self.profilePicture.downloadImage(from: self.viewModel?.imageUrl)
         }
     }
     
@@ -96,6 +96,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         navigationItem.title = "Appoetry"
     }
 }
+
 
 extension ProfileViewController: ClassName {
     static var className: String {
