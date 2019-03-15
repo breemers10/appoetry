@@ -40,10 +40,6 @@ struct UserInfo {
     var imageUrl: String?
 }
 
-struct PostInfo {
-    var username: String?
-    var userID: String?
-    var pathToImage: String?
-    var postID: String?
-    var favourites: String?
-}
+//struct PostInfo {
+//
+//}
