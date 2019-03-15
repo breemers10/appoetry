@@ -11,6 +11,7 @@ import Firebase
 
 class ProfileViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
+    var onSignOutTap: (() -> Void)?
     
     var username: String?
     var email: String?
@@ -42,5 +43,9 @@ class ProfileViewModel: NSObject {
     
     func createPost() {
         onCreatePostTap?()
+    }
+    
+    func signOut() {
+        onSignOutTap?()
     }
 }

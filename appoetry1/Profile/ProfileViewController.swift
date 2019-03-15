@@ -13,6 +13,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var viewModel: ProfileViewModel?
     let createPostButton = UIButton(type: .system)
+    let signOutButton = UIButton(type: .system)
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -35,6 +36,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         picker.allowsEditing = true
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
+        addingTargetToSignOut()
         
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
@@ -84,11 +86,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
     }
     
+    @objc func signOutButtonPressed(sender: UIButton) {
+        viewModel?.signOut()
+    }
+    
+    private func addingTargetToSignOut() {
+        signOutButton.addTarget(self, action: #selector(self.signOutButtonPressed(sender:)), for: .touchUpInside)
+    }
+    
     private func setupNavigationBarItems() {
         createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
+        signOutButton.setTitle("Sign out", for: .normal)
+        signOutButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: signOutButton)
         
         let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
         

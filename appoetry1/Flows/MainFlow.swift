@@ -11,6 +11,7 @@ import UIKit
 class MainFlow: PFlowController {
     
     var onCompletion: (() -> Void)?
+    var onSignOutCompletion: (() -> Void)?
     var onMainStart: ((UITabBarController) -> Void)?
     var onSuccessfullPost: (() -> ())?
     var userService: PUserService
@@ -83,6 +84,10 @@ class MainFlow: PFlowController {
         
     }
     
+    func moveToLogin() {
+        
+    }
+    
     private func setupTabBar() {
         presenterVC = UITabBarController()
         guard let main = mainViewController else { return }
@@ -123,6 +128,7 @@ class MainFlow: PFlowController {
         profileViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromProfile()
         }
+        
         profile.viewModel = profileViewModel
         profileWrapper = UINavigationController(rootViewController: profile)
         guard let pw = profileWrapper else { return }
@@ -140,6 +146,15 @@ class MainFlow: PFlowController {
             self?.moveToMainScreen()
         }
         createPostVC.viewModel = createPostViewModel
+    }
+    private func signOut() {
+        
+        guard let profileVC = profileViewController else { return }
+        let profileViewModel = ProfileViewModel()
+        profileViewModel.onSignOutTap = { [weak self] in
+            self?.moveToLogin()
+        }
+        profileVC.viewModel = profileViewModel
     }
 }
 extension MainFlow {
