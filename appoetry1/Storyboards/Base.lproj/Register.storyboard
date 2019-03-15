@@ -211,7 +211,6 @@
                         <viewLayoutGuide key="safeArea" id="fGl-Pn-Vu8"/>
                     </view>
                     <connections>
-                        <outlet property="chooseProfilePicture" destination="qo8-ZB-JwO" id="ndb-vz-3Te"/>
                         <outlet property="dateOfBirth" destination="Ff6-2o-1Vt" id="DZx-dg-xEQ"/>
                         <outlet property="fullName" destination="IWD-nJ-afO" id="pDp-kH-Xn8"/>
                         <outlet property="username" destination="8ZS-QM-XIc" id="8km-Q9-NsA"/>

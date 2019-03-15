@@ -18,6 +18,7 @@ struct UserRegister {
     var secondGenre: String?
     var thirdGenre: String?
     var dateOfBirth: String?
+    var imageUrl: String?
     
     func sendData() -> Any {
         return [
@@ -27,7 +28,8 @@ struct UserRegister {
             "secondGenre": secondGenre,
             "thirdGenre": thirdGenre,
             "dateOfBirth": dateOfBirth,
-            "email": email
+            "email": email,
+            "imageUrl" : imageUrl
         ]
     }
 }

@@ -27,11 +27,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         picker.delegate = self
         
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             self.imageView.image = image
             uploadButton.isHidden = true
-//            nextButton.isHidden = false
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -79,12 +79,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                 let email = registerEmail.text,
                 let password = registerPassword.text
                 else { return }
-            viewModel?.addCredentials(email: email, password: password)
             
             let uid = Auth.auth().currentUser!.uid
-            
-//            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-            
             
             let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
             let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
@@ -104,11 +100,13 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                         print(err!.localizedDescription)
                     }
                     if let url = url {
-                        let userInfo = ["userID" : uid,
-                                    "imageUrl" : url.absoluteString
-                        ]
-                        MySharedInstance.instance.ref.child("users").child(uid).setValue(userInfo)
+//                        let userInfo = ["userID" : uid,
+//                                    "imageUrl" : url.absoluteString
+//                        ]
+//                        MySharedInstance.instance.ref.child("users").child(uid).setValue(userInfo)
                         
+                        self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
+
                         self.viewModel?.secondStep()
 
                     }

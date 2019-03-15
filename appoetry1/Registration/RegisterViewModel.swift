@@ -13,9 +13,10 @@ class RegisterViewModel {
     var onFirstStepCompletion: (() -> Void)?
     var onLogin: (() -> Void)?
     
-    func addCredentials(email: String, password: String) {
+    func addCredentials(email: String, password: String, imageUrl: String) {
         MySharedInstance.instance.userRegister.email = email
         MySharedInstance.instance.userRegister.password = password
+        MySharedInstance.instance.userRegister.imageUrl = imageUrl
     }
     
     func secondStep() {
