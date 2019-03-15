@@ -8,15 +8,18 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var viewModel: MainViewModel?
     let createPostButton = UIButton(type: .system)
+    var posts = [PostInfo]()
     
+    @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
+        
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
@@ -38,6 +41,18 @@ class MainViewController: UIViewController {
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.posts.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
+        
+        return cell
     }
 }
 
