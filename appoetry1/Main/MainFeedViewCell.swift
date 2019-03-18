@@ -25,7 +25,7 @@ class MainFeedViewCell: UICollectionViewCell {
         let keyToPost = MySharedInstance.instance.ref.child("posts").childByAutoId().key!
         
         MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let post = snapshot.value as? [String: AnyObject] {
+            if let _ = snapshot.value as? [String: AnyObject] {
                 let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : Auth.auth().currentUser!.uid]
                 MySharedInstance.instance.ref.child("posts").child(self.postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
                     if error == nil {
@@ -81,12 +81,10 @@ class MainFeedViewCell: UICollectionViewCell {
                             self.unfavouriteButton.isHidden = true
                             self.unfavouriteButton.isEnabled = true
                             break
-                            
                         }
                     }
                 }
             }
         })
-        
     }
 }

@@ -28,7 +28,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         fetchPosts()
     }
     
-    
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         
@@ -45,7 +44,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
             self.following.append(Auth.auth().currentUser!.uid)
             AppDelegate.instance().dismissActivityIndicator()
-
         })
         
         MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in

@@ -21,7 +21,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var imageUrl: String?
     var userID: String?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
