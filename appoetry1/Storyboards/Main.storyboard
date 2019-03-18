@@ -308,14 +308,14 @@
                                                     <rect key="frame" x="53" y="461" width="34" height="35"/>
                                                     <state key="normal" image="outline-star-32"/>
                                                     <connections>
-                                                        <action selector="favouriteBttnPressed:" destination="7Rp-LH-Emi" eventType="touchUpInside" id="4Di-dM-fQG"/>
+                                                        <action selector="favouriteButtonPressed:" destination="7Rp-LH-Emi" eventType="touchUpInside" id="zWb-SR-8TE"/>
                                                     </connections>
                                                 </button>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HV7-LQ-NEd">
                                                     <rect key="frame" x="54" y="461" width="32" height="35"/>
                                                     <state key="normal" image="star-8-32"/>
                                                     <connections>
-                                                        <action selector="unfavouriteBttnPressed:" destination="7Rp-LH-Emi" eventType="touchUpInside" id="CYT-aU-ML0"/>
+                                                        <action selector="unfavouriteButtonPressed:" destination="7Rp-LH-Emi" eventType="touchUpInside" id="Laz-CO-HDd"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -354,7 +354,6 @@
                                             <outlet property="favouriteButton" destination="imk-a9-lB3" id="M4s-Kd-lxm"/>
                                             <outlet property="favouritesLabel" destination="fRv-Tt-N8B" id="shG-8q-tqH"/>
                                             <outlet property="postImage" destination="h8g-1e-K53" id="YUm-hv-bjf"/>
-                                            <outlet property="postTextView" destination="UAX-4F-lWb" id="yvh-U8-HD6"/>
                                             <outlet property="textView" destination="UAX-4F-lWb" id="mAX-QA-l72"/>
                                             <outlet property="unfavouriteButton" destination="HV7-LQ-NEd" id="yNK-Uo-kow"/>
                                         </connections>
