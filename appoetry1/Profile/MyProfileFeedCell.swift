@@ -1,46 +1,34 @@
 //
-//  MainFeedViewCell.swift
+//  MyProfileFeedCell.swift
 //  appoetry1
 //
-//  Created by Kristaps Brēmers on 15.03.19.
+//  Created by Kristaps Brēmers on 18.03.19.
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-class MainFeedViewCell: UICollectionViewCell {
+class MyProfileFeedCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var postTextView: UITextView!
-    @IBOutlet weak var favouriteButton: UIButton!
-    @IBOutlet weak var unfavouriteButton: UIButton!
+    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favouritesLabel: UILabel!
+    @IBOutlet weak var viewStripe: UIView!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var favouriteButton: UIButton!
+    
+    @IBOutlet weak var unfavouriteButton: UIButton!
     
     var postID: String!
-
     
-    @IBAction func favouriteBttnPressed(_ sender: Any) {
+    @IBAction func favouriteButtonPressed(_ sender: Any) {
         self.favouriteButton.isHidden = false
         let keyToPost = MySharedInstance.instance.ref.child("posts").childByAutoId().key!
-        let keyToUsers = MySharedInstance.instance.ref.child("users").childByAutoId().key!
-        guard let id = Auth.auth().currentUser?.uid else { return }
-
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snap) in
-            if let _ = snap.value as? [String : AnyObject] {
-                let updateFavouritedPosts: [String : Any] = ["favouritedPosts/\(keyToUsers)" : self.postID]
-                MySharedInstance.instance.ref.child("users").child(id).updateChildValues(updateFavouritedPosts, withCompletionBlock: { (error, ref) in
-                    if error == nil {
-                        print("all gucci")
-                    }
-                })
-            }
-        })
         
         MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? [String: AnyObject] {
-                let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : id]
+                let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : Auth.auth().currentUser!.uid]
                 MySharedInstance.instance.ref.child("posts").child(self.postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
                     if error == nil {
                         MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snap) in
@@ -64,29 +52,13 @@ class MainFeedViewCell: UICollectionViewCell {
         })
         MySharedInstance.instance.ref.removeAllObservers()
     }
-    
-    @IBAction func unfavouriteBttnPressed(_ sender: Any) {
+    @IBAction func unfavouriteButtonPressed(_ sender: Any) {
         self.unfavouriteButton.isEnabled = false
-        
-        let keyToUsers = MySharedInstance.instance.ref.child("users").childByAutoId().key!
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snap) in
-            if let _ = snap.value as? [String : AnyObject] {
-//                let updateFavouritedPosts: [String : Any] = ["favouritedPosts/\(keyToUsers)" : self.postID]
-                MySharedInstance.instance.ref.child("users").child(id).child("favouritedPosts").removeValue(completionBlock: { (error, ref) in
-                    if error == nil {
-
-                        print("all gucci")
-                    }
-                })
-            }
-        })
-        
         MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let properties = snapshot.value as? [String : AnyObject] {
                 if let peopleFavourited = properties["peopleFavourited"] as? [String : AnyObject] {
+                    
                     
                     for (id, person) in peopleFavourited {
                         if person as? String == Auth.auth().currentUser!.uid {

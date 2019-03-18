@@ -44,6 +44,8 @@
 		63D60D552229215B000ECAA8 /* UserServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D60D542229215B000ECAA8 /* UserServices.swift */; };
 		63D60D5922295A1C000ECAA8 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D60D5822295A1C000ECAA8 /* Dependencies.swift */; };
 		63D60D5B22295D8B000ECAA8 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D60D5A22295D8B000ECAA8 /* MainViewModel.swift */; };
+		63E4CF14223FD50F00ACF5C2 /* MyProfileFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4CF13223FD50F00ACF5C2 /* MyProfileFeedCell.swift */; };
+		63E4CF16223FEEEE00ACF5C2 /* FavouriteFeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4CF15223FEEEE00ACF5C2 /* FavouriteFeedViewCell.swift */; };
 		63F8575E223277F10096C9FA /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8575D223277F10096C9FA /* FavouritesViewModel.swift */; };
 		63F85760223278190096C9FA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8575F223278190096C9FA /* ProfileViewController.swift */; };
 		63F857622232787C0096C9FA /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F857612232787C0096C9FA /* ProfileViewModel.swift */; };
@@ -107,6 +109,8 @@
 		63D60D542229215B000ECAA8 /* UserServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServices.swift; sourceTree = "<group>"; };
 		63D60D5822295A1C000ECAA8 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		63D60D5A22295D8B000ECAA8 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		63E4CF13223FD50F00ACF5C2 /* MyProfileFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileFeedCell.swift; sourceTree = "<group>"; };
+		63E4CF15223FEEEE00ACF5C2 /* FavouriteFeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteFeedViewCell.swift; sourceTree = "<group>"; };
 		63F8575D223277F10096C9FA /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewModel.swift; sourceTree = "<group>"; };
 		63F8575F223278190096C9FA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		63F857612232787C0096C9FA /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 			children = (
 				63F8575F223278190096C9FA /* ProfileViewController.swift */,
 				63F857612232787C0096C9FA /* ProfileViewModel.swift */,
+				63E4CF13223FD50F00ACF5C2 /* MyProfileFeedCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 			children = (
 				630C737E222FAE6B0020C2FC /* FavouritesViewController.swift */,
 				63F8575D223277F10096C9FA /* FavouritesViewModel.swift */,
+				63E4CF15223FEEEE00ACF5C2 /* FavouriteFeedViewCell.swift */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -572,6 +578,7 @@
 				636A57E62223D8DA0021D197 /* MainViewController.swift in Sources */,
 				63D60D5022280E8C000ECAA8 /* Storyboard.swift in Sources */,
 				6335030D223A9A7F0028608E /* MainFlow.swift in Sources */,
+				63E4CF14223FD50F00ACF5C2 /* MyProfileFeedCell.swift in Sources */,
 				63F857622232787C0096C9FA /* ProfileViewModel.swift in Sources */,
 				63F85760223278190096C9FA /* ProfileViewController.swift in Sources */,
 				63D60D492227CFA3000ECAA8 /* RegisterStep2ViewModel.swift in Sources */,
@@ -598,6 +605,7 @@
 				637BE038222429D200B4E7CC /* RegisterStep2ViewController.swift in Sources */,
 				6318BC232223F0D1003EF60E /* RegisterViewController.swift in Sources */,
 				63AFEE32223BF34900C5068E /* MainFeedViewCell.swift in Sources */,
+				63E4CF16223FEEEE00ACF5C2 /* FavouriteFeedViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

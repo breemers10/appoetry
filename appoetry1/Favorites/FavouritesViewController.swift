@@ -12,6 +12,7 @@ class FavouritesViewController: UIViewController {
     
     var viewModel: FavouritesViewModel?
     let createPostButton = UIButton(type: .system)
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
