@@ -598,6 +598,10 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDu-p4-w86">
+                                <rect key="frame" x="10" y="120" width="355" height="3"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -612,7 +616,10 @@
                             <constraint firstAttribute="trailing" secondItem="nXt-G4-cbL" secondAttribute="trailing" id="GgR-WD-AHA"/>
                             <constraint firstItem="nXt-G4-cbL" firstAttribute="leading" secondItem="xe7-WI-bCr" secondAttribute="leading" id="HUX-oF-S8Y"/>
                             <constraint firstItem="uCb-Do-iWv" firstAttribute="leading" secondItem="SRm-s3-iB0" secondAttribute="trailing" constant="31" id="HqX-dW-LuI"/>
+                            <constraint firstItem="nXt-G4-cbL" firstAttribute="top" secondItem="YDu-p4-w86" secondAttribute="bottom" id="IIl-7p-nqJ"/>
                             <constraint firstItem="D24-4j-BYs" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="23" id="L9r-CZ-28Y"/>
+                            <constraint firstItem="YDu-p4-w86" firstAttribute="top" secondItem="GMf-me-GWy" secondAttribute="bottom" constant="5" id="MbG-dM-OcK"/>
+                            <constraint firstItem="YDu-p4-w86" firstAttribute="centerX" secondItem="nfz-e6-cll" secondAttribute="centerX" id="Ngl-t2-Wmx"/>
                             <constraint firstItem="D24-4j-BYs" firstAttribute="top" secondItem="nfz-e6-cll" secondAttribute="top" constant="32" id="Nt6-IO-pmJ"/>
                             <constraint firstItem="Af7-MW-Tq3" firstAttribute="leading" secondItem="HXQ-TO-cIJ" secondAttribute="leading" id="Qjo-dO-pMX"/>
                             <constraint firstItem="cFT-WI-xob" firstAttribute="leading" secondItem="giO-oa-e8W" secondAttribute="trailing" constant="31" id="WU9-cm-lee"/>
@@ -629,6 +636,7 @@
                             <constraint firstItem="uCb-Do-iWv" firstAttribute="baseline" secondItem="HXQ-TO-cIJ" secondAttribute="baseline" id="oB9-ix-XbC"/>
                             <constraint firstItem="SRm-s3-iB0" firstAttribute="top" secondItem="giO-oa-e8W" secondAttribute="bottom" id="pJC-8M-apU"/>
                             <constraint firstItem="cFT-WI-xob" firstAttribute="top" secondItem="giO-oa-e8W" secondAttribute="top" id="pfT-p7-Zcc"/>
+                            <constraint firstItem="YDu-p4-w86" firstAttribute="leading" secondItem="xe7-WI-bCr" secondAttribute="leadingMargin" constant="-6" id="qBp-xV-dyd"/>
                             <constraint firstItem="GMf-me-GWy" firstAttribute="leading" secondItem="nfz-e6-cll" secondAttribute="leading" constant="95" id="xgd-IV-1Mu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nfz-e6-cll"/>
