@@ -29,8 +29,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
-        
-        
     }
     
     func retrieveUsers() {
@@ -68,7 +66,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             self.checkFollowing(indexPath: indexPath)
         }
-        
         return cell
     }
     

@@ -19,6 +19,7 @@ struct UserRegister {
     var thirdGenre: String?
     var dateOfBirth: String?
     var imageUrl: String?
+    var uid: String?
     
     func sendData() -> Any {
         return [
@@ -40,6 +41,3 @@ struct UserInfo {
     var imageUrl: String?
 }
 
-//struct PostInfo {
-//
-//}

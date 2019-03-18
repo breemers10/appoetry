@@ -22,23 +22,31 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
         fetchPosts()
     }
+  
     
     func fetchPosts() {
+        AppDelegate.instance().showActivityIndicator()
+
+        let uid = Auth.auth().currentUser?.uid
         
-        MySharedInstance.instance.ref.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             let users = snapshot.value as! [String : AnyObject]
             for (_,value) in users {
-                if let uid = value["uid"] as? String {
-                    if uid == Auth.auth().currentUser?.uid {
+//                if let uid = value["uid"] as? String {
+//                    if uid == Auth.auth().currentUser?.uid {
                         if let followingUsers = value["following"] as? [String : String] {
                             for (_,user) in followingUsers {
                                 self.following.append(user)
                             }
                         }
                         self.following.append(Auth.auth().currentUser!.uid)
-                        
+                    AppDelegate.instance().dismissActivityIndicator()
+
                         MySharedInstance.instance.ref.child("posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snap) in
                             let postSnap = snap.value as! [String: AnyObject]
                             
@@ -58,14 +66,17 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                                                 self.posts.append(posst)
                                             }
                                         }
+                                        AppDelegate.instance().dismissActivityIndicator()
+
+                                        self.collectionView.reloadData()
+
                                     }
-                                    self.collectionView.reloadData()
                                 }
                             }
                         })
                     }
-                }
-            }
+//                }
+//            }
         })
        MySharedInstance.instance.ref.removeAllObservers()
     }
@@ -94,17 +105,20 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.posts.count
+        return posts.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
         cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
         cell.authorLabel.text = self.posts[indexPath.row].username
         cell.postTextView.text = self.posts[indexPath.row].poem
         cell.favouritesLabel.text = "\(String(describing:  self.posts[indexPath.row].favourites)) Favourites"
         
+        }
         return cell
     }
 }

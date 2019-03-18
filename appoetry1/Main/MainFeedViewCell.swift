@@ -18,7 +18,10 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var favouritesLabel: UILabel!
     
     @IBAction func favouriteBttnPressed(_ sender: Any) {
+        
     }
+    
     @IBAction func unfavouriteBttnPressed(_ sender: Any) {
+        
     }
 }
