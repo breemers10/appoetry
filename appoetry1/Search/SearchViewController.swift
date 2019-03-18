@@ -35,13 +35,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         guard let id = Auth.auth().currentUser?.uid else { return }
         MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
             guard snapshot.key != id else { return }
+            DispatchQueue.global().async {
             let usersObject = snapshot.value as? NSDictionary
             self.username = usersObject?["username"] as? String
             self.fullName = usersObject?["fullName"] as? String
             self.imageUrl = usersObject?["imageUrl"] as? String
             self.userID = snapshot.key
             self.user.append(UserInfo(fullName: self.fullName, username: self.username, userID: self.userID, imageUrl: self.imageUrl))
-            
+            }
             self.tableView.reloadData()
         })
     }
@@ -56,7 +57,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath) as! SearchUserCell
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        DispatchQueue.main.async {
             cell.usernameLabel.text = self.user[indexPath.row].username
             cell.fullNameLabel.text = self.user[indexPath.row].fullName
             cell.userImage.downloadImage(from: self.user[indexPath.row].imageUrl)
@@ -89,8 +90,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
             if !isFollower {
-                let following = ["following/\(String(describing: key))" : self.user[indexPath.row].userID]
-                let followers = ["followers/\(String(describing: key))" : uid]
+                let following = ["following/\(key!)" : self.user[indexPath.row].userID]
+                let followers = ["followers/\(key!)" : uid]
                 
                 MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
                 MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).updateChildValues(followers)

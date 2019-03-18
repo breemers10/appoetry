@@ -15,4 +15,6 @@ class Post: NSObject {
     var postID: String!
     var favourites: Int!
     var poem: String!
+    
+    var peopleFavourited: [String] = [String]()
 }

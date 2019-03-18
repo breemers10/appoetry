@@ -75,7 +75,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                                 "favourites" : 0,
                                 "author" : self.username!,
                                 "postID" : key! ] as [String : Any]
-                    let postFeed = ["\(String(describing: key))" : feed]
+                    let postFeed = ["\(key!)" : feed]
                     
                     MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
                     

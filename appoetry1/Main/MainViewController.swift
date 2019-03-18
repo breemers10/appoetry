@@ -27,58 +27,58 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         fetchPosts()
     }
-  
+    
     
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
-
+        
         let uid = Auth.auth().currentUser?.uid
         
         MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             let users = snapshot.value as! [String : AnyObject]
-            for (_,value) in users {
-//                if let uid = value["uid"] as? String {
-//                    if uid == Auth.auth().currentUser?.uid {
-                        if let followingUsers = value["following"] as? [String : String] {
-                            for (_,user) in followingUsers {
-                                self.following.append(user)
-                            }
-                        }
-                        self.following.append(Auth.auth().currentUser!.uid)
-                    AppDelegate.instance().dismissActivityIndicator()
+          
+            if let followingUsers = users["following"] as? [String : String] {
+                for (_,user) in followingUsers {
+                    self.following.append(user)
+                }
+            }
+            
+            self.following.append(Auth.auth().currentUser!.uid)
+            AppDelegate.instance().dismissActivityIndicator()
 
-                        MySharedInstance.instance.ref.child("posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snap) in
-                            let postSnap = snap.value as! [String: AnyObject]
-                            
-                            for (_,post) in postSnap {
-                                if let userID = post["userID"] as? String {
-                                    for each in self.following {
-                                        if each == userID {
-                                            let posst = Post()
-                                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String {
-                                                posst.username = author
-                                                posst.favourites = favourites
-                                                posst.pathToImage = pathToImage
-                                                posst.postID = postID
-                                                posst.userID = userID
-                                                posst.poem = poem
-                                                
-                                                self.posts.append(posst)
-                                            }
-                                        }
-                                        AppDelegate.instance().dismissActivityIndicator()
-
-                                        self.collectionView.reloadData()
-
+        })
+        
+        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+            let postSnap = snap.value as! [String: AnyObject]
+            
+            for (_,post) in postSnap {
+                if let userID = post["userID"] as? String {
+                    for each in self.following {
+                        if each == userID {
+                            let posst = Post()
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String {
+                                posst.username = author
+                                posst.favourites = favourites
+                                posst.pathToImage = pathToImage
+                                posst.postID = postID
+                                posst.userID = userID
+                                posst.poem = poem
+                                
+                                if let people = post["peopleFavourited"] as? [String : AnyObject] {
+                                    for (_,person) in people {
+                                        posst.peopleFavourited.append(person as! String)
                                     }
                                 }
+                                self.posts.append(posst)
                             }
-                        })
+                        }
                     }
-//                }
-//            }
+                    AppDelegate.instance().dismissActivityIndicator()
+                    self.collectionView.reloadData()
+                }
+            }
         })
-       MySharedInstance.instance.ref.removeAllObservers()
+        MySharedInstance.instance.ref.removeAllObservers()
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
@@ -93,9 +93,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
- 
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
- 
+        
         let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
@@ -107,17 +107,24 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return self.posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
         cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
         cell.authorLabel.text = self.posts[indexPath.row].username
         cell.postTextView.text = self.posts[indexPath.row].poem
-        cell.favouritesLabel.text = "\(String(describing:  self.posts[indexPath.row].favourites)) Favourites"
+        cell.postTextView.isEditable = false
+        cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
+        cell.postID = self.posts[indexPath.row].postID
         
+        for person in self.posts[indexPath.row].peopleFavourited {
+            if person == Auth.auth().currentUser!.uid {
+                cell.favouriteButton.isHidden = true
+                cell.unfavouriteButton.isHidden = false
+                break
+            }
         }
         return cell
     }
