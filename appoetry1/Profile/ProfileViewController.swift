@@ -96,7 +96,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                                 posst.userID = userID
                                 posst.poem = poem
                                 posst.genre = genre
-
                                 
                                 if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                     for (_,person) in people {

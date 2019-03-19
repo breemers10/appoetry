@@ -112,6 +112,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
+        let url = URL(string: self.posts[indexPath.row].pathToImage!)
+        
         cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
         cell.authorLabel.text = self.posts[indexPath.row].username
         cell.postTextView.text = self.posts[indexPath.row].poem
