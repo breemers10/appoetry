@@ -17,7 +17,6 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var genreField: UITextField!
     
     var viewModel: CreatePostViewModel?
-    var registerStep3VM: RegisterStep3ViewModel?
     var picker = UIImagePickerController()
     var user: [UserInfo] = []
     var username: String?

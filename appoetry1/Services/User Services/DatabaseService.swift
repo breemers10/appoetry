@@ -11,7 +11,9 @@ import Firebase
 
 class DatabaseService {
     var username: String?
-    
+    var following = [String]()
+    var usersPosts = [String]()
+    var posts = [Post]()
     
     func creatingPosts(data: Data, poemText: String, genreText: String) {
         AppDelegate.instance().showActivityIndicator()
@@ -54,5 +56,102 @@ class DatabaseService {
             })
         }
         uploadTask.resume()
-}
+    }
+    
+    func fetchFollowingPosts() {
+        AppDelegate.instance().showActivityIndicator()
+        
+        let uid = Auth.auth().currentUser?.uid
+        
+        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+            let users = snapshot.value as! [String : AnyObject]
+            
+            if let followingUsers = users["following"] as? [String : String] {
+                for (_,user) in followingUsers {
+                    self.following.append(user)
+                }
+            }
+            
+            self.following.append(uid!)
+            AppDelegate.instance().dismissActivityIndicator()
+        })
+        
+        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+            let postSnap = snap.value as! [String: AnyObject]
+            
+            for (_,post) in postSnap {
+                if let userID = post["userID"] as? String {
+                    for each in self.following {
+                        if each == userID {
+                            let posst = Post()
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
+                                posst.username = author
+                                posst.favourites = favourites
+                                posst.pathToImage = pathToImage
+                                posst.postID = postID
+                                posst.userID = userID
+                                posst.poem = poem
+                                posst.genre = genre
+                                
+                                if let people = post["peopleFavourited"] as? [String : AnyObject] {
+                                    for (_,person) in people {
+                                        posst.peopleFavourited.append(person as! String)
+                                    }
+                                }
+                                self.posts.append(posst)
+                            }
+                        }
+                        AppDelegate.instance().dismissActivityIndicator()
+                    }
+                }
+            }
+        })
+        MySharedInstance.instance.ref.removeAllObservers()
+    }
+    
+    func fetchProfilePosts() {
+        
+        AppDelegate.instance().showActivityIndicator()
+        
+        let uid = Auth.auth().currentUser?.uid
+        
+        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+            _ = snapshot.value as! [String : AnyObject]
+            
+            self.usersPosts.append(Auth.auth().currentUser!.uid)
+            AppDelegate.instance().dismissActivityIndicator()
+        })
+        
+        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+            let postSnap = snap.value as! [String: AnyObject]
+            
+            for (_,post) in postSnap {
+                if let userID = post["userID"] as? String {
+                    for each in self.usersPosts {
+                        if each == userID {
+                            let posst = Post()
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
+                                posst.username = author
+                                posst.favourites = favourites
+                                posst.pathToImage = pathToImage
+                                posst.postID = postID
+                                posst.userID = userID
+                                posst.poem = poem
+                                posst.genre = genre
+                                
+                                if let people = post["peopleFavourited"] as? [String : AnyObject] {
+                                    for (_,person) in people {
+                                        posst.peopleFavourited.append(person as! String)
+                                    }
+                                }
+                                self.posts.append(posst)
+                            }
+                        }
+                    }
+                    AppDelegate.instance().dismissActivityIndicator()
+                }
+            }
+        })
+        MySharedInstance.instance.ref.removeAllObservers()
+    }
 }

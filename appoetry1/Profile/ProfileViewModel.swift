@@ -20,8 +20,12 @@ class ProfileViewModel: NSObject {
     var secondGenre: String?
     var thirdGenre: String?
     var imageUrl: String?
+    
+    var databaseService: DatabaseService
 
-    override init() {
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+
         super.init()
         getUsername()
     }

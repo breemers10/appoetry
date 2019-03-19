@@ -69,49 +69,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func fetchPosts() {
-        AppDelegate.instance().showActivityIndicator()
+        viewModel?.databaseService.fetchProfilePosts()
         
-        let uid = Auth.auth().currentUser?.uid
+        self.posts = (viewModel?.databaseService.posts)!
+        self.usersPosts = (viewModel?.databaseService.usersPosts)!
         
-        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            _ = snapshot.value as! [String : AnyObject]
-            
-            self.usersPosts.append(Auth.auth().currentUser!.uid)
-            AppDelegate.instance().dismissActivityIndicator()
-        })
-        
-        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
-            let postSnap = snap.value as! [String: AnyObject]
-            
-            for (_,post) in postSnap {
-                if let userID = post["userID"] as? String {
-                    for each in self.usersPosts {
-                        if each == userID {
-                            let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
-                                posst.username = author
-                                posst.favourites = favourites
-                                posst.pathToImage = pathToImage
-                                posst.postID = postID
-                                posst.userID = userID
-                                posst.poem = poem
-                                posst.genre = genre
-                                
-                                if let people = post["peopleFavourited"] as? [String : AnyObject] {
-                                    for (_,person) in people {
-                                        posst.peopleFavourited.append(person as! String)
-                                    }
-                                }
-                                self.posts.append(posst)
-                            }
-                        }
-                    }
-                    AppDelegate.instance().dismissActivityIndicator()
-                    self.collectionView.reloadData()
-                }
-            }
-        })
-        MySharedInstance.instance.ref.removeAllObservers()
+        self.collectionView.reloadData()
+
     }
     @objc func handleSelectProfileImageView() {
         present(picker, animated: true, completion: nil)
@@ -170,18 +134,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.posts.count
+        return (self.viewModel?.databaseService.posts.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myPostCell", for: indexPath) as! MyProfileFeedCell
-        cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-        cell.authorLabel.text = self.posts[indexPath.row].username
-        cell.textView.text = self.posts[indexPath.row].poem
+        cell.postImage.downloadImage(from: self.viewModel?.databaseService.posts[indexPath.row].pathToImage)
+        cell.authorLabel.text = self.viewModel?.databaseService.posts[indexPath.row].username
+        cell.textView.text = self.viewModel?.databaseService.posts[indexPath.row].poem
         cell.textView.isEditable = false
-        cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
-        cell.postID = self.posts[indexPath.row].postID
-        cell.genreLabel.text = self.posts[indexPath.row].genre
+        cell.favouritesLabel.text = "\((self.viewModel?.databaseService.posts[indexPath.row].favourites)!) Favourites"
+        cell.postID = self.viewModel?.databaseService.posts[indexPath.row].postID
+        cell.genreLabel.text = self.viewModel?.databaseService.posts[indexPath.row].genre
 
         
         for person in self.posts[indexPath.row].peopleFavourited {

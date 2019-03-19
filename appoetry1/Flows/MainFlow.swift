@@ -93,7 +93,7 @@ class MainFlow: PFlowController {
     private func setupTabBar() {
         presenterVC = UITabBarController()
         guard let main = mainViewController else { return }
-        let viewModel = MainViewModel()
+        let viewModel = MainViewModel(databaseService: databaseService)
         viewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromMain()
         }
@@ -126,7 +126,7 @@ class MainFlow: PFlowController {
         favourites.tabBarItem.title = "Favorites"
         
         guard let profile = profileViewController else { return }
-        let profileViewModel = ProfileViewModel()
+        let profileViewModel = ProfileViewModel(databaseService: databaseService)
         profileViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromProfile()
         }

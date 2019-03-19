@@ -9,6 +9,11 @@
 import UIKit
 
 class MainViewModel: NSObject {
+    var databaseService: DatabaseService
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
     
     var onCompletion: (() -> Void)?
     var onCreatePostTap: (() -> Void)?
