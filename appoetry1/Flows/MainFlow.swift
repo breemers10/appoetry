@@ -15,6 +15,7 @@ class MainFlow: PFlowController {
     var onMainStart: ((UITabBarController) -> Void)?
     var onSuccessfullPost: (() -> ())?
     var userService: PUserService
+    var databaseService: DatabaseService
     fileprivate var childFlow: PFlowController?
     private var presenterVC: UITabBarController?
     private var mainWrapper: UINavigationController?
@@ -22,8 +23,9 @@ class MainFlow: PFlowController {
     private var favouritesWrapper: UINavigationController?
     private var profileWrapper: UINavigationController?
 
-    init(userService: PUserService) {
+    init(userService: PUserService, databaseService: DatabaseService) {
         self.userService = userService
+        self.databaseService = databaseService
     }
     
     func start() {
@@ -36,7 +38,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromMain() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.mainWrapper?.popViewController(animated: true)
         }
@@ -47,7 +49,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromSearch() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.searchWrapper?.popViewController(animated: true)
         }
@@ -59,7 +61,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromFavourites() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.favouritesWrapper?.popViewController(animated: true)
         }
@@ -71,7 +73,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromProfile() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.profileWrapper?.popViewController(animated: true)
         }
@@ -145,7 +147,7 @@ class MainFlow: PFlowController {
    private func postCreated() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.moveToMainScreen()
         }

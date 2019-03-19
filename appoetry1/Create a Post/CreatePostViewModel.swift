@@ -10,6 +10,11 @@ import UIKit
 
 
 class CreatePostViewModel {
+    var databaseService: DatabaseService
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
      var realGenre: Genre?
     var onMainScreen: (() -> Void)?
     

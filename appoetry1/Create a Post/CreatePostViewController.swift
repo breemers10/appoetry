@@ -44,7 +44,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(RegisterStep3ViewController.dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.dismissKeyboard))
         
         toolBar.setItems([doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
@@ -72,49 +72,19 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @IBAction func postButtonPressed(_ sender: Any) {
-        
-        AppDelegate.instance().showActivityIndicator()
-        
-        let uid = Auth.auth().currentUser!.uid
-        MySharedInstance.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
-            if snapshot.key == "username" {
-                self.username = snapshot.value as? String
-            }
-        })
-        
-        let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
-        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
-        
-        let imageRef = storage.child("posts").child(uid).child("\(String(describing: key)).jpg")
-        
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
+        let poemText = self.textView.text
+        let genreText = self.genreField.text
+
         
-        let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-                AppDelegate.instance().dismissActivityIndicator()
-                return
-            }
-            
-            imageRef.downloadURL(completion: { (url, error) in
-                if let url = url {
-                    let feed = ["userID" : uid,
-                                "poem" : self.textView.text,
-                                "pathToImage" : url.absoluteString,
-                                "favourites" : 0,
-                                "author" : self.username!,
-                                "genre" : self.genreField.text!,
-                                "postID" : key! ] as [String : Any]
-                    let postFeed = ["\(key!)" : feed]
-                    
-                    MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
-                    
-                    AppDelegate.instance().dismissActivityIndicator()
-                    self.viewModel?.onMainScreen?()
-                }
-            })
-        }
-        uploadTask.resume()
+        viewModel?.databaseService.creatingPosts(data: data!, poemText: poemText!, genreText: genreText!)
+        
+//        Dispatch
+        
+        self.username = viewModel?.databaseService.username
+        
+        self.viewModel?.onMainScreen?()
+
     }
     
     @objc func dismissKeyboard() {
