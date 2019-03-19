@@ -14,4 +14,9 @@ class SearchViewModel: NSObject {
     func createPost() {
         onCreatePostTap?()
     }
+    
+    func searchUser(fullName: String, username: String) {
+        MySharedInstance.instance.userRegister.fullName = fullName
+        MySharedInstance.instance.userRegister.username = username
+    }
 }

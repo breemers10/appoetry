@@ -14,16 +14,45 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var selectPhotoButton: UIButton!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var previewImage: UIImageView!
+    @IBOutlet weak var genreField: UITextField!
     
     var viewModel: CreatePostViewModel?
+    var registerStep3VM: RegisterStep3ViewModel?
     var picker = UIImagePickerController()
     var user: [UserInfo] = []
     var username: String?
+    
+    fileprivate let genrePicker = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         picker.delegate = self
+        
+        createToolbar()
+        createGenrePicker()
+    }
+    
+    func createGenrePicker() {
+        
+        genrePicker.delegate = self
+        genreField.inputView = genrePicker
+        genrePicker.backgroundColor = .white
+    }
+    
+    func createToolbar() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(RegisterStep3ViewController.dismissKeyboard))
+        
+        toolBar.setItems([doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        genreField.inputAccessoryView = toolBar
+
+        toolBar.barTintColor = .white
+        toolBar.backgroundColor = .white
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -74,6 +103,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                                 "pathToImage" : url.absoluteString,
                                 "favourites" : 0,
                                 "author" : self.username!,
+                                "genre" : self.genreField.text!,
                                 "postID" : key! ] as [String : Any]
                     let postFeed = ["\(key!)" : feed]
                     
@@ -85,6 +115,32 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
             })
         }
         uploadTask.resume()
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension CreatePostViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Genre.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Genre(rawValue: row)?.selectedGenre
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == genrePicker {
+            viewModel?.realGenre = Genre(rawValue: row)
+            genreField.text = viewModel?.realGenre?.selectedGenre
+            
+        }
     }
 }
 

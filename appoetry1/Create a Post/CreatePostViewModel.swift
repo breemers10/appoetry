@@ -8,7 +8,9 @@
 
 import UIKit
 
+
 class CreatePostViewModel {
+     var realGenre: Genre?
     var onMainScreen: (() -> Void)?
     
     func toMainScreen() {

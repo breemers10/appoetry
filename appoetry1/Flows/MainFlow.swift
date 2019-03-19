@@ -128,6 +128,10 @@ class MainFlow: PFlowController {
         profileViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromProfile()
         }
+        profileViewModel.onSignOutTap = { [weak self] in
+            self?.onSignOutCompletion?()
+        }
+        
         
         profile.viewModel = profileViewModel
         profileWrapper = UINavigationController(rootViewController: profile)
@@ -147,15 +151,13 @@ class MainFlow: PFlowController {
         }
         createPostVC.viewModel = createPostViewModel
     }
-    private func signOut() {
-        
-        guard let profileVC = profileViewController else { return }
-        let profileViewModel = ProfileViewModel()
-        profileViewModel.onSignOutTap = { [weak self] in
-            self?.moveToLogin()
-        }
-        profileVC.viewModel = profileViewModel
-    }
+//    private func signOut() {
+//        
+//        guard let profileVC = profileViewController else { return }
+//        let profileViewModel = ProfileViewModel()
+//        
+//        profileVC.viewModel = profileViewModel
+//    }
 }
 extension MainFlow {
     

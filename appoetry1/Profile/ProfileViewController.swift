@@ -88,13 +88,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     for each in self.usersPosts {
                         if each == userID {
                             let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String {
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
                                 posst.username = author
                                 posst.favourites = favourites
                                 posst.pathToImage = pathToImage
                                 posst.postID = postID
                                 posst.userID = userID
                                 posst.poem = poem
+                                posst.genre = genre
+
                                 
                                 if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                     for (_,person) in people {
@@ -180,6 +182,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.textView.isEditable = false
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
+        cell.genreLabel.text = self.posts[indexPath.row].genre
+
         
         for person in self.posts[indexPath.row].peopleFavourited {
             if person == Auth.auth().currentUser!.uid {

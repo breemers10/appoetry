@@ -17,6 +17,7 @@ class MyProfileFeedCell: UICollectionViewCell {
     @IBOutlet weak var viewStripe: UIView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favouriteButton: UIButton!
+    @IBOutlet weak var genreLabel: UILabel!
     
     @IBOutlet weak var unfavouriteButton: UIButton!
     

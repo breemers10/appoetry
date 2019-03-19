@@ -9,8 +9,9 @@
 import UIKit
 import Firebase
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var viewModel: SearchViewModel?
     let createPostButton = UIButton(type: .system)
@@ -25,6 +26,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        searchBar.delegate = self
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
@@ -44,6 +47,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             self.tableView.reloadData()
         })
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel?.searchUser(fullName: searchText, username: searchText)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

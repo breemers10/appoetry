@@ -41,6 +41,11 @@ class AppFlow: PFlowController {
         mainFlow.onMainStart = { [weak self] rootController in
             self?.window.rootViewController = rootController
         }
+        
+        mainFlow.onSignOutCompletion = { [weak self] in
+            self?.start()
+        }
+        
         mainFlow.start()
         childFlow = mainFlow
     }
