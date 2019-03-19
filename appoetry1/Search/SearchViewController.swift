@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     @IBOutlet weak var tableView: UITableView!
@@ -63,15 +64,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath) as! SearchUserCell
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            
+            let url = URL(string: self.user[indexPath.row].imageUrl!)
+
             cell.usernameLabel.text = self.user[indexPath.row].username
             cell.fullNameLabel.text = self.user[indexPath.row].fullName
-            cell.userImage.downloadImage(from: self.user[indexPath.row].imageUrl)
+            cell.userImage.kf.setImage(with: url)
             
             cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
             cell.userImage.clipsToBounds = true
             
             self.checkFollowing(indexPath: indexPath)
+            
         }
         return cell
     }
@@ -151,14 +156,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
 extension UIImageView {
     func downloadImage(from imgURL: String!) {
         let url = URLRequest(url: URL(string: imgURL)!)
-        
+
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
+
             if error != nil {
                 print(error!)
                 return
             }
-            
+
             DispatchQueue.main.async {
                 self.image = UIImage(data: data!)
             }

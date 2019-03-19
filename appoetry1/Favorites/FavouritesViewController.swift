@@ -34,9 +34,13 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let uid = Auth.auth().currentUser?.uid
         
         MySharedInstance.instance.ref.child("users").child(uid!).child("favouritedPosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-//            _ = snapshot.value as! [String : AnyObject]
             
-            self.favouritedPosts.append(Auth.auth().currentUser!.uid)
+            let snap = snapshot.value as! [String : AnyObject]
+            
+            let favouritePosts2 = snap["favouritePosts"] as! String
+            
+            self.favouritedPosts.append(favouritePosts2)
+//            self.favouritedPosts.append(Auth.auth().currentUser!.uid)
             AppDelegate.instance().dismissActivityIndicator()
         })
         
@@ -44,9 +48,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
             let postSnap = snap.value as! [String: AnyObject]
             
             for (_,post) in postSnap {
-                if let userID = post["userID"] as? String {
+                if
+                    let userID = post["userID"] as? String,
+                    let postID = post["postID"] as? String {
                     for each in self.favouritedPosts {
-                        if each == userID {
+                        if each == postID {
                             let posst = Post()
                             if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
                                 posst.username = author
