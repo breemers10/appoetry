@@ -18,7 +18,6 @@ class RegisterStep3ViewController: UIViewController {
     
     var viewModel: RegisterStep3ViewModel?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         createGenrePicker()
@@ -82,23 +81,23 @@ extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Genres.count
+        return Genre.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Genres(rawValue: row)?.selectedGenre
+        return Genre(rawValue: row)?.selectedGenre
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == genrePicker1 {
-            viewModel?.realGenre = Genres(rawValue: row)
+            viewModel?.realGenre = Genre(rawValue: row)
             firstGenreTextField.text = viewModel?.realGenre?.selectedGenre
             
         } else if pickerView == genrePicker2 {
-            viewModel!.realGenre = Genres(rawValue: row)
+            viewModel!.realGenre = Genre(rawValue: row)
             secondGenreTextField.text = viewModel?.realGenre?.selectedGenre
         } else if pickerView == genrePicker3 {
-            viewModel?.realGenre = Genres(rawValue: row)
+            viewModel?.realGenre = Genre(rawValue: row)
             thirdGenreTextField.text = viewModel?.realGenre?.selectedGenre
         }
     }

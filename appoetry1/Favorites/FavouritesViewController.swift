@@ -34,7 +34,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         let uid = Auth.auth().currentUser?.uid
         
         MySharedInstance.instance.ref.child("users").child(uid!).child("favouritedPosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            _ = snapshot.value as! [String : AnyObject]
+//            _ = snapshot.value as! [String : AnyObject]
             
             self.favouritedPosts.append(Auth.auth().currentUser!.uid)
             AppDelegate.instance().dismissActivityIndicator()
@@ -48,13 +48,14 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
                     for each in self.favouritedPosts {
                         if each == userID {
                             let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String {
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
                                 posst.username = author
                                 posst.favourites = favourites
                                 posst.pathToImage = pathToImage
                                 posst.postID = postID
                                 posst.userID = userID
                                 posst.poem = poem
+                                posst.genre = genre
                                 
                                 if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                     for (_,person) in people {
@@ -110,6 +111,8 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         cell.textView.isEditable = false
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
+        cell.genreLabel.text = self.posts[indexPath.row].genre
+
         
         for person in self.posts[indexPath.row].peopleFavourited {
             if person == Auth.auth().currentUser!.uid {

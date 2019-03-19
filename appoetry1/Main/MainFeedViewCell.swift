@@ -17,6 +17,7 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favouritesLabel: UILabel!
+    @IBOutlet weak var genreLabel: UILabel!
     
     var postID: String!
 
@@ -68,12 +69,10 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBAction func unfavouriteBttnPressed(_ sender: Any) {
         self.unfavouriteButton.isEnabled = false
         
-        let keyToUsers = MySharedInstance.instance.ref.child("users").childByAutoId().key!
         guard let id = Auth.auth().currentUser?.uid else { return }
         
         MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snap) in
             if let _ = snap.value as? [String : AnyObject] {
-//                let updateFavouritedPosts: [String : Any] = ["favouritedPosts/\(keyToUsers)" : self.postID]
                 MySharedInstance.instance.ref.child("users").child(id).child("favouritedPosts").removeValue(completionBlock: { (error, ref) in
                     if error == nil {
 

@@ -17,6 +17,7 @@ class FavouriteFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var unfavouriteButton: UIButton!
+    @IBOutlet weak var genreLabel: UILabel!
     
     var postID: String!
     

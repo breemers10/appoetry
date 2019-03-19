@@ -93,6 +93,13 @@
                                                         <action selector="unfavouriteBttnPressed:" destination="eEJ-i6-UT3" eventType="touchUpInside" id="G1J-ps-eTK"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xif-Dq-DFF">
+                                                    <rect key="frame" x="45" y="0.0" width="110" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -127,6 +134,7 @@
                                             <outlet property="dateLabel" destination="cjn-Mt-dyh" id="H3X-Y9-5At"/>
                                             <outlet property="favouriteButton" destination="NaC-r7-w1w" id="QD8-g3-d5f"/>
                                             <outlet property="favouritesLabel" destination="KZj-v1-bNb" id="9ix-w4-ugc"/>
+                                            <outlet property="genreLabel" destination="xif-Dq-DFF" id="yle-cM-vht"/>
                                             <outlet property="postImage" destination="GUw-Bj-u2P" id="qJm-m9-g50"/>
                                             <outlet property="postTextView" destination="lbe-4l-fac" id="8tk-Ad-FvR"/>
                                             <outlet property="unfavouriteButton" destination="q01-gy-6oy" id="F7Y-43-FiK"/>
@@ -228,6 +236,7 @@
                         <viewLayoutGuide key="safeArea" id="7hB-14-L6s"/>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="Tke-cD-ZOl" id="W4s-QI-vcS"/>
                         <outlet property="tableView" destination="DAk-ri-Fpk" id="cJU-kp-1h2"/>
                     </connections>
                 </viewController>
@@ -318,6 +327,13 @@
                                                         <action selector="unfavouriteButtonPressed:" destination="7Rp-LH-Emi" eventType="touchUpInside" id="Laz-CO-HDd"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yh3-il-wwC">
+                                                    <rect key="frame" x="45" y="0.0" width="110" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -353,6 +369,7 @@
                                             <outlet property="dateLabel" destination="3K4-Px-53J" id="Zlz-uP-SZj"/>
                                             <outlet property="favouriteButton" destination="imk-a9-lB3" id="M4s-Kd-lxm"/>
                                             <outlet property="favouritesLabel" destination="fRv-Tt-N8B" id="shG-8q-tqH"/>
+                                            <outlet property="genreLabel" destination="yh3-il-wwC" id="PN9-IR-rdF"/>
                                             <outlet property="postImage" destination="h8g-1e-K53" id="YUm-hv-bjf"/>
                                             <outlet property="textView" destination="UAX-4F-lWb" id="mAX-QA-l72"/>
                                             <outlet property="unfavouriteButton" destination="HV7-LQ-NEd" id="yNK-Uo-kow"/>
@@ -461,6 +478,13 @@
                                                         <action selector="unfavouriteButtonPressed:" destination="FfB-EH-nGp" eventType="touchUpInside" id="76h-2B-xpO"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ige-b9-1nz">
+                                                    <rect key="frame" x="45" y="0.0" width="110" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -496,6 +520,7 @@
                                             <outlet property="dateLabel" destination="ThI-bu-CYw" id="cUB-By-Zg3"/>
                                             <outlet property="favouriteButton" destination="eEG-rm-Tq2" id="I7S-KE-l1J"/>
                                             <outlet property="favouritesLabel" destination="6ZI-cp-Yw1" id="M89-01-eiC"/>
+                                            <outlet property="genreLabel" destination="Ige-b9-1nz" id="C2i-fa-6OG"/>
                                             <outlet property="postImage" destination="XW0-eC-kIn" id="G1d-Tx-FZ2"/>
                                             <outlet property="textView" destination="e26-zY-nQx" id="tuw-RF-qcy"/>
                                             <outlet property="unfavouriteButton" destination="hQA-Rg-tcX" id="JRg-av-uqi"/>
@@ -669,17 +694,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="UIr-oq-tmo">
-                                <rect key="frame" x="61" y="255" width="253" height="336"/>
+                                <rect key="frame" x="61" y="255" width="253" height="288"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="253" id="Tgi-GX-GUe"/>
-                                    <constraint firstAttribute="height" constant="336" id="Vb4-EC-UA4"/>
+                                    <constraint firstAttribute="height" constant="288" id="Vb4-EC-UA4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLE-WX-7bT">
-                                <rect key="frame" x="144" y="48" width="87" height="30"/>
+                                <rect key="frame" x="61" y="48" width="87" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="JSl-pH-XhP"/>
                                     <constraint firstAttribute="width" constant="87" id="tkm-R5-Xgt"/>
@@ -711,23 +736,30 @@
                                     <action selector="postButtonPressed:" destination="SFR-qF-Rbu" eventType="touchUpInside" id="lhO-AI-YhE"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="choose a genre" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="emA-CB-nLF">
+                                <rect key="frame" x="173" y="48" width="141" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="f1q-fe-YIw" firstAttribute="top" secondItem="5Te-iE-cLI" secondAttribute="top" constant="66" id="1oA-P5-CcP"/>
                             <constraint firstItem="kE3-qj-bRa" firstAttribute="centerX" secondItem="f1q-fe-YIw" secondAttribute="centerX" id="1y5-gD-cNQ"/>
-                            <constraint firstItem="kE3-qj-bRa" firstAttribute="top" secondItem="UIr-oq-tmo" secondAttribute="bottom" constant="18" id="7J3-Fn-Gl8"/>
-                            <constraint firstItem="5Te-iE-cLI" firstAttribute="trailing" secondItem="jLE-WX-7bT" secondAttribute="trailing" constant="144" id="BYN-Dz-ndZ"/>
+                            <constraint firstItem="emA-CB-nLF" firstAttribute="leading" secondItem="jLE-WX-7bT" secondAttribute="trailing" constant="25" id="PSC-p6-MT5"/>
                             <constraint firstItem="jLE-WX-7bT" firstAttribute="top" secondItem="5Te-iE-cLI" secondAttribute="top" constant="28" id="VtF-xh-R0W"/>
+                            <constraint firstItem="jLE-WX-7bT" firstAttribute="top" secondItem="emA-CB-nLF" secondAttribute="top" id="W8E-mJ-6hh"/>
                             <constraint firstItem="5Te-iE-cLI" firstAttribute="bottom" secondItem="kE3-qj-bRa" secondAttribute="bottom" constant="20" id="dAH-3x-dd1"/>
-                            <constraint firstItem="jLE-WX-7bT" firstAttribute="leading" secondItem="5Te-iE-cLI" secondAttribute="leading" constant="144" id="jBH-bO-fVF"/>
+                            <constraint firstItem="jLE-WX-7bT" firstAttribute="leading" secondItem="f1q-fe-YIw" secondAttribute="leading" id="kts-Rx-IGT"/>
                             <constraint firstItem="UIr-oq-tmo" firstAttribute="centerX" secondItem="kE3-qj-bRa" secondAttribute="centerX" id="oMn-rT-Qqi"/>
-                            <constraint firstItem="f1q-fe-YIw" firstAttribute="centerX" secondItem="jLE-WX-7bT" secondAttribute="centerX" id="ufT-Ee-hkn"/>
+                            <constraint firstItem="jLE-WX-7bT" firstAttribute="leading" secondItem="5Te-iE-cLI" secondAttribute="leading" constant="61" id="tiH-vb-sqp"/>
                             <constraint firstItem="UIr-oq-tmo" firstAttribute="top" secondItem="f1q-fe-YIw" secondAttribute="bottom" constant="8" id="vjj-62-EzQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5Te-iE-cLI"/>
                     </view>
                     <connections>
+                        <outlet property="genreField" destination="emA-CB-nLF" id="HPT-4M-e08"/>
                         <outlet property="postButton" destination="kE3-qj-bRa" id="V8r-n1-p3q"/>
                         <outlet property="previewImage" destination="f1q-fe-YIw" id="SWv-sG-43s"/>
                         <outlet property="selectPhotoButton" destination="jLE-WX-7bT" id="yIf-St-06X"/>

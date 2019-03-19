@@ -148,10 +148,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     func isEmailAlreadyTaken(emailAddressString: String) -> Bool {
         var itIsUsed = false
         
-        MySharedInstance.instance.ref.child("users").queryOrdered(byChild: "email").observeSingleEvent(of: .value, with: { (snapshot) in
+        MySharedInstance.instance.ref.child("users").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
             
             if snapshot.exists() {
                 itIsUsed = true
+                print("email is used")
             } else {
                 print("all guccccii")
             }

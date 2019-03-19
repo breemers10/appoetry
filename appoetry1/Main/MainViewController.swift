@@ -43,9 +43,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 }
             }
             
-            self.following.append(Auth.auth().currentUser!.uid)
+            self.following.append(uid!)
             AppDelegate.instance().dismissActivityIndicator()
-
         })
         
         MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
@@ -56,13 +55,14 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     for each in self.following {
                         if each == userID {
                             let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String {
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
                                 posst.username = author
                                 posst.favourites = favourites
                                 posst.pathToImage = pathToImage
                                 posst.postID = postID
                                 posst.userID = userID
                                 posst.poem = poem
+                                posst.genre = genre
                                 
                                 if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                     for (_,person) in people {
@@ -72,9 +72,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                                 self.posts.append(posst)
                             }
                         }
+                        AppDelegate.instance().dismissActivityIndicator()
+                        self.collectionView.reloadData()
                     }
-                    AppDelegate.instance().dismissActivityIndicator()
-                    self.collectionView.reloadData()
                 }
             }
         })
@@ -118,6 +118,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.postTextView.isEditable = false
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
+        cell.genreLabel.text = self.posts[indexPath.row].genre
         
         for person in self.posts[indexPath.row].peopleFavourited {
             if person == Auth.auth().currentUser!.uid {
