@@ -1,15 +1,15 @@
 //
-//  ProfileViewModel.swift
+//  ProfilesViewModel.swift
 //  appoetry1
 //
-//  Created by Kristaps Brēmers on 08.03.19.
+//  Created by Kristaps Brēmers on 20.03.19.
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-class ProfileViewModel: NSObject {
+class ProfilesViewModel {
     var onCreatePostTap: (() -> Void)?
     var onSignOutTap: (() -> Void)?
     
@@ -20,14 +20,16 @@ class ProfileViewModel: NSObject {
     var secondGenre: String?
     var thirdGenre: String?
     var imageUrl: String?
-
-    override init() {
-        super.init()
+    var idx: Int
+    
+     init(idx: Int) {
+        self.idx = idx
         getUsername()
+        
     }
     
     func getUsername() {
-        guard let id = Auth.auth().currentUser?.uid else { return }
+        guard let id = MySharedInstance.instance.userInfo[idx].userID else { return }
         MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
@@ -43,9 +45,5 @@ class ProfileViewModel: NSObject {
     
     func createPost() {
         onCreatePostTap?()
-    }
-    
-    func signOut() {
-        onSignOutTap?()
     }
 }

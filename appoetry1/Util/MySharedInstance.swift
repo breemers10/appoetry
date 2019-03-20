@@ -15,5 +15,6 @@ class MySharedInstance {
     static let instance = MySharedInstance()
     var ref = Database.database().reference()
     var userRegister = UserRegister()
+    var userInfo = [UserInfo]()
     let storageRef = Storage.storage().reference()
 }

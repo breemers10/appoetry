@@ -17,16 +17,16 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emailLogin.text = "fff@fff.lv"
+        emailLogin.text = "ww@ww.lv"
         passwordLogin.text = "Aa1234567"
     }
     
     @IBAction func pressLogin(_ sender: Any) {
         
-        viewModel?.signIn(email: emailLogin.text, password: passwordLogin.text)
         viewModel?.wrongCredentials = { [weak self] in
             self?.displayAlertMessage(messageToDisplay: "E-mail or password are incorrect!")
         }
+        viewModel?.signIn(email: emailLogin.text, password: passwordLogin.text)
     }
     
     func displayAlertMessage(messageToDisplay: String) {

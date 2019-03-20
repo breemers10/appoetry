@@ -34,10 +34,16 @@ struct UserRegister {
         ]
     }
 }
+
 struct UserInfo {
+    var userID: String?
     var fullName: String?
     var username: String?
-    var userID: String?
+    var email: String?
+    var password: String?
+    var firstGenre: String?
+    var secondGenre: String?
+    var thirdGenre: String?
     var imageUrl: String?
 }
 

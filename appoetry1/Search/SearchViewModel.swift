@@ -10,6 +10,7 @@ import UIKit
 
 class SearchViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
+    var onCellTap: ((Int) -> Void)?
     
     func createPost() {
         onCreatePostTap?()
