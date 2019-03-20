@@ -28,7 +28,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         fetchPosts()
     }
     
-    
     func fetchPosts() {
         viewModel?.databaseService.fetchFollowingPosts()
         
@@ -36,7 +35,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.posts = (viewModel?.databaseService.posts)!
         
         self.collectionView.reloadData()
-
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
@@ -70,7 +68,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
-//        let url = URL(string: (self.viewModel?.databaseService.posts[indexPath.row].pathToImage)!)
         
         cell.postImage.downloadImage(from: self.viewModel?.databaseService.posts[indexPath.row].pathToImage)
         cell.authorLabel.text = self.viewModel?.databaseService.posts[indexPath.row].username

@@ -10,6 +10,11 @@ import UIKit
 
 class FavouritesViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
+    var databaseService: DatabaseService
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
     
     func createPost() {
         onCreatePostTap?()

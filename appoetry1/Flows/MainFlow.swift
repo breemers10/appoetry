@@ -115,7 +115,7 @@ class MainFlow: PFlowController {
         search.tabBarItem.title = "Search"
         
         guard let favourites = favouritesViewController else { return }
-        let favouritesViewModel = FavouritesViewModel()
+        let favouritesViewModel = FavouritesViewModel(databaseService: databaseService)
         favouritesViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromFavourites()
         }
