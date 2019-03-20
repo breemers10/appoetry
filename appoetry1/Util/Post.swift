@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Post: NSObject {
+class Post {
     var username: String!
     var userID: String!
     var pathToImage: String!

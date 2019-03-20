@@ -17,7 +17,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var viewModel: SearchViewModel?
     let createPostButton = UIButton(type: .system)
     
-    var user: [UserInfo] = []
     var username: String?
     var fullName: String?
     var imageUrl: String?
@@ -27,6 +26,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        MySharedInstance.instance.userInfo = []
         
         searchBar.delegate = self
         setupNavigationBarItems()
@@ -39,12 +40,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
             guard snapshot.key != id else { return }
             DispatchQueue.global().async {
-            let usersObject = snapshot.value as? NSDictionary
-            self.username = usersObject?["username"] as? String
-            self.fullName = usersObject?["fullName"] as? String
-            self.imageUrl = usersObject?["imageUrl"] as? String
-            self.userID = snapshot.key
-            self.user.append(UserInfo(fullName: self.fullName, username: self.username, userID: self.userID, imageUrl: self.imageUrl))
+                let usersObject = snapshot.value as? NSDictionary
+                self.username = usersObject?["username"] as? String
+                self.fullName = usersObject?["fullName"] as? String
+                self.imageUrl = usersObject?["imageUrl"] as? String
+                self.userID = snapshot.key
+                
+                var userInfo = UserInfo()
+                userInfo.fullName = self.fullName
+                userInfo.username = self.username
+                userInfo.imageUrl = self.imageUrl
+                userInfo.userID = self.userID
+                
+                MySharedInstance.instance.userInfo.append(userInfo)
             }
             self.tableView.reloadData()
         })
@@ -64,71 +72,69 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath) as! SearchUserCell
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.async {
             
-            let url = URL(string: self.user[indexPath.row].imageUrl!)
-
-            cell.usernameLabel.text = self.user[indexPath.row].username
-            cell.fullNameLabel.text = self.user[indexPath.row].fullName
-            cell.userImage.kf.setImage(with: url)
+            cell.usernameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].username
+            cell.fullNameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].fullName
+            cell.userImage.downloadImage(from: MySharedInstance.instance.userInfo[indexPath.row].imageUrl)
             
             cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
             cell.userImage.clipsToBounds = true
             
-            self.checkFollowing(indexPath: indexPath)
-            
+            //            self.checkFollowing(indexPath: indexPath)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let uid = Auth.auth().currentUser!.uid
-        let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
-        
-        var isFollower = false
-        
-        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            if let following = snapshot.value as? [String : AnyObject] {
-                for (ke, value) in following {
-                    if value as? String == self.user[indexPath.row].userID {
-                        isFollower = true
-                        
-                        MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
-                        MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).child("followers/\(ke)").removeValue()
-                        
-                        self.tableView.cellForRow(at: indexPath)?.accessoryType = .none
-                    }
-                }
-            }
-            if !isFollower {
-                let following = ["following/\(key!)" : self.user[indexPath.row].userID]
-                let followers = ["followers/\(key!)" : uid]
-                
-                MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
-                MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).updateChildValues(followers)
-                
-                self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            }
-        })
-        MySharedInstance.instance.ref.removeAllObservers()
-    }
-    
-    func checkFollowing(indexPath: IndexPath) {
-        let uid = Auth.auth().currentUser!.uid
-        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            if let following = snapshot.value as? [String : AnyObject] {
-                for (_, value) in following {
-                    if value as? String == self.user[indexPath.row].userID {
-                        self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-                    }
-                }
-            }
-        })
-        MySharedInstance.instance.ref.removeAllObservers()
+        viewModel?.onCellTap?(indexPath.row)
+        //        let uid = Auth.auth().currentUser!.uid
+        //        let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
+        //
+        //        var isFollower = false
+        //
+        //        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        //            if let following = snapshot.value as? [String : AnyObject] {
+        //                for (ke, value) in following {
+        //                    if value as? String == self.user[indexPath.row].userID {
+        //                        isFollower = true
+        //
+        //                        MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
+        //                        MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).child("followers/\(ke)").removeValue()
+        //
+        //                        self.tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        //                    }
+        //                }
+        //            }
+        //            if !isFollower {
+        //                let following = ["following/\(key!)" : self.user[indexPath.row].userID]
+        //                let followers = ["followers/\(key!)" : uid]
+        //
+        //                MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
+        //                MySharedInstance.instance.ref.child("users").child(self.user[indexPath.row].userID!).updateChildValues(followers)
+        //
+        //                self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        //            }
+        //        })
+        //        MySharedInstance.instance.ref.removeAllObservers()
+        //    }
+        //
+        //    func checkFollowing(indexPath: IndexPath) {
+        //        let uid = Auth.auth().currentUser!.uid
+        //        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        //            if let following = snapshot.value as? [String : AnyObject] {
+        //                for (_, value) in following {
+        //                    if value as? String == self.user[indexPath.row].userID {
+        //                        self.tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        //                    }
+        //                }
+        //            }
+        //        })
+        //        MySharedInstance.instance.ref.removeAllObservers()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return user.count
+        return MySharedInstance.instance.userInfo.count
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
@@ -156,14 +162,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
 extension UIImageView {
     func downloadImage(from imgURL: String!) {
         let url = URLRequest(url: URL(string: imgURL)!)
-
+        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-
+            
             if error != nil {
                 print(error!)
                 return
             }
-
+            
             DispatchQueue.main.async {
                 self.image = UIImage(data: data!)
             }

@@ -28,7 +28,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         fetchPosts()
     }
     
-    
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         
@@ -36,7 +35,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             let users = snapshot.value as! [String : AnyObject]
-          
+            
             if let followingUsers = users["following"] as? [String : String] {
                 for (_,user) in followingUsers {
                     self.following.append(user)
@@ -72,9 +71,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                                 self.posts.append(posst)
                             }
                         }
-                        AppDelegate.instance().dismissActivityIndicator()
-                        self.collectionView.reloadData()
                     }
+                    AppDelegate.instance().dismissActivityIndicator()
+                    self.collectionView.reloadData()
                 }
             }
         })
@@ -112,26 +111,26 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
-        let url = URL(string: self.posts[indexPath.row].pathToImage!)
-        
-        cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-        cell.authorLabel.text = self.posts[indexPath.row].username
-        cell.postTextView.text = self.posts[indexPath.row].poem
-        cell.postTextView.isEditable = false
-        cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
-        cell.postID = self.posts[indexPath.row].postID
-        cell.genreLabel.text = self.posts[indexPath.row].genre
-        
-        for person in self.posts[indexPath.row].peopleFavourited {
-            if person == Auth.auth().currentUser!.uid {
-                cell.favouriteButton.isHidden = true
-                cell.unfavouriteButton.isHidden = false
-                break
+        DispatchQueue.main.async {
+            
+            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            cell.authorLabel.text = self.posts[indexPath.row].username
+            cell.postTextView.text = self.posts[indexPath.row].poem
+            cell.postTextView.isEditable = false
+            cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
+            cell.postID = self.posts[indexPath.row].postID
+            cell.genreLabel.text = self.posts[indexPath.row].genre
+            
+            for person in self.posts[indexPath.row].peopleFavourited {
+                if person == Auth.auth().currentUser!.uid {
+                    cell.favouriteButton.isHidden = true
+                    cell.unfavouriteButton.isHidden = false
+                    break
+                }
             }
         }
         return cell
     }
-    
 }
 
 extension MainViewController: ClassName {

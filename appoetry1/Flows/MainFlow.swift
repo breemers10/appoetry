@@ -80,11 +80,17 @@ class MainFlow: PFlowController {
         profileWrapper?.pushViewController(createPostVC, animated: false)
     }
     
-    func moveToMainScreen() {
+    func moveToProfiles(idx: Int) {
         
+        guard let profilesVC = profilesViewController else { return }
+        let profilesViewModel = ProfilesViewModel(idx: idx)
+        
+        profilesVC.viewModel = profilesViewModel
+        
+        searchWrapper?.pushViewController(profilesVC, animated: false)
     }
     
-    func moveToLogin() {
+    func moveToMainScreen() {
         
     }
     
@@ -106,6 +112,9 @@ class MainFlow: PFlowController {
         searchViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromSearch()
         }
+        searchViewModel.onCellTap = { [weak self] idx in
+            self?.moveToProfiles(idx: idx)
+        }
         search.viewModel = searchViewModel
         searchWrapper = UINavigationController(rootViewController: search)
         guard let sw = searchWrapper else { return }
@@ -123,15 +132,14 @@ class MainFlow: PFlowController {
         favourites.tabBarItem.image = UIImage(named: "star")
         favourites.tabBarItem.title = "Favorites"
         
-        guard let profile = profileViewController else { return }
-        let profileViewModel = ProfileViewModel()
+        guard let profile = myProfileViewController else { return }
+        let profileViewModel = MyProfileViewModel()
         profileViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromProfile()
         }
         profileViewModel.onSignOutTap = { [weak self] in
             self?.onSignOutCompletion?()
         }
-        
         
         profile.viewModel = profileViewModel
         profileWrapper = UINavigationController(rootViewController: profile)
@@ -151,14 +159,8 @@ class MainFlow: PFlowController {
         }
         createPostVC.viewModel = createPostViewModel
     }
-//    private func signOut() {
-//        
-//        guard let profileVC = profileViewController else { return }
-//        let profileViewModel = ProfileViewModel()
-//        
-//        profileVC.viewModel = profileViewModel
-//    }
 }
+
 extension MainFlow {
     
     fileprivate var mainSB: UIStoryboard {
@@ -173,8 +175,11 @@ extension MainFlow {
     fileprivate var favouritesViewController: FavouritesViewController? {
         return mainSB.instantiateViewController(withIdentifier: FavouritesViewController.className) as? FavouritesViewController
     }
-    fileprivate var profileViewController: ProfileViewController? {
-        return mainSB.instantiateViewController(withIdentifier: ProfileViewController.className) as? ProfileViewController
+    fileprivate var myProfileViewController: MyProfileViewController? {
+        return mainSB.instantiateViewController(withIdentifier: MyProfileViewController.className) as? MyProfileViewController
+    }
+    fileprivate var profilesViewController: ProfilesViewController? {
+        return mainSB.instantiateViewController(withIdentifier: ProfilesViewController.className) as? ProfilesViewController
     }
     fileprivate var createPostViewController: CreatePostViewController? {
         return mainSB.instantiateViewController(withIdentifier: CreatePostViewController.className) as? CreatePostViewController

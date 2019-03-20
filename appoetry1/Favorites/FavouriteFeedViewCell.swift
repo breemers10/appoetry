@@ -59,7 +59,6 @@ class FavouriteFeedViewCell: UICollectionViewCell {
             if let properties = snapshot.value as? [String : AnyObject] {
                 if let peopleFavourited = properties["peopleFavourited"] as? [String : AnyObject] {
                     
-                    
                     for (id, person) in peopleFavourited {
                         if person as? String == Auth.auth().currentUser!.uid {
                             MySharedInstance.instance.ref.child("posts").child(self.postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in

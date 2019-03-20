@@ -1,18 +1,17 @@
 //
-//  ProfileViewController.swift
+//  ProfilesViewController.swift
 //  appoetry1
 //
-//  Created by Kristaps Brēmers on 08.03.19.
+//  Created by Kristaps Brēmers on 20.03.19.
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var viewModel: ProfileViewModel?
+    var viewModel: ProfilesViewModel?
     @IBOutlet weak var collectionView: UICollectionView!
     let createPostButton = UIButton(type: .system)
     let signOutButton = UIButton(type: .system)
@@ -40,8 +39,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         picker.delegate = self
         picker.allowsEditing = true
         setupNavigationBarItems()
-        addingTargetToCreatePostVC()
-        addingTargetToSignOut()
         
         fetchPosts()
         
@@ -52,7 +49,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.clipsToBounds = true
         profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         profilePicture.isUserInteractionEnabled = true
-  
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.usernameLabel.text = self.viewModel?.username
             self.fullNameLabel.text = self.viewModel?.fullName
@@ -71,12 +68,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         
-        let uid = Auth.auth().currentUser?.uid
+        let uid = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
         
         MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             _ = snapshot.value as! [String : AnyObject]
             
-            self.usersPosts.append(Auth.auth().currentUser!.uid)
+            self.usersPosts.append(uid!)
             AppDelegate.instance().dismissActivityIndicator()
         })
         
@@ -126,38 +123,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImageFromPicker = originalImage
         }
-
+        
         if let selectedImage = selectedImageFromPicker {
             profilePicture.image = selectedImage
         }
         dismiss(animated: true, completion: nil)
-    }
- 
-    @objc func createPostButtonPressed(sender: UIButton) {
-        viewModel?.createPost()
     }
     
     private func addingTargetToCreatePostVC() {
         createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
     }
     
-    @objc func signOutButtonPressed(sender: UIButton) {
-        viewModel?.signOut()
+    @objc func createPostButtonPressed(sender: UIButton) {
+        viewModel?.createPost()
     }
-    
-    private func addingTargetToSignOut() {
-        signOutButton.addTarget(self, action: #selector(self.signOutButtonPressed(sender:)), for: .touchUpInside)
-    }
-    
+   
     private func setupNavigationBarItems() {
         createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
-        signOutButton.setTitle("Sign out", for: .normal)
-        signOutButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: signOutButton)
         
         let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
         
@@ -182,7 +167,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
         cell.genreLabel.text = self.posts[indexPath.row].genre
-
+        
         
         for person in self.posts[indexPath.row].peopleFavourited {
             if person == Auth.auth().currentUser!.uid {
@@ -195,7 +180,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
 }
 
-extension ProfileViewController: ClassName {
+extension ProfilesViewController: ClassName {
     static var className: String {
         return String(describing: self)
     }

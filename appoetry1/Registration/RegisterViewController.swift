@@ -113,7 +113,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
 
                         self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
 
-                        self.viewModel?.secondStep()
                     }
                 })
             }
@@ -123,6 +122,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             print("Passwords does not match!")
             displayAlertMessage(messageToDisplay: "Passwords does not match!")
         }
+        self.viewModel?.secondStep()
     }
     func isValidEmailAddress(emailAddressString: String) -> Bool {
         
