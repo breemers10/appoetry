@@ -22,17 +22,16 @@ class ProfilesViewModel {
     var secondGenre: String?
     var thirdGenre: String?
     var imageUrl: String?
-    var idx: Int
+    var idx: String
     
-     init(idx: Int) {
+     init(idx: String) {
         self.idx = idx
         getUsername()
         
     }
     
     func getUsername() {
-        guard let id = MySharedInstance.instance.userInfo[idx].userID else { return }
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        MySharedInstance.instance.ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
             self.username = usersObject?["username"] as? String

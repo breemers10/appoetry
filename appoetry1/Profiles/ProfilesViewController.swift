@@ -40,8 +40,9 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewDidLoad()
         
         setupNavigationBarItems()
-        
+
         fetchPosts()
+        checkFollowing()
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -64,20 +65,13 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        //        followPeople()
-        checkFollowing()
-    }
-    
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         
-        let uid = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
-        
-        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             _ = snapshot.value as! [String : AnyObject]
             
-            self.usersPosts.append(uid!)
+            self.usersPosts.append((self.viewModel?.idx)!)
             AppDelegate.instance().dismissActivityIndicator()
         })
         
@@ -118,12 +112,11 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     @IBAction func followButtonPressed(_ sender: Any) {
         let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
         let uid = Auth.auth().currentUser!.uid
-        let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
-        let following = ["following/\(key!)" : theirID]
+        let following = ["following/\(key!)" : (viewModel?.idx)!]
         let followers = ["followers/\(key!)" : uid]
         
         MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
-        MySharedInstance.instance.ref.child("users").child(theirID!).updateChildValues(followers)
+        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).updateChildValues(followers)
         
         self.followButton.isHidden = true
         self.unfollowButton.isHidden = false
@@ -132,14 +125,13 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBAction func unfollowButtonPressed(_ sender: Any) {
         let uid = Auth.auth().currentUser!.uid
-        let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
         MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
                 for (ke, value) in following {
-                    if value as? String == theirID {
+                    if value as? String == (self.viewModel?.idx)! {
                         
                         MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
-                        MySharedInstance.instance.ref.child("users").child(theirID!).child("followers/\(ke)").removeValue()
+                        MySharedInstance.instance.ref.child("users").child((self.viewModel?.idx)!).child("followers/\(ke)").removeValue()
                         self.unfollowButton.isHidden = true
                         self.followButton.isHidden = false
                         self.unfollowButton.isEnabled = true
@@ -151,12 +143,11 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
     func checkFollowing() {
         let uid = Auth.auth().currentUser!.uid
-        let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
         
         MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
                 for (_, value) in following {
-                    if value as? String == theirID {
+                    if value as? String == (self.viewModel?.idx)! {
                         self.followButton.isHidden = true
                         self.unfollowButton.isHidden = false
                         self.followButton.isEnabled = true

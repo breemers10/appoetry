@@ -14,13 +14,14 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     
-    var viewModel: SearchViewModel?
+    var viewModel: FollowingViewModel?
     let createPostButton = UIButton(type: .system)
     
     var username: String?
     var fullName: String?
     var imageUrl: String?
     var userID: String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,15 +36,20 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func retrieveUsers() {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
-            guard snapshot.key != id else { return }
-            DispatchQueue.global().async {
-                let usersObject = snapshot.value as? NSDictionary
+
+        MySharedInstance.instance.userInfo = []
+        var following: String?
+        
+        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).child("following").observe(.childAdded, with: { (snapshot) in
+            following = snapshot.value as? String
+
+            MySharedInstance.instance.ref.child("users").child(following!).observeSingleEvent(of: .value, with: { (snap) in
+                
+                let usersObject = snap.value as? NSDictionary
                 self.username = usersObject?["username"] as? String
                 self.fullName = usersObject?["fullName"] as? String
                 self.imageUrl = usersObject?["imageUrl"] as? String
-                self.userID = snapshot.key
+                self.userID = snap.key
                 
                 var userInfo = UserInfo()
                 userInfo.fullName = self.fullName
@@ -52,10 +58,12 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
                 userInfo.userID = self.userID
                 
                 MySharedInstance.instance.userInfo.append(userInfo)
-            }
-            self.tableView.reloadData()
+                
+                self.tableView.reloadData()
+            })
         })
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
@@ -89,7 +97,7 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
-        viewModel?.createPost()
+        viewModel?.onCreatePostTap?()
     }
     
     private func addingTargetToCreatePostVC() {
