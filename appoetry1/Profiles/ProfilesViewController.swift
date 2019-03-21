@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ProfilesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var viewModel: ProfilesViewModel?
     @IBOutlet weak var collectionView: UICollectionView!
@@ -27,8 +27,9 @@ class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var thirdNumberLabel: UILabel!
     
     @IBOutlet weak var profilePicture: UIImageView!
+    @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var unfollowButton: UIButton!
     
-    let picker = UIImagePickerController()
     var posts = [Post]()
     
     var usersPosts = [String]()
@@ -36,8 +37,6 @@ class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        picker.delegate = self
-        picker.allowsEditing = true
         setupNavigationBarItems()
         
         fetchPosts()
@@ -47,8 +46,6 @@ class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate,
         
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
-        profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
-        profilePicture.isUserInteractionEnabled = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.usernameLabel.text = self.viewModel?.username
@@ -63,6 +60,11 @@ class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate,
             self.thirdNumberLabel.text = "3."
             self.profilePicture.downloadImage(from: self.viewModel?.imageUrl)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //        followPeople()
+        checkFollowing()
     }
     
     func fetchPosts() {
@@ -110,24 +112,90 @@ class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate,
         })
         MySharedInstance.instance.ref.removeAllObservers()
     }
-    @objc func handleSelectProfileImageView() {
-        present(picker, animated: true, completion: nil)
+    
+    @IBAction func followButtonPressed(_ sender: Any) {
+        let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
+        let uid = Auth.auth().currentUser!.uid
+        let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
+        let following = ["following/\(key!)" : theirID]
+        let followers = ["followers/\(key!)" : uid]
+        
+        MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
+        MySharedInstance.instance.ref.child("users").child(theirID!).updateChildValues(followers)
+        
+        self.followButton.isHidden = true
+        self.unfollowButton.isHidden = false
+        self.followButton.isEnabled = true
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    @IBAction func unfollowButtonPressed(_ sender: Any) {
+        let uid = Auth.auth().currentUser!.uid
+        let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
+        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let following = snapshot.value as? [String : AnyObject] {
+                for (ke, value) in following {
+                    if value as? String == theirID {
+                        
+                        MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
+                        MySharedInstance.instance.ref.child("users").child(theirID!).child("followers/\(ke)").removeValue()
+                        self.unfollowButton.isHidden = true
+                        self.followButton.isHidden = false
+                        self.unfollowButton.isEnabled = true
+                    }
+                }
+            }
+        })
+    }
+    
+    //func followPeople() {
+    //    let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
+    //    let uid = Auth.auth().currentUser!.uid
+    //    let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
+    //
+    //    var isFollower = false
+    //    MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+    //        if let following = snapshot.value as? [String : AnyObject] {
+    //            for (ke, value) in following {
+    //                if value as? String == theirID {
+    //                    isFollower = true
+    //
+    //                    MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
+    //                    MySharedInstance.instance.ref.child("users").child(theirID!).child("followers/\(ke)").removeValue()
+    //                    self.followButton.isHidden = false
+    //                }
+    //            }
+    //        }
+    //        if !isFollower {
+    //            let following = ["following/\(key!)" : theirID]
+    //            let followers = ["followers/\(key!)" : uid]
+    //
+    //            MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
+    //            MySharedInstance.instance.ref.child("users").child(theirID!).updateChildValues(followers)
+    //
+    //            self.followButton.isHidden = true
+    //            self.unfollowButton.isHidden = false
+    //            self.followButton.isEnabled = true
+    //        }
+    //    })
+    //    MySharedInstance.instance.ref.removeAllObservers()
+    //}
+    
+    func checkFollowing() {
+        let uid = Auth.auth().currentUser!.uid
+        let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
         
-        var selectedImageFromPicker: UIImage?
-        
-        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            selectedImageFromPicker = editedImage
-        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            selectedImageFromPicker = originalImage
-        }
-        
-        if let selectedImage = selectedImageFromPicker {
-            profilePicture.image = selectedImage
-        }
-        dismiss(animated: true, completion: nil)
+        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let following = snapshot.value as? [String : AnyObject] {
+                for (_, value) in following {
+                    if value as? String == theirID {
+                        self.followButton.isHidden = true
+                        self.unfollowButton.isHidden = false
+                        self.followButton.isEnabled = true
+                    }
+                }
+            }
+        })
+        MySharedInstance.instance.ref.removeAllObservers()
     }
     
     private func addingTargetToCreatePostVC() {
@@ -137,7 +205,7 @@ class ProfilesViewController: UIViewController, UIImagePickerControllerDelegate,
     @objc func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
     }
-   
+    
     private func setupNavigationBarItems() {
         createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
