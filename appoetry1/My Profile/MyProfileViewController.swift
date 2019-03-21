@@ -26,6 +26,8 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var firstNumberLabel: UILabel!
     @IBOutlet weak var secondNumberLabel: UILabel!
     @IBOutlet weak var thirdNumberLabel: UILabel!
+    @IBOutlet weak var followerButton: UIButton!
+    @IBOutlet weak var followingButton: UIButton!
     
     @IBOutlet weak var profilePicture: UIImageView!
     
@@ -113,6 +115,16 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         })
         MySharedInstance.instance.ref.removeAllObservers()
     }
+    
+    @IBAction func followerButtonPressed(_ sender: Any) {
+        viewModel?.onFollowersButtonTap?()
+    }
+    
+    @IBAction func followingButtonPressed(_ sender: Any) {
+        viewModel?.onFollowingButtonTap?()
+
+    }
+    
     @objc func handleSelectProfileImageView() {
         present(picker, animated: true, completion: nil)
     }
