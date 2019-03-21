@@ -85,9 +85,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(indexPath.row)
-  
-    }
+        viewModel?.onCellTap?(MySharedInstance.instance.userInfo[indexPath.row].userID!)
+      }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MySharedInstance.instance.userInfo.count

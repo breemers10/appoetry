@@ -31,7 +31,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.clipsToBounds = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         imageView.isUserInteractionEnabled = true
-
     }
     
     @objc func handleSelectProfileImageView() {
@@ -174,7 +173,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             
             print("Ok button tapped");
         }
-        
         alertController.addAction(OKAction)
         
         self.present(alertController, animated: true, completion:nil)

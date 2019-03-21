@@ -9,5 +9,14 @@
 import UIKit
 
 class FollowingViewModel {
-
+    
+    var onCreatePostTap: (() -> Void)?
+    var onCellTap: ((Int) -> Void)?
+    
+    var followingArray: [String] = []
+    var idx: String
+    
+    init(idx: String) {
+        self.idx = idx        
+    }
 }

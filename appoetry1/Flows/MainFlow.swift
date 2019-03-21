@@ -80,18 +80,23 @@ class MainFlow: PFlowController {
         myProfileWrapper?.pushViewController(createPostVC, animated: false)
     }
     
-    func moveToProfiles(idx: Int) {
+    func moveToProfiles(idx: String) {
         
         guard let profilesVC = profilesViewController else { return }
         let profilesViewModel = ProfilesViewModel(idx: idx)
         profilesViewModel.onFollowingButtonTap = { [weak self] in
-//            profilesVC.present(self!.followingViewController!, animated: true, completion: nil)
-            self?.searchWrapper?.pushViewController(profilesVC, animated: false)
+            self?.moveToFollowings(idx: idx)
         }
         
         profilesVC.viewModel = profilesViewModel
-        
         searchWrapper?.pushViewController(profilesVC, animated: false)
+    }
+    
+    func moveToFollowings(idx: String) {
+        guard let followingVC = followingViewController else { return }
+        let followingVM = FollowingViewModel(idx: idx)
+        followingVC.viewModel = followingVM
+        searchWrapper?.pushViewController(followingVC, animated: true)
     }
     
     func moveToMainScreen() {
@@ -137,15 +142,15 @@ class MainFlow: PFlowController {
         favourites.tabBarItem.title = "Favorites"
         
         guard let profile = myProfileViewController else { return }
-        let profileViewModel = MyProfileViewModel()
-        profileViewModel.onCreatePostTap = { [weak self] in
+        let myProfileViewModel = MyProfileViewModel()
+        myProfileViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromProfile()
         }
-        profileViewModel.onSignOutTap = { [weak self] in
+        myProfileViewModel.onSignOutTap = { [weak self] in
             self?.onSignOutCompletion?()
         }
         
-        profile.viewModel = profileViewModel
+        profile.viewModel = myProfileViewModel
         myProfileWrapper = UINavigationController(rootViewController: profile)
         guard let pw = myProfileWrapper else { return }
         profile.tabBarItem.image = UIImage(named: "user_male")
