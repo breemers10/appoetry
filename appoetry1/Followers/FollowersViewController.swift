@@ -1,20 +1,20 @@
 //
-//  SearchViewController.swift
+//  FollowersViewController.swift
 //  appoetry1
 //
-//  Created by Kristaps Brēmers on 06.03.19.
+//  Created by Kristaps Brēmers on 21.03.19.
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
 import UIKit
 import Firebase
-import Kingfisher
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+
+class FollowersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
-    var viewModel: SearchViewModel?
+    @IBOutlet weak var tableView: UITableView!
+    
+    var viewModel: FollowersViewModel?
     let createPostButton = UIButton(type: .system)
     
     var username: String?
@@ -29,26 +29,26 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         MySharedInstance.instance.userInfo = []
         
-        searchBar.delegate = self
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
     }
     
-    override func viewDidLayoutSubviews() {
-        self.view.applyGradient()
-    }
-    
     func retrieveUsers() {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
-            guard snapshot.key != id else { return }
-            DispatchQueue.global().async {
-                let usersObject = snapshot.value as? NSDictionary
+        
+        MySharedInstance.instance.userInfo = []
+        var followers: String?
+        
+        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).child("followers").observe(.childAdded, with: { (snapshot) in
+            followers = snapshot.value as? String
+            
+            MySharedInstance.instance.ref.child("users").child(followers!).observeSingleEvent(of: .value, with: { (snap) in
+                
+                let usersObject = snap.value as? NSDictionary
                 self.username = usersObject?["username"] as? String
                 self.fullName = usersObject?["fullName"] as? String
                 self.imageUrl = usersObject?["imageUrl"] as? String
-                self.userID = snapshot.key
+                self.userID = snap.key
                 
                 var userInfo = UserInfo()
                 userInfo.fullName = self.fullName
@@ -57,13 +57,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 userInfo.userID = self.userID
                 
                 MySharedInstance.instance.userInfo.append(userInfo)
-            }
-            self.tableView.reloadData()
+                
+                self.tableView.reloadData()
+            })
         })
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel?.searchUser(fullName: searchText, username: searchText)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -75,7 +72,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath) as! SearchUserCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "followersUserCell", for: indexPath) as! FollowersTableViewCell
         DispatchQueue.main.async {
             
             cell.usernameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].username
@@ -89,15 +86,16 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(MySharedInstance.instance.userInfo[indexPath.row].userID!)
-      }
+        viewModel?.onCellTap?(indexPath.row)
+        
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MySharedInstance.instance.userInfo.count
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
-        viewModel?.createPost()
+        viewModel?.onCreatePostTap?()
     }
     
     private func addingTargetToCreatePostVC() {
@@ -118,27 +116,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 }
 
-extension UIImageView {
-    func downloadImage(from imgURL: String!) {
-        let url = URLRequest(url: URL(string: imgURL)!)
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.image = UIImage(data: data!)
-            }
-        }
-        task.resume()
-    }
-}
-
-extension SearchViewController: ClassName {
+extension FollowersViewController: ClassName {
     static var className: String {
         return String(describing: self)
     }
 }
+

@@ -21,6 +21,10 @@ class RegisterStep2ViewController: UIViewController {
         showDatePicker()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     func showDatePicker() {
         datePicker.datePickerMode = .date
         

@@ -16,9 +16,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         emailLogin.text = "ww@ww.lv"
         passwordLogin.text = "Aa1234567"
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
     }
     
     @IBAction func pressLogin(_ sender: Any) {

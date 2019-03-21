@@ -40,7 +40,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ca8-9M-rhi">
                                 <rect key="frame" x="150" y="281" width="74" height="35"/>
-                                <color key="backgroundColor" red="0.76636213060000002" green="0.83528548479999998" blue="0.65743744370000001" alpha="0.18723244859999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <state key="normal" title="Log in">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -67,7 +67,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="00b-Ho-xmK" secondAttribute="trailing" constant="107" id="3JY-g0-YxJ"/>
                             <constraint firstItem="SdJ-2P-aFf" firstAttribute="top" secondItem="yk9-LU-muG" secondAttribute="bottom" constant="44" id="7ie-j6-sro"/>

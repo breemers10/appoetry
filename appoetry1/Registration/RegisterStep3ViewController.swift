@@ -24,6 +24,10 @@ class RegisterStep3ViewController: UIViewController {
         createToolbar()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     fileprivate let genrePicker1 = UIPickerView()
     fileprivate let genrePicker2 = UIPickerView()
     fileprivate let genrePicker3 = UIPickerView()
