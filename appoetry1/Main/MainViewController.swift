@@ -28,6 +28,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         fetchPosts()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         

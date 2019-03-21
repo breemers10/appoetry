@@ -87,7 +87,9 @@ class MainFlow: PFlowController {
         profilesViewModel.onFollowingButtonTap = { [weak self] in
             self?.moveToFollowings(idx: idx)
         }
-        
+        profilesViewModel.onFollowersButtonTap = { [weak self] in
+            self?.moveToFollowers(idx: idx)
+        }
         profilesVC.viewModel = profilesViewModel
         searchWrapper?.pushViewController(profilesVC, animated: false)
     }
@@ -97,6 +99,13 @@ class MainFlow: PFlowController {
         let followingVM = FollowingViewModel(idx: idx)
         followingVC.viewModel = followingVM
         searchWrapper?.pushViewController(followingVC, animated: true)
+    }
+    
+    func moveToFollowers(idx: String) {
+        guard let followersVC = followersViewController else { return }
+        let followersVM = FollowersViewModel(idx: idx)
+        followersVC.viewModel = followersVM
+        searchWrapper?.pushViewController(followersVC, animated: true)
     }
     
     func moveToMainScreen() {
@@ -195,6 +204,9 @@ extension MainFlow {
     }
     fileprivate var followingViewController: FollowingViewController? {
         return mainSB.instantiateViewController(withIdentifier: FollowingViewController.className) as? FollowingViewController
+    }
+    fileprivate var followersViewController: FollowersViewController? {
+        return mainSB.instantiateViewController(withIdentifier: FollowersViewController.className) as? FollowersViewController
     }
 }
 

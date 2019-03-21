@@ -32,6 +32,9 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         createToolbar()
         createGenrePicker()
     }
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
     
     func createGenrePicker() {
         

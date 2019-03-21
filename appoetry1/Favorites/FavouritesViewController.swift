@@ -28,6 +28,10 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.dataSource = self
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         

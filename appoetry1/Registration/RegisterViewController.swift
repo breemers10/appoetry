@@ -33,6 +33,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         imageView.isUserInteractionEnabled = true
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     @objc func handleSelectProfileImageView() {
         present(picker, animated: true, completion: nil)
     }
