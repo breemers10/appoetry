@@ -12,6 +12,10 @@ import Firebase
 class LoginViewController: UIViewController {
     @IBOutlet weak var emailLogin: UITextField!
     @IBOutlet weak var passwordLogin: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var forgetPasswordButton: UIButton!
+    
     var viewModel: LoginViewModel?
     
     override func viewDidLoad() {
@@ -22,6 +26,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         self.view.applyGradient()
+        self.loginButton.applyButtonDesign()
     }
     
     @IBAction func pressLogin(_ sender: Any) {
