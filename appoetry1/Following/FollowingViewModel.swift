@@ -8,6 +8,6 @@
 
 import UIKit
 
-class FollowingViewModel: NSObject {
+class FollowingViewModel {
 
 }
