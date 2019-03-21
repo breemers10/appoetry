@@ -249,7 +249,83 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J5Y-7V-9yt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2583.1999999999998" y="-1002.5487256371815"/>
+            <point key="canvasLocation" x="-2588" y="-1005"/>
+        </scene>
+        <!--Following View Controller-->
+        <scene sceneID="AYe-TH-fA3">
+            <objects>
+                <viewController storyboardIdentifier="FollowingViewController" id="cBG-ma-Hsl" customClass="FollowingViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hzp-2o-gYi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RQJ-GD-75N">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="followingUserCell" rowHeight="70" id="WWV-7C-msa" customClass="SearchUserCell" customModule="appoetry1" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WWV-7C-msa" id="lw8-cm-CoE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7TI-jC-dNS">
+                                                    <rect key="frame" x="6" y="7.5" width="55" height="55"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="9Aq-Iu-yvz"/>
+                                                        <constraint firstAttribute="height" constant="55" id="Pfu-kO-XNB"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLM-or-vTI">
+                                                    <rect key="frame" x="69" y="36" width="291" height="23"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Toy-cS-OfO">
+                                                    <rect key="frame" x="69" y="7" width="291" height="29"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Toy-cS-OfO" secondAttribute="trailing" constant="15" id="62m-eV-Itc"/>
+                                                <constraint firstItem="dLM-or-vTI" firstAttribute="leading" secondItem="Toy-cS-OfO" secondAttribute="leading" id="HK9-dx-8H8"/>
+                                                <constraint firstItem="Toy-cS-OfO" firstAttribute="top" secondItem="lw8-cm-CoE" secondAttribute="top" constant="7" id="Hgd-eb-h3Y"/>
+                                                <constraint firstItem="Toy-cS-OfO" firstAttribute="leading" secondItem="7TI-jC-dNS" secondAttribute="trailing" constant="8" id="Nmt-4z-9es"/>
+                                                <constraint firstItem="dLM-or-vTI" firstAttribute="trailing" secondItem="Toy-cS-OfO" secondAttribute="trailing" id="ckO-uQ-POm"/>
+                                                <constraint firstItem="7TI-jC-dNS" firstAttribute="centerY" secondItem="lw8-cm-CoE" secondAttribute="centerY" id="dBN-Kt-zEQ"/>
+                                                <constraint firstItem="7TI-jC-dNS" firstAttribute="leading" secondItem="lw8-cm-CoE" secondAttribute="leadingMargin" constant="-9" id="kS0-aK-Kg5"/>
+                                                <constraint firstItem="dLM-or-vTI" firstAttribute="top" secondItem="Toy-cS-OfO" secondAttribute="bottom" id="r01-h9-VhJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="fullNameLabel" destination="dLM-or-vTI" id="hTW-Fv-R2W"/>
+                                            <outlet property="userImage" destination="7TI-jC-dNS" id="6Dl-S4-JBE"/>
+                                            <outlet property="usernameLabel" destination="Toy-cS-OfO" id="Yg2-NQ-9BA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="RQJ-GD-75N" firstAttribute="leading" secondItem="IJV-Et-lXx" secondAttribute="leading" id="IpJ-D8-NWN"/>
+                            <constraint firstItem="RQJ-GD-75N" firstAttribute="top" secondItem="IJV-Et-lXx" secondAttribute="top" id="LG6-bs-aLX"/>
+                            <constraint firstItem="RQJ-GD-75N" firstAttribute="trailing" secondItem="IJV-Et-lXx" secondAttribute="trailing" id="Pnv-GF-pIw"/>
+                            <constraint firstItem="RQJ-GD-75N" firstAttribute="bottom" secondItem="IJV-Et-lXx" secondAttribute="bottom" id="cwc-0z-Frv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IJV-Et-lXx"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="RQJ-GD-75N" id="ffo-ry-smC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Glf-27-TcD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-95.200000000000003" y="-1671.8140929535234"/>
         </scene>
         <!--Favourites View Controller-->
         <scene sceneID="SI8-Qb-Fdc">
