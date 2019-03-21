@@ -62,6 +62,7 @@
 		63FF78EA2243C80A002720AD /* FollowersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FF78E92243C80A002720AD /* FollowersTableViewCell.swift */; };
 		63FF78EC2243C81E002720AD /* FollowersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FF78EB2243C81E002720AD /* FollowersViewModel.swift */; };
 		63FF78EE2243CB20002720AD /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FF78ED2243CB20002720AD /* Design.swift */; };
+		63FF78F02243D9EC002720AD /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FF78EF2243D9EC002720AD /* Buttons.swift */; };
 		E4E335F1BE1C8FE72D93F448 /* Pods_appoetry1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3F21AFA5F613326F4FCFBC /* Pods_appoetry1Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,7 @@
 		63FF78E92243C80A002720AD /* FollowersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersTableViewCell.swift; sourceTree = "<group>"; };
 		63FF78EB2243C81E002720AD /* FollowersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewModel.swift; sourceTree = "<group>"; };
 		63FF78ED2243CB20002720AD /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
+		63FF78EF2243D9EC002720AD /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		871D18A2C14964BBEE981553 /* Pods-appoetry1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appoetry1Tests.release.xcconfig"; path = "Target Support Files/Pods-appoetry1Tests/Pods-appoetry1Tests.release.xcconfig"; sourceTree = "<group>"; };
 		CD3F21AFA5F613326F4FCFBC /* Pods_appoetry1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appoetry1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D3146AC7CB5993781EB841 /* Pods-appoetry1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appoetry1.debug.xcconfig"; path = "Target Support Files/Pods-appoetry1/Pods-appoetry1.debug.xcconfig"; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				63F85767223293B80096C9FA /* MySharedInstance.swift */,
 				63AFEE33223C07BC00C5068E /* Post.swift */,
 				63FF78ED2243CB20002720AD /* Design.swift */,
+				63FF78EF2243D9EC002720AD /* Buttons.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				63F85760223278190096C9FA /* MyProfileViewController.swift in Sources */,
 				63FF78EE2243CB20002720AD /* Design.swift in Sources */,
 				63D60D492227CFA3000ECAA8 /* RegisterStep2ViewModel.swift in Sources */,
+				63FF78F02243D9EC002720AD /* Buttons.swift in Sources */,
 				63D60D472227CEF3000ECAA8 /* PFlowController.swift in Sources */,
 				63D60D552229215B000ECAA8 /* UserServices.swift in Sources */,
 				63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */,
