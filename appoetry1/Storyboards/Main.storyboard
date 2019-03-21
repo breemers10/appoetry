@@ -263,7 +263,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="followingUserCell" rowHeight="70" id="WWV-7C-msa" customClass="SearchUserCell" customModule="appoetry1" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="followingUserCell" rowHeight="70" id="WWV-7C-msa" customClass="FollowingTableViewCell" customModule="appoetry1" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WWV-7C-msa" id="lw8-cm-CoE">
@@ -1156,6 +1156,9 @@
                                 <state key="normal" title="Followers">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="followersButtonPressed:" destination="99o-el-H3B" eventType="touchUpInside" id="iBF-3t-m28"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFb-MT-sx3">
                                 <rect key="frame" x="230" y="90" width="66" height="30"/>
@@ -1163,6 +1166,9 @@
                                 <state key="normal" title="Following">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="followingButtonPressed:" destination="99o-el-H3B" eventType="touchUpInside" id="aiP-LV-cGa"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.91372549020000005" green="0.94509803920000002" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1223,6 +1229,8 @@
                         <outlet property="firstGenreLabel" destination="cqN-Ci-oZb" id="axm-Gs-wXy"/>
                         <outlet property="firstNumberLabel" destination="1Ef-Ic-IpR" id="hU4-iN-pSx"/>
                         <outlet property="followButton" destination="Cqi-jR-Lgx" id="m60-Lo-I71"/>
+                        <outlet property="followersButton" destination="RaU-EX-ZPM" id="bny-eE-U7A"/>
+                        <outlet property="followingButton" destination="JFb-MT-sx3" id="YW5-g8-amS"/>
                         <outlet property="fullNameLabel" destination="Mma-cv-UXE" id="QEF-Am-ey2"/>
                         <outlet property="profilePicture" destination="Uht-hQ-lYh" id="q47-j4-KIm"/>
                         <outlet property="secondGenreLabel" destination="P4A-ce-SOX" id="6GV-QR-Rk7"/>

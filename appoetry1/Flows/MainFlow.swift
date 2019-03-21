@@ -20,7 +20,7 @@ class MainFlow: PFlowController {
     private var mainWrapper: UINavigationController?
     private var searchWrapper: UINavigationController?
     private var favouritesWrapper: UINavigationController?
-    private var profileWrapper: UINavigationController?
+    private var myProfileWrapper: UINavigationController?
 
     init(userService: PUserService) {
         self.userService = userService
@@ -73,17 +73,21 @@ class MainFlow: PFlowController {
         guard let createPostVC = createPostViewController else { return }
         let createPostViewModel = CreatePostViewModel()
         createPostViewModel.onMainScreen = { [weak self] in
-            self?.profileWrapper?.popViewController(animated: true)
+            self?.myProfileWrapper?.popViewController(animated: true)
         }
         createPostVC.viewModel = createPostViewModel
 
-        profileWrapper?.pushViewController(createPostVC, animated: false)
+        myProfileWrapper?.pushViewController(createPostVC, animated: false)
     }
     
     func moveToProfiles(idx: Int) {
         
         guard let profilesVC = profilesViewController else { return }
         let profilesViewModel = ProfilesViewModel(idx: idx)
+        profilesViewModel.onFollowingButtonTap = { [weak self] in
+//            profilesVC.present(self!.followingViewController!, animated: true, completion: nil)
+            self?.searchWrapper?.pushViewController(profilesVC, animated: false)
+        }
         
         profilesVC.viewModel = profilesViewModel
         
@@ -142,8 +146,8 @@ class MainFlow: PFlowController {
         }
         
         profile.viewModel = profileViewModel
-        profileWrapper = UINavigationController(rootViewController: profile)
-        guard let pw = profileWrapper else { return }
+        myProfileWrapper = UINavigationController(rootViewController: profile)
+        guard let pw = myProfileWrapper else { return }
         profile.tabBarItem.image = UIImage(named: "user_male")
         profile.tabBarItem.title = "My Profile"
 
@@ -183,6 +187,9 @@ extension MainFlow {
     }
     fileprivate var createPostViewController: CreatePostViewController? {
         return mainSB.instantiateViewController(withIdentifier: CreatePostViewController.className) as? CreatePostViewController
+    }
+    fileprivate var followingViewController: FollowingViewController? {
+        return mainSB.instantiateViewController(withIdentifier: FollowingViewController.className) as? FollowingViewController
     }
 }
 

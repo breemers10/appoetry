@@ -29,6 +29,8 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var unfollowButton: UIButton!
+    @IBOutlet weak var followersButton: UIButton!
+    @IBOutlet weak var followingButton: UIButton!
     
     var posts = [Post]()
     
@@ -146,40 +148,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
             }
         })
     }
-    
-    //func followPeople() {
-    //    let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
-    //    let uid = Auth.auth().currentUser!.uid
-    //    let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
-    //
-    //    var isFollower = false
-    //    MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-    //        if let following = snapshot.value as? [String : AnyObject] {
-    //            for (ke, value) in following {
-    //                if value as? String == theirID {
-    //                    isFollower = true
-    //
-    //                    MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
-    //                    MySharedInstance.instance.ref.child("users").child(theirID!).child("followers/\(ke)").removeValue()
-    //                    self.followButton.isHidden = false
-    //                }
-    //            }
-    //        }
-    //        if !isFollower {
-    //            let following = ["following/\(key!)" : theirID]
-    //            let followers = ["followers/\(key!)" : uid]
-    //
-    //            MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
-    //            MySharedInstance.instance.ref.child("users").child(theirID!).updateChildValues(followers)
-    //
-    //            self.followButton.isHidden = true
-    //            self.unfollowButton.isHidden = false
-    //            self.followButton.isEnabled = true
-    //        }
-    //    })
-    //    MySharedInstance.instance.ref.removeAllObservers()
-    //}
-    
+
     func checkFollowing() {
         let uid = Auth.auth().currentUser!.uid
         let theirID = MySharedInstance.instance.userInfo[(viewModel?.idx)!].userID
@@ -197,6 +166,15 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         })
         MySharedInstance.instance.ref.removeAllObservers()
     }
+    
+    @IBAction func followersButtonPressed(_ sender: Any) {
+        viewModel?.onFollowersButtonTap?()
+    }
+    
+    @IBAction func followingButtonPressed(_ sender: Any) {
+        viewModel?.onFollowingButtonTap?()
+    }
+    
     
     private func addingTargetToCreatePostVC() {
         createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)

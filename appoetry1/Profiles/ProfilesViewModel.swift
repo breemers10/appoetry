@@ -12,6 +12,8 @@ import Firebase
 class ProfilesViewModel {
     var onCreatePostTap: (() -> Void)?
     var onSignOutTap: (() -> Void)?
+    var onFollowersButtonTap: (() -> Void)?
+    var onFollowingButtonTap: (() -> Void)?
     
     var username: String?
     var email: String?
