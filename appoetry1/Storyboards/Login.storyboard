@@ -38,28 +38,21 @@
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="253" verticalCompressionResistancePriority="753" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SdJ-2P-aFf">
-                                <rect key="frame" x="123" y="443" width="129" height="33"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
-                                <state key="normal" title="Forgot password">
-                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yk9-LU-muG" customClass="Buttons" customModule="appoetry1" customModuleProvider="target">
-                                <rect key="frame" x="130" y="357" width="114" height="42"/>
+                                <rect key="frame" x="130" y="387" width="114" height="42"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="23"/>
                                 <state key="normal" title="Register">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="rounded">
-                                        <real key="value" value="15"/>
+                                        <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="value" white="0.84684244791666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -67,21 +60,21 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ca8-9M-rhi" customClass="Buttons" customModule="appoetry1" customModuleProvider="target">
-                                <rect key="frame" x="150" y="276" width="74" height="42"/>
+                                <rect key="frame" x="150" y="276" width="74" height="38"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="23"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
                                 <state key="normal" title="Log in">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="rounded">
-                                        <integer key="value" value="15"/>
+                                        <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="value" white="0.83740234375" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -101,20 +94,16 @@
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="yk9-LU-muG" secondAttribute="trailing" constant="131" id="YvV-X2-IEr"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="24i-ps-1D6" secondAttribute="trailing" constant="107" id="aGX-7D-hCp"/>
                             <constraint firstItem="24i-ps-1D6" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="107" id="aWd-bd-KzM"/>
+                            <constraint firstItem="zSF-Xi-SiR" firstAttribute="bottom" secondItem="yk9-LU-muG" secondAttribute="bottom" constant="238" id="gV6-7t-AVh"/>
                             <constraint firstItem="yk9-LU-muG" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="130" id="jFP-bB-D8J"/>
-                            <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="SdJ-2P-aFf" secondAttribute="trailing" constant="123" id="lZ1-U5-mHj"/>
                             <constraint firstItem="00b-Ho-xmK" firstAttribute="top" secondItem="24i-ps-1D6" secondAttribute="bottom" constant="8" id="n2B-8A-0vI"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="J6y-gR-rdu" secondAttribute="trailing" constant="96.5" id="nS7-1g-4Q8"/>
-                            <constraint firstItem="yk9-LU-muG" firstAttribute="top" secondItem="ca8-9M-rhi" secondAttribute="bottom" constant="39" id="oZZ-bL-vMb"/>
-                            <constraint firstItem="SdJ-2P-aFf" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="123" id="qeZ-YP-XjZ"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="ca8-9M-rhi" secondAttribute="trailing" constant="151" id="r5T-8y-JMs"/>
-                            <constraint firstItem="zSF-Xi-SiR" firstAttribute="bottom" secondItem="SdJ-2P-aFf" secondAttribute="bottom" constant="191" id="zvw-PW-6ah"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zSF-Xi-SiR"/>
                     </view>
                     <connections>
                         <outlet property="emailLogin" destination="24i-ps-1D6" id="ivE-zY-2cd"/>
-                        <outlet property="forgetPasswordButton" destination="SdJ-2P-aFf" id="mLw-WV-obV"/>
                         <outlet property="loginButton" destination="ca8-9M-rhi" id="IQ4-ea-l9c"/>
                         <outlet property="passwordLogin" destination="00b-Ho-xmK" id="Swp-Ye-FdW"/>
                         <outlet property="registerButton" destination="yk9-LU-muG" id="PMa-0u-JOB"/>
