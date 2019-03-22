@@ -11,7 +11,7 @@ import UIKit
 class FollowingViewModel {
     
     var onCreatePostTap: (() -> Void)?
-    var onCellTap: ((Int) -> Void)?
+    var onCellTap: ((String) -> Void)?
     
     var followingArray: [String] = []
     var idx: String

@@ -33,6 +33,10 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         retrieveUsers()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     func retrieveUsers() {
 
         MySharedInstance.instance.userInfo = []
@@ -85,7 +89,7 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(indexPath.row)
+        viewModel?.onCellTap?(MySharedInstance.instance.userInfo[indexPath.row].userID!)
         
     }
     
