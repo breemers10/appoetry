@@ -198,7 +198,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
         cell.genreLabel.text = self.posts[indexPath.row].genre
-
+        cell.textViewHC.constant = cell.textView.contentSize.height
         
         for person in self.posts[indexPath.row].peopleFavourited {
             if person == Auth.auth().currentUser!.uid {
