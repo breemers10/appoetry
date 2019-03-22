@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 
-
 class FollowingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -21,7 +20,6 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     var fullName: String?
     var imageUrl: String?
     var userID: String?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +62,6 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         })
     }
 
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }

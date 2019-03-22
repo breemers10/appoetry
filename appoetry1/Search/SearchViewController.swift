@@ -64,6 +64,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel?.searchUser(fullName: searchText, username: searchText)
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
