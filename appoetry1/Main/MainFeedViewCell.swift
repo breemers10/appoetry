@@ -19,6 +19,7 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var favouritesLabel: UILabel!
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var authorButton: UIButton!
+        @IBOutlet weak var textViewHC: NSLayoutConstraint!
     
     var postID: String!
     var viewModel: MainViewModel?
@@ -115,5 +116,18 @@ class MainFeedViewCell: UICollectionViewCell {
                 }
             }
         })
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        setNeedsLayout()
+        layoutSubviews()
+        
+        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+        
+        var frame = layoutAttributes.frame
+        frame.size.height = ceil(size.height)
+        layoutAttributes.frame = frame
+        
+        return layoutAttributes
     }
 }

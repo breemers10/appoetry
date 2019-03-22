@@ -17,6 +17,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var following = [String]()
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
@@ -26,6 +27,13 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.dataSource = self
         
         fetchPosts()
+        
+        if let flowLayout = UICollectionViewLayout() as? UICollectionViewFlowLayout,
+            let collectionView = collectionView {
+            let w = collectionView.frame.width - 20
+            
+            flowLayout.estimatedItemSize = CGSize(width: w, height: 300)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,6 +132,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
             cell.postID = self.posts[indexPath.row].postID
             cell.genreLabel.text = self.posts[indexPath.row].genre
+            cell.textViewHC.constant = cell.postTextView.contentSize.height
             
             for person in self.posts[indexPath.row].peopleFavourited {
                 if person == Auth.auth().currentUser!.uid {
