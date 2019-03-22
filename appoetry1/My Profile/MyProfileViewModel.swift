@@ -25,10 +25,10 @@ class MyProfileViewModel: NSObject {
 
     override init() {
         super.init()
-        getUsername()
+        getUserInfo()
     }
     
-    func getUsername() {
+    func getUserInfo() {
         guard let id = Auth.auth().currentUser?.uid else { return }
         MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
