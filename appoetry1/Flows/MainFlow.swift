@@ -97,6 +97,9 @@ class MainFlow: PFlowController {
     func moveToFollowings(idx: String) {
         guard let followingVC = followingViewController else { return }
         let followingVM = FollowingViewModel(idx: idx)
+        followingVM.onCellTap = { [weak self] idx in
+            self?.moveToProfiles(idx: idx)
+        }
         followingVC.viewModel = followingVM
         searchWrapper?.pushViewController(followingVC, animated: true)
     }

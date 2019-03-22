@@ -193,12 +193,15 @@
                         <subviews>
                             <searchBar contentMode="redraw" placeholder="search for users" translatesAutoresizingMaskIntoConstraints="NO" id="Tke-cD-ZOl">
                                 <rect key="frame" x="0.0" y="20" width="375" height="56"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.8901960784313725" green="0.99215686274509807" blue="0.96078431372549022" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="barTintColor" red="0.8901960784313725" green="0.99215686274509807" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DAk-ri-Fpk">
                                 <rect key="frame" x="0.0" y="76" width="375" height="591"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchUserCell" rowHeight="70" id="7G5-nD-eMK" customClass="SearchUserCell" customModule="appoetry1" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
@@ -227,6 +230,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="ShO-Xx-iU8" firstAttribute="trailing" secondItem="Itu-Uj-lwF" secondAttribute="trailing" id="2wS-GH-Oi6"/>
                                                 <constraint firstItem="Itu-Uj-lwF" firstAttribute="leading" secondItem="sPu-Da-pHh" secondAttribute="trailing" constant="8" id="4dh-v8-W2t"/>
@@ -238,6 +242,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="Itu-Uj-lwF" secondAttribute="trailing" constant="15" id="rni-ev-G3f"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="fullNameLabel" destination="ShO-Xx-iU8" id="blq-aZ-KMQ"/>
                                             <outlet property="userImage" destination="sPu-Da-pHh" id="2rg-Lg-RMx"/>
@@ -307,6 +312,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="Toy-cS-OfO" secondAttribute="trailing" constant="15" id="62m-eV-Itc"/>
                                                 <constraint firstItem="dLM-or-vTI" firstAttribute="leading" secondItem="Toy-cS-OfO" secondAttribute="leading" id="HK9-dx-8H8"/>
@@ -318,6 +324,7 @@
                                                 <constraint firstItem="dLM-or-vTI" firstAttribute="top" secondItem="Toy-cS-OfO" secondAttribute="bottom" id="r01-h9-VhJ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="fullNameLabel" destination="dLM-or-vTI" id="hTW-Fv-R2W"/>
                                             <outlet property="userImage" destination="7TI-jC-dNS" id="6Dl-S4-JBE"/>
