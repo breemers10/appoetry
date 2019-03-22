@@ -20,6 +20,7 @@ class MyProfileFeedCell: UICollectionViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     
     @IBOutlet weak var unfavouriteButton: UIButton!
+    @IBOutlet weak var textViewHC: NSLayoutConstraint!
     
     var postID: String!
     
