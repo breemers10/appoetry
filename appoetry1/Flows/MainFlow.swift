@@ -68,16 +68,10 @@ class MainFlow: PFlowController {
         favouritesWrapper?.pushViewController(createPostVC, animated: false)
     }
     
-    func moveToCreatePostFromProfile() {
+    func moveToEditPost() {
         
-        guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
-        createPostViewModel.onMainScreen = { [weak self] in
-            self?.myProfileWrapper?.popViewController(animated: true)
-        }
-        createPostVC.viewModel = createPostViewModel
-
-        myProfileWrapper?.pushViewController(createPostVC, animated: false)
+        guard let editProfileVC = editProfileViewController else { return }
+        myProfileWrapper?.pushViewController(editProfileVC, animated: false)
     }
     
     func moveToProfiles(idx: String) {
@@ -152,8 +146,8 @@ class MainFlow: PFlowController {
         
         guard let profile = myProfileViewController else { return }
         let myProfileViewModel = MyProfileViewModel()
-        myProfileViewModel.onCreatePostTap = { [weak self] in
-            self?.moveToCreatePostFromProfile()
+        myProfileViewModel.onEditProfileTap = { [weak self] in
+            self?.moveToEditPost()
         }
         myProfileViewModel.onSignOutTap = { [weak self] in
             self?.onSignOutCompletion?()
@@ -207,6 +201,9 @@ extension MainFlow {
     }
     fileprivate var followersViewController: FollowersViewController? {
         return mainSB.instantiateViewController(withIdentifier: FollowersViewController.className) as? FollowersViewController
+    }
+    fileprivate var editProfileViewController: EditProfileViewController? {
+        return mainSB.instantiateViewController(withIdentifier: EditProfileViewController.className) as? EditProfileViewController
     }
 }
 

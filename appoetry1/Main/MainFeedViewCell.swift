@@ -18,9 +18,10 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favouritesLabel: UILabel!
     @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet weak var authorButton: UIButton!
     
     var postID: String!
-
+    var viewModel: MainViewModel?
     
     @IBAction func favouriteBttnPressed(_ sender: Any) {
         self.favouriteButton.isHidden = false

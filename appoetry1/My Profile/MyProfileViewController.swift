@@ -14,7 +14,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     
     var viewModel: MyProfileViewModel?
     @IBOutlet weak var collectionView: UICollectionView!
-    let createPostButton = UIButton(type: .system)
+    let editProfileButton = UIButton(type: .system)
     let signOutButton = UIButton(type: .system)
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var fullNameLabel: UILabel!
@@ -149,12 +149,12 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         dismiss(animated: true, completion: nil)
     }
  
-    @objc func createPostButtonPressed(sender: UIButton) {
-        viewModel?.createPost()
+    @objc func editProfileButtonPressed(sender: UIButton) {
+        viewModel?.toEditProfile()
     }
     
     private func addingTargetToCreatePostVC() {
-        createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
+        editProfileButton.addTarget(self, action: #selector(self.editProfileButtonPressed(sender:)), for: .touchUpInside)
     }
     
     @objc func signOutButtonPressed(sender: UIButton) {
@@ -166,13 +166,13 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     private func setupNavigationBarItems() {
-        createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        editProfileButton.setTitle("Edit profile", for: .normal)
+        editProfileButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
         signOutButton.setTitle("Sign out", for: .normal)
         signOutButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editProfileButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: signOutButton)
         
         let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]

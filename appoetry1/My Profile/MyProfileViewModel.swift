@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class MyProfileViewModel: NSObject {
-    var onCreatePostTap: (() -> Void)?
+    var onEditProfileTap: (() -> Void)?
     var onSignOutTap: (() -> Void)?
     var onFollowersButtonTap: (() -> Void)?
     var onFollowingButtonTap:(() -> Void)?
@@ -43,8 +43,8 @@ class MyProfileViewModel: NSObject {
         })
     }
     
-    func createPost() {
-        onCreatePostTap?()
+    func toEditProfile() {
+        onEditProfileTap?()
     }
     
     func signOut() {

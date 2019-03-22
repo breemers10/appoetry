@@ -33,6 +33,8 @@
 		63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */; };
 		63AFEE32223BF34900C5068E /* MainFeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEE31223BF34900C5068E /* MainFeedViewCell.swift */; };
 		63AFEE34223C07BC00C5068E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEE33223C07BC00C5068E /* Post.swift */; };
+		63C4687B2244E4BE00895153 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4687A2244E4BE00895153 /* EditProfileViewController.swift */; };
+		63C4687D2244E4D200895153 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4687C2244E4D200895153 /* EditProfileViewModel.swift */; };
 		63C777C5223174B800CC753C /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C777C4223174B800CC753C /* CreatePostViewController.swift */; };
 		63D5E5ED222697C6008D9163 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D5E5EC222697C6008D9163 /* LoginViewModel.swift */; };
 		63D60D442227C3D9000ECAA8 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D60D432227C3D9000ECAA8 /* RegisterViewModel.swift */; };
@@ -109,6 +111,8 @@
 		63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStep3ViewModel.swift; sourceTree = "<group>"; };
 		63AFEE31223BF34900C5068E /* MainFeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedViewCell.swift; sourceTree = "<group>"; };
 		63AFEE33223C07BC00C5068E /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		63C4687A2244E4BE00895153 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		63C4687C2244E4D200895153 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		63C777C4223174B800CC753C /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		63D5E5EC222697C6008D9163 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		63D60D432227C3D9000ECAA8 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 		630C737A222FAE2C0020C2FC /* My Profile */ = {
 			isa = PBXGroup;
 			children = (
+				63C468792244E49200895153 /* Edit profile */,
 				63F8575F223278190096C9FA /* MyProfileViewController.swift */,
 				63F857612232787C0096C9FA /* MyProfileViewModel.swift */,
 				63E4CF13223FD50F00ACF5C2 /* MyProfileFeedCell.swift */,
@@ -273,6 +278,15 @@
 				63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		63C468792244E49200895153 /* Edit profile */ = {
+			isa = PBXGroup;
+			children = (
+				63C4687A2244E4BE00895153 /* EditProfileViewController.swift */,
+				63C4687C2244E4D200895153 /* EditProfileViewModel.swift */,
+			);
+			path = "Edit profile";
 			sourceTree = "<group>";
 		};
 		63C777C32231747900CC753C /* Create a Post */ = {
@@ -658,6 +672,7 @@
 				63FF78E322438601002720AD /* FollowingViewModel.swift in Sources */,
 				63AFEE34223C07BC00C5068E /* Post.swift in Sources */,
 				63FF78E82243C7EF002720AD /* FollowersViewController.swift in Sources */,
+				63C4687D2244E4D200895153 /* EditProfileViewModel.swift in Sources */,
 				63FF78E5224386E6002720AD /* FollowingTableViewCell.swift in Sources */,
 				630C7379222FAE260020C2FC /* SearchViewController.swift in Sources */,
 				637BE02D2223FF9E00B4E7CC /* AppFlow.swift in Sources */,
@@ -667,6 +682,7 @@
 				63FF78EC2243C81E002720AD /* FollowersViewModel.swift in Sources */,
 				63D60D5B22295D8B000ECAA8 /* MainViewModel.swift in Sources */,
 				637BE0312223FFB500B4E7CC /* LoginFlow.swift in Sources */,
+				63C4687B2244E4BE00895153 /* EditProfileViewController.swift in Sources */,
 				63553FE7222FAA5700F1659F /* MainTabBarController.swift in Sources */,
 				6335030B223A8B700028608E /* CreatePostViewModel.swift in Sources */,
 				637BE0332223FFC000B4E7CC /* RegFlow.swift in Sources */,
