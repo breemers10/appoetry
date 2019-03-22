@@ -71,6 +71,12 @@ class MainFlow: PFlowController {
     func moveToEditPost() {
         
         guard let editProfileVC = editProfileViewController else { return }
+        let editProfileViewModel = EditProfileViewModel()
+        editProfileViewModel.onEditProfileCompletion = { [weak self] in
+            self?.myProfileWrapper?.popViewController(animated: true)
+        }
+        editProfileVC.viewModel = editProfileViewModel
+        
         myProfileWrapper?.pushViewController(editProfileVC, animated: false)
     }
     
