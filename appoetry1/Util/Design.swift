@@ -23,7 +23,7 @@ extension UIButton {
     func applyButtonDesign() {
         let buttonLayer = CALayer()
         buttonLayer.borderWidth = 3
-        buttonLayer.borderColor = UIColor.gray.cgColor
+        buttonLayer.borderColor = UIColor.lightGray.cgColor
         buttonLayer.cornerRadius = 5
     }
 }
