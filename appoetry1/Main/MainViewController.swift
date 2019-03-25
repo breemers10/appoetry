@@ -30,9 +30,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         if let flowLayout = UICollectionViewLayout() as? UICollectionViewFlowLayout,
             let collectionView = collectionView {
-            let w = collectionView.frame.width - 20
+            let width = collectionView.frame.width - 20
             
-            flowLayout.estimatedItemSize = CGSize(width: w, height: 300)
+            flowLayout.estimatedItemSize = CGSize(width: width, height: 300)
         }
     }
     
