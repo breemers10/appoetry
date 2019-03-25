@@ -116,6 +116,11 @@ class MainFeedViewCell: UICollectionViewCell {
                 }
             }
         })
+        
+    }
+    
+    @IBAction func authorOfPostPressed(_ sender: Any) {
+        
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
