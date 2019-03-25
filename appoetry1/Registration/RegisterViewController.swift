@@ -115,7 +115,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                     if let url = url {
 
                         self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
-
                     }
                 })
             }

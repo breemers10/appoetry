@@ -31,7 +31,10 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         
         createToolbar()
         createGenrePicker()
+        
+        previewImage.image = UIImage(named: "default_beach")
     }
+    
     override func viewDidLayoutSubviews() {
         self.view.applyGradient()
     }
@@ -89,7 +92,9 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
         let imageRef = storage.child("posts").child(uid).child("\(String(describing: key)).jpg")
-        
+        if self.previewImage == nil {
+            print("no picture for this post")
+        }
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
         
         let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
