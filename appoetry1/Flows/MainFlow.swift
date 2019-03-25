@@ -104,11 +104,34 @@ class MainFlow: PFlowController {
         searchWrapper?.pushViewController(followingVC, animated: true)
     }
     
+       func moveToFollowingsFromMyProfile(idx: String) {
+        guard let followingVC = followingViewController else { return }
+        let followingVM = FollowingViewModel(idx: idx)
+        followingVM.onCellTap = { [weak self] idx in
+            self?.moveToProfiles(idx: idx)
+        }
+        followingVC.viewModel = followingVM
+        myProfileWrapper?.pushViewController(followingVC, animated: true)
+    }
+    
     func moveToFollowers(idx: String) {
         guard let followersVC = followersViewController else { return }
         let followersVM = FollowersViewModel(idx: idx)
+        followersVM.onCellTap = { [weak self] idx in
+            self?.moveToProfiles(idx: idx)
+        }
         followersVC.viewModel = followersVM
         searchWrapper?.pushViewController(followersVC, animated: true)
+    }
+    
+    func moveToFollowersFromMyProfile(idx: String) {
+        guard let followersVC = followersViewController else { return }
+        let followersVM = FollowersViewModel(idx: idx)
+        followersVM.onCellTap = { [weak self] idx in
+            self?.moveToProfiles(idx: idx)
+        }
+        followersVC.viewModel = followersVM
+        myProfileWrapper?.pushViewController(followersVC, animated: true)
     }
     
     func moveToMainScreen() {
@@ -161,7 +184,12 @@ class MainFlow: PFlowController {
         myProfileViewModel.onSignOutTap = { [weak self] in
             self?.onSignOutCompletion?()
         }
-        
+        myProfileViewModel.onFollowingButtonTap = { [weak self] idx in
+            self?.moveToFollowingsFromMyProfile(idx: idx)
+        }
+        myProfileViewModel.onFollowersButtonTap = { [weak self] idx in
+            self?.moveToFollowersFromMyProfile(idx: idx)
+        }
         profile.viewModel = myProfileViewModel
         myProfileWrapper = UINavigationController(rootViewController: profile)
         guard let pw = myProfileWrapper else { return }

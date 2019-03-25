@@ -129,7 +129,6 @@ extension UIImageView {
                 print(error!)
                 return
             }
-            
             DispatchQueue.main.async {
                 self.image = UIImage(data: data!)
             }

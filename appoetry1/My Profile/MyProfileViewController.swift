@@ -35,6 +35,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     var posts = [Post]()
     
     var usersPosts = [String]()
+    var idx: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,16 +78,16 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     func fetchPosts() {
         AppDelegate.instance().showActivityIndicator()
         
-        let uid = Auth.auth().currentUser?.uid
+        idx = Auth.auth().currentUser?.uid
         
-        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        MySharedInstance.instance.ref.child("users").child(idx!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             _ = snapshot.value as! [String : AnyObject]
             
             self.usersPosts.append(Auth.auth().currentUser!.uid)
             AppDelegate.instance().dismissActivityIndicator()
         })
         
-        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+        MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             
             for (_,post) in postSnap {
@@ -94,7 +95,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
                     for each in self.usersPosts {
                         if each == userID {
                             let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String, let createdAt = post["createdAt"] as? Double {
                                 posst.username = author
                                 posst.favourites = favourites
                                 posst.pathToImage = pathToImage
@@ -102,6 +103,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
                                 posst.userID = userID
                                 posst.poem = poem
                                 posst.genre = genre
+                                posst.timestamp = createdAt
                                 
                                 if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                     for (_,person) in people {
@@ -121,11 +123,11 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBAction func followerButtonPressed(_ sender: Any) {
-        viewModel?.onFollowersButtonTap?()
+        viewModel?.onFollowersButtonTap?(idx!)
     }
     
     @IBAction func followingButtonPressed(_ sender: Any) {
-        viewModel?.onFollowingButtonTap?()
+        viewModel?.onFollowingButtonTap?(idx!)
 
     }
     
@@ -198,6 +200,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
         cell.genreLabel.text = self.posts[indexPath.row].genre
+        cell.dateLabel.text = self.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
         cell.textViewHC.constant = cell.textView.contentSize.height
         
         for person in self.posts[indexPath.row].peopleFavourited {

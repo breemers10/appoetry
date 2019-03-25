@@ -79,7 +79,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
             AppDelegate.instance().dismissActivityIndicator()
         })
         
-        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+        MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             
             for (_,post) in postSnap {
@@ -87,7 +87,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
                     for each in self.usersPosts {
                         if each == userID {
                             let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String {
+                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String, let createdAt = post["createdAt"] as? Double {
                                 posst.username = author
                                 posst.favourites = favourites
                                 posst.pathToImage = pathToImage
@@ -95,6 +95,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
                                 posst.userID = userID
                                 posst.poem = poem
                                 posst.genre = genre
+                                posst.timestamp = createdAt
                                 
                                 if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                     for (_,person) in people {
@@ -208,6 +209,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
         cell.postID = self.posts[indexPath.row].postID
         cell.genreLabel.text = self.posts[indexPath.row].genre
+        cell.dateLabel.text = self.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
         cell.textViewHC.constant = cell.textView.contentSize.height
         
         

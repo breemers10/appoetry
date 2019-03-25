@@ -10,7 +10,7 @@ import UIKit
 
 class FollowersViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
-    var onCellTap: ((Int) -> Void)?
+    var onCellTap: ((String) -> Void)?
     
     var followersArray: [String] = []
     var idx: String
