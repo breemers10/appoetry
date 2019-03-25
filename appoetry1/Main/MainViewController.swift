@@ -135,6 +135,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cell.dateLabel.text = self.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
             cell.textViewHC.constant = cell.postTextView.contentSize.height
             
+            cell.authorButton.isUserInteractionEnabled = true
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.labelPressed))
+            cell.authorButton.addGestureRecognizer(gestureRecognizer)
+            
             for person in self.posts[indexPath.row].peopleFavourited {
                 if person == Auth.auth().currentUser!.uid {
                     cell.favouriteButton.isHidden = true
@@ -144,6 +148,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         return cell
+    }
+    @objc func labelPressed(){
+        print("Label pressed")
+        //Your awesome code.
     }
 }
 
