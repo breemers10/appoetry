@@ -19,7 +19,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     var viewModel: CreatePostViewModel?
     var registerStep3VM: RegisterStep3ViewModel?
     var picker = UIImagePickerController()
-    var user: [UserInfo] = []
+    var post = Post()
     var username: String?
     
     fileprivate let genrePicker = UIPickerView()
@@ -92,9 +92,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
         let imageRef = storage.child("posts").child(uid).child("\(String(describing: key)).jpg")
-        if self.previewImage == nil {
-            print("no picture for this post")
-        }
+        
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
         
         let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
@@ -112,6 +110,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                                 "favourites" : 0,
                                 "author" : self.username!,
                                 "genre" : self.genreField.text!,
+                                "createdAt" : [".sv":"timestamp"],
                                 "postID" : key! ] as [String : Any]
                     let postFeed = ["\(key!)" : feed]
                     
@@ -147,7 +146,6 @@ extension CreatePostViewController: UIPickerViewDelegate, UIPickerViewDataSource
         if pickerView == genrePicker {
             viewModel?.realGenre = Genre(rawValue: row)
             genreField.text = viewModel?.realGenre?.selectedGenre
-            
         }
     }
 }

@@ -103,7 +103,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
         uploadTask.resume()
         
-        
         viewModel?.onEditProfileCompletion?()
     }
     

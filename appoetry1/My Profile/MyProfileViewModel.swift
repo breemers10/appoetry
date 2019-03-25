@@ -12,8 +12,8 @@ import Firebase
 class MyProfileViewModel: NSObject {
     var onEditProfileTap: (() -> Void)?
     var onSignOutTap: (() -> Void)?
-    var onFollowersButtonTap: (() -> Void)?
-    var onFollowingButtonTap:(() -> Void)?
+    var onFollowersButtonTap: ((String) -> Void)?
+    var onFollowingButtonTap:((String) -> Void)?
     
     var username: String?
     var email: String?

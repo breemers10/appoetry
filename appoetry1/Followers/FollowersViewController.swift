@@ -86,7 +86,7 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(indexPath.row)
+        viewModel?.onCellTap?(MySharedInstance.instance.userInfo[indexPath.row].userID!)
         
     }
     
