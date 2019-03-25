@@ -15,6 +15,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let createPostButton = UIButton(type: .system)
     var posts = [Post]()
     var following = [String]()
+    var idx: String?
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -64,6 +65,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 if let userID = post["userID"] as? String {
                     for each in self.following {
                         if each == userID {
+                            self.idx = each
                             let posst = Post()
                             if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String, let createdAt = post["createdAt"] as? Double {
                                 posst.username = author
@@ -150,8 +152,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cell
     }
     @objc func labelPressed(){
-        print("Label pressed")
-        //Your awesome code.
+        viewModel?.onAuthorTap?(idx!)
     }
 }
 

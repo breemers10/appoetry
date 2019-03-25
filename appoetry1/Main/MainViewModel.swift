@@ -12,7 +12,7 @@ class MainViewModel: NSObject {
     
     var onCompletion: (() -> Void)?
     var onCreatePostTap: (() -> Void)?
-    var onAuthorTap: (() -> Void)?
+    var onAuthorTap: ((String) -> Void)?
     
     func createPost() {
         onCreatePostTap?()

@@ -93,6 +93,19 @@ class MainFlow: PFlowController {
         profilesVC.viewModel = profilesViewModel
         searchWrapper?.pushViewController(profilesVC, animated: false)
     }
+    func moveToProfilesFromMain(idx: String) {
+        
+        guard let profilesVC = profilesViewController else { return }
+        let profilesViewModel = ProfilesViewModel(idx: idx)
+        profilesViewModel.onFollowingButtonTap = { [weak self] in
+            self?.moveToFollowings(idx: idx)
+        }
+        profilesViewModel.onFollowersButtonTap = { [weak self] in
+            self?.moveToFollowers(idx: idx)
+        }
+        profilesVC.viewModel = profilesViewModel
+        mainWrapper?.pushViewController(profilesVC, animated: false)
+    }
     
     func moveToFollowings(idx: String) {
         guard let followingVC = followingViewController else { return }
@@ -144,6 +157,9 @@ class MainFlow: PFlowController {
         let viewModel = MainViewModel()
         viewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromMain()
+        }
+        viewModel.onAuthorTap = { [weak self] idx in
+            self?.moveToProfilesFromMain(idx: idx)
         }
         main.viewModel = viewModel
         mainWrapper = UINavigationController(rootViewController: main)
