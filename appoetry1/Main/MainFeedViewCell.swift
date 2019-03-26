@@ -116,7 +116,6 @@ class MainFeedViewCell: UICollectionViewCell {
                 }
             }
         })
-        
     }
     
     @IBAction func authorOfPostPressed(_ sender: Any) {

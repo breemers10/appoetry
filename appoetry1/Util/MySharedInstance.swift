@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-
 class MySharedInstance {
     static let instance = MySharedInstance()
     var ref = Database.database().reference()

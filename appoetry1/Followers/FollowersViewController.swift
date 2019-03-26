@@ -34,6 +34,10 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
         retrieveUsers()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
     func retrieveUsers() {
         
         MySharedInstance.instance.userInfo = []
@@ -72,15 +76,10 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "followersUserCell", for: indexPath) as! FollowersTableViewCell
-        DispatchQueue.main.async {
-            
-            cell.usernameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].username
-            cell.fullNameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].fullName
-            cell.userImage.downloadImage(from: MySharedInstance.instance.userInfo[indexPath.row].imageUrl)
-            
-            cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
-            cell.userImage.clipsToBounds = true
+        let cell = tableView.dequeueReusableCell(withIdentifier: "followersUserCell", for: indexPath)
+        
+        if let myCell = cell as? FollowersTableViewCell {
+            myCell.configure(indexPath: indexPath.row)
         }
         return cell
     }

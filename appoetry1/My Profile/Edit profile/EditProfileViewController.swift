@@ -20,7 +20,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var changePhotoButton: UIButton!
     
-     var viewModel: EditProfileViewModel?
+    var viewModel: EditProfileViewModel?
     
     let picker = UIImagePickerController()
     
@@ -41,16 +41,16 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         imageView.isUserInteractionEnabled = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            self.usernameField.text = self.viewModel?.username
-            self.fullnameField.text = self.viewModel?.fullName
-            self.emailField.text = self.viewModel?.email
-            self.firstGenreField.text = self.viewModel?.firstGenre
-            self.secondGenreField.text = self.viewModel?.secondGenre
-            self.thirdGenreField.text = self.viewModel?.thirdGenre
-
-            self.imageView.downloadImage(from: self.viewModel?.imageUrl)
-        }
+        let url = URL(string: (self.viewModel?.imageUrl)!)
+        
+        self.usernameField.text = self.viewModel?.username
+        self.fullnameField.text = self.viewModel?.fullName
+        self.emailField.text = self.viewModel?.email
+        self.firstGenreField.text = self.viewModel?.firstGenre
+        self.secondGenreField.text = self.viewModel?.secondGenre
+        self.thirdGenreField.text = self.viewModel?.thirdGenre
+        
+        self.imageView.kf.setImage(with: url)
     }
     
     override func viewDidLayoutSubviews() {
@@ -97,7 +97,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
                 if let url = url {
                     
                     self.viewModel?.addChangedCredentials(imageUrl: url.absoluteString, username: username, fullName: fullName, email: email, firstGenre: firstGenre, secondGenre: secondGenre, thirdGenre: thirdGenre)
-                    
                 }
             })
         }

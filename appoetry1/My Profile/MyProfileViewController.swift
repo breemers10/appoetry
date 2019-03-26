@@ -32,10 +32,6 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var profilePicture: UIImageView!
     
     let picker = UIImagePickerController()
-    var posts = [Post]()
-    
-    var usersPosts = [String]()
-    var idx: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,20 +51,20 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         profilePicture.clipsToBounds = true
         profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         profilePicture.isUserInteractionEnabled = true
-  
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            self.usernameLabel.text = self.viewModel?.username
-            self.fullNameLabel.text = self.viewModel?.fullName
-            self.emailLabel.text = self.viewModel?.email
-            self.firstGenreLabel.text = self.viewModel?.firstGenre
-            self.secondGenreLabel.text = self.viewModel?.secondGenre
-            self.thirdGenreLabel.text = self.viewModel?.thirdGenre
-            self.favouriteGenresLabel.text = "Favourite genres:"
-            self.firstNumberLabel.text = "1."
-            self.secondNumberLabel.text = "2."
-            self.thirdNumberLabel.text = "3."
-            self.profilePicture.downloadImage(from: self.viewModel?.imageUrl)
-        }
+        
+        let url = URL(string: (self.viewModel?.imageUrl)!)
+        
+        self.usernameLabel.text = self.viewModel?.username
+        self.fullNameLabel.text = self.viewModel?.fullName
+        self.emailLabel.text = self.viewModel?.email
+        self.firstGenreLabel.text = self.viewModel?.firstGenre
+        self.secondGenreLabel.text = self.viewModel?.secondGenre
+        self.thirdGenreLabel.text = self.viewModel?.thirdGenre
+        self.favouriteGenresLabel.text = "Favourite genres:"
+        self.firstNumberLabel.text = "1."
+        self.secondNumberLabel.text = "2."
+        self.thirdNumberLabel.text = "3."
+        self.profilePicture.kf.setImage(with: url)
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,59 +72,19 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func fetchPosts() {
-        AppDelegate.instance().showActivityIndicator()
-        
-        idx = Auth.auth().currentUser?.uid
-        
-        MySharedInstance.instance.ref.child("users").child(idx!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            _ = snapshot.value as! [String : AnyObject]
-            
-            self.usersPosts.append(Auth.auth().currentUser!.uid)
-            AppDelegate.instance().dismissActivityIndicator()
-        })
-        
-        MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
-            let postSnap = snap.value as! [String: AnyObject]
-            
-            for (_,post) in postSnap {
-                if let userID = post["userID"] as? String {
-                    for each in self.usersPosts {
-                        if each == userID {
-                            let posst = Post()
-                            if let author = post["author"] as? String, let favourites = post["favourites"] as? Int, let pathToImage = post["pathToImage"] as? String, let postID = post["postID"] as? String, let poem = post["poem"] as? String, let genre = post["genre"] as? String, let createdAt = post["createdAt"] as? Double {
-                                posst.username = author
-                                posst.favourites = favourites
-                                posst.pathToImage = pathToImage
-                                posst.postID = postID
-                                posst.userID = userID
-                                posst.poem = poem
-                                posst.genre = genre
-                                posst.timestamp = createdAt
-                                
-                                if let people = post["peopleFavourited"] as? [String : AnyObject] {
-                                    for (_,person) in people {
-                                        posst.peopleFavourited.append(person as! String)
-                                    }
-                                }
-                                self.posts.append(posst)
-                            }
-                        }
-                    }
-                    AppDelegate.instance().dismissActivityIndicator()
-                    self.collectionView.reloadData()
-                }
-            }
-        })
-        MySharedInstance.instance.ref.removeAllObservers()
+        viewModel?.getMyProfileInfo()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        self.collectionView.reloadData()
+        }
     }
     
     @IBAction func followerButtonPressed(_ sender: Any) {
-        viewModel?.onFollowersButtonTap?(idx!)
+        viewModel?.onFollowersButtonTap?((viewModel?.idx)!)
     }
     
     @IBAction func followingButtonPressed(_ sender: Any) {
-        viewModel?.onFollowingButtonTap?(idx!)
-
+        viewModel?.onFollowingButtonTap?((viewModel?.idx)!)
+        
     }
     
     @objc func handleSelectProfileImageView() {
@@ -144,13 +100,13 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImageFromPicker = originalImage
         }
-
+        
         if let selectedImage = selectedImageFromPicker {
             profilePicture.image = selectedImage
         }
         dismiss(animated: true, completion: nil)
     }
- 
+    
     @objc func editProfileButtonPressed(sender: UIButton) {
         viewModel?.toEditProfile()
     }
@@ -188,22 +144,24 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.posts.count
+        return viewModel?.posts.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myPostCell", for: indexPath) as! MyProfileFeedCell
-        cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-        cell.authorLabel.text = self.posts[indexPath.row].username
-        cell.textView.text = self.posts[indexPath.row].poem
+        let url = URL(string: (viewModel?.posts[indexPath.row].pathToImage)!)
+        
+        cell.postImage.kf.setImage(with: url)
+        cell.authorLabel.text = viewModel?.posts[indexPath.row].username
+        cell.textView.text = viewModel?.posts[indexPath.row].poem
         cell.textView.isEditable = false
-        cell.favouritesLabel.text = "\(self.posts[indexPath.row].favourites!) Favourites"
-        cell.postID = self.posts[indexPath.row].postID
-        cell.genreLabel.text = self.posts[indexPath.row].genre
-        cell.dateLabel.text = self.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
+        cell.favouritesLabel.text = "\((viewModel?.posts[indexPath.row].favourites)!) Favourites"
+        cell.postID = viewModel?.posts[indexPath.row].postID
+        cell.genreLabel.text = viewModel?.posts[indexPath.row].genre
+        cell.dateLabel.text = viewModel?.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
         cell.textViewHC.constant = cell.textView.contentSize.height
         
-        for person in self.posts[indexPath.row].peopleFavourited {
+        for person in (viewModel?.posts[indexPath.row].peopleFavourited)! {
             if person == Auth.auth().currentUser!.uid {
                 cell.favouriteButton.isHidden = true
                 cell.unfavouriteButton.isHidden = false

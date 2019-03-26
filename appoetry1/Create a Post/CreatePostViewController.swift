@@ -56,7 +56,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         toolBar.isUserInteractionEnabled = true
         
         genreField.inputAccessoryView = toolBar
-
+        
         toolBar.barTintColor = .white
         toolBar.backgroundColor = .white
     }

@@ -23,9 +23,9 @@ class AppFlow: PFlowController {
     func start() {
         let loginFlow = LoginFlow(userService: userService)
         
-        loginFlow.onLoginStart = {[unowned self] rootController in
-            self.window.rootViewController = rootController
-            self.window.makeKeyAndVisible()
+        loginFlow.onLoginStart = {[weak self] rootController in
+            self?.window.rootViewController = rootController
+            self?.window.makeKeyAndVisible()
         }
         
         loginFlow.onSuccessfullLogin = {[weak self] in

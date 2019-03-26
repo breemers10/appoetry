@@ -75,15 +75,10 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "followingUserCell", for: indexPath) as! FollowingTableViewCell
-        DispatchQueue.main.async {
-            
-            cell.usernameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].username
-            cell.fullNameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].fullName
-            cell.userImage.downloadImage(from: MySharedInstance.instance.userInfo[indexPath.row].imageUrl)
-            
-            cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
-            cell.userImage.clipsToBounds = true
+        let cell = tableView.dequeueReusableCell(withIdentifier: "followingUserCell", for: indexPath)
+        
+        if let myCell = cell as? FollowingTableViewCell {
+            myCell.configure(indexPath: indexPath.row)
         }
         return cell
     }
