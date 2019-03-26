@@ -43,21 +43,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         guard let id = Auth.auth().currentUser?.uid else { return }
         MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
             guard snapshot.key != id else { return }
-            DispatchQueue.global().async {
-                let usersObject = snapshot.value as? NSDictionary
-                self.username = usersObject?["username"] as? String
-                self.fullName = usersObject?["fullName"] as? String
-                self.imageUrl = usersObject?["imageUrl"] as? String
-                self.userID = snapshot.key
-                
-                var userInfo = UserInfo()
-                userInfo.fullName = self.fullName
-                userInfo.username = self.username
-                userInfo.imageUrl = self.imageUrl
-                userInfo.userID = self.userID
-                
-                MySharedInstance.instance.userInfo.append(userInfo)
-            }
+            let usersObject = snapshot.value as? NSDictionary
+            self.username = usersObject?["username"] as? String
+            self.fullName = usersObject?["fullName"] as? String
+            self.imageUrl = usersObject?["imageUrl"] as? String
+            self.userID = snapshot.key
+            
+            var userInfo = UserInfo()
+            userInfo.fullName = self.fullName
+            userInfo.username = self.username
+            userInfo.imageUrl = self.imageUrl
+            userInfo.userID = self.userID
+            
+            MySharedInstance.instance.userInfo.append(userInfo)
             self.tableView.reloadData()
         })
     }
@@ -76,22 +74,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath) as! SearchUserCell
-        DispatchQueue.main.async {
-            
-            cell.usernameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].username
-            cell.fullNameLabel.text = MySharedInstance.instance.userInfo[indexPath.row].fullName
-            cell.userImage.downloadImage(from: MySharedInstance.instance.userInfo[indexPath.row].imageUrl)
-            
-            cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
-            cell.userImage.clipsToBounds = true
+        let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath)
+        
+        if let myCell = cell as? SearchUserCell {
+            myCell.configure(indexPath: indexPath.row)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel?.onCellTap?(MySharedInstance.instance.userInfo[indexPath.row].userID!)
-      }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MySharedInstance.instance.userInfo.count
@@ -116,24 +109,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
-    }
-}
-
-extension UIImageView {
-    func downloadImage(from imgURL: String!) {
-        let url = URLRequest(url: URL(string: imgURL)!)
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if error != nil {
-                print(error!)
-                return
-            }
-            DispatchQueue.main.async {
-                self.image = UIImage(data: data!)
-            }
-        }
-        task.resume()
     }
 }
 

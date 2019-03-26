@@ -372,7 +372,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tXN-tB-ADK">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="followersUserCell" rowHeight="70" id="3oN-9f-xpm" customClass="FollowersTableViewCell" customModule="appoetry1" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
@@ -401,6 +401,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="MCZ-yF-1Rn" firstAttribute="top" secondItem="Dcz-ZP-3Om" secondAttribute="top" constant="7" id="HRB-mL-RMu"/>
                                                 <constraint firstItem="WD5-Ip-8Xg" firstAttribute="top" secondItem="MCZ-yF-1Rn" secondAttribute="bottom" id="Jma-7Z-hNT"/>
@@ -412,6 +413,7 @@
                                                 <constraint firstItem="agV-Yt-q64" firstAttribute="leading" secondItem="Dcz-ZP-3Om" secondAttribute="leadingMargin" constant="-9" id="oxy-1f-vbl"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="fullNameLabel" destination="WD5-Ip-8Xg" id="bAF-Td-fJl"/>
                                             <outlet property="userImage" destination="agV-Yt-q64" id="Nrf-pA-FGf"/>
