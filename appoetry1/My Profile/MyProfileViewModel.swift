@@ -26,29 +26,15 @@ class MyProfileViewModel: NSObject {
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
-        super.init()
-        getUserInfo()
-        
         self.databaseService = databaseService
     }
-
+    
     func getMyProfilePosts() {
         databaseService?.loadMyProfileFeed()
     }
     
     func getUserInfo() {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-            let usersObject = snapshot.value as? NSDictionary
-            
-            self.username = usersObject?["username"] as? String
-            self.email = usersObject?["email"] as? String
-            self.fullName = usersObject?["fullName"] as? String
-            self.firstGenre = usersObject?["firstGenre"] as? String
-            self.secondGenre = usersObject?["secondGenre"] as? String
-            self.thirdGenre = usersObject?["thirdGenre"] as? String
-            self.imageUrl = usersObject?["imageUrl"] as? String
-        })
+        databaseService?.getMyProfileInfo()
     }
     
     func favouritePost(postID: String) {
@@ -58,7 +44,7 @@ class MyProfileViewModel: NSObject {
     func unfavouritePost(postID: String) {
         databaseService?.unfavouritePressed(postID: postID)
     }
-
+    
     
     func toEditProfile() {
         onEditProfileTap?()

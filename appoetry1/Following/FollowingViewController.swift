@@ -25,9 +25,7 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-//        MySharedInstance.instance.userInfo = []
-        
+
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
@@ -38,32 +36,12 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func retrieveUsers() {
-
-        MySharedInstance.instance.userInfo = []
-        var following: String?
+        viewModel?.fetchFollowings()
         
-        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).child("following").observe(.childAdded, with: { (snapshot) in
-            following = snapshot.value as? String
-
-            MySharedInstance.instance.ref.child("users").child(following!).observeSingleEvent(of: .value, with: { (snap) in
-                
-                let usersObject = snap.value as? NSDictionary
-                self.username = usersObject?["username"] as? String
-                self.fullName = usersObject?["fullName"] as? String
-                self.imageUrl = usersObject?["imageUrl"] as? String
-                self.userID = snap.key
-                
-                var userInfo = UserInfo()
-                userInfo.fullName = self.fullName
-                userInfo.username = self.username
-                userInfo.imageUrl = self.imageUrl
-                userInfo.userID = self.userID
-                
-                MySharedInstance.instance.userInfo.append(userInfo)
-                
-                self.tableView.reloadData()
-            })
-        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+        self.tableView.reloadData()
+            
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

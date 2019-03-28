@@ -8,14 +8,21 @@
 
 import UIKit
 
-class FollowersViewModel: NSObject {
+class FollowersViewModel {
     var onCreatePostTap: (() -> Void)?
     var onCellTap: ((String) -> Void)?
     
     var followersArray: [String] = []
     var idx: String
     
-    init(idx: String) {
+    var databaseService: DatabaseService?
+    
+    init(idx: String, databaseService: DatabaseService) {
+        self.databaseService = databaseService
         self.idx = idx
+    }
+    
+    func fetchFollowers() {
+        databaseService?.getFollowers(idx: idx)
     }
 }

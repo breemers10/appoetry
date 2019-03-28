@@ -41,21 +41,30 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         imageView.isUserInteractionEnabled = true
         
-        let url = URL(string: (self.viewModel?.imageUrl)!)
-        
-        self.usernameField.text = self.viewModel?.username
-        self.fullnameField.text = self.viewModel?.fullName
-        self.emailField.text = self.viewModel?.email
-        self.firstGenreField.text = self.viewModel?.firstGenre
-        self.secondGenreField.text = self.viewModel?.secondGenre
-        self.thirdGenreField.text = self.viewModel?.thirdGenre
-        
-        self.imageView.kf.setImage(with: url)
+        fetchUserInfo()
     }
     
     override func viewDidLayoutSubviews() {
         self.view.applyGradient()
         self.doneButton.applyButtonDesign()
+    }
+    
+    func fetchUserInfo() {
+        viewModel?.getUserInfo()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+            let url = URL(string: userInfo.imageUrl!)
+            
+            self.usernameField.text = userInfo.username
+            self.fullnameField.text = userInfo.fullName
+            self.emailField.text = userInfo.email
+            self.firstGenreField.text = userInfo.firstGenre
+            self.secondGenreField.text = userInfo.secondGenre
+            self.thirdGenreField.text = userInfo.thirdGenre
+            
+            self.imageView.kf.setImage(with: url)
+        }
     }
     
     @IBAction func changePhotoButtonPressed(_ sender: Any) {

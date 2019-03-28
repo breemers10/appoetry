@@ -9,14 +9,20 @@
 import UIKit
 
 class FollowingViewModel {
-    
     var onCreatePostTap: (() -> Void)?
     var onCellTap: ((String) -> Void)?
     
     var followingArray: [String] = []
     var idx: String
     
-    init(idx: String) {
-        self.idx = idx        
+    var databaseService: DatabaseService?
+    
+    init(idx: String, databaseService: DatabaseService) {
+        self.databaseService = databaseService
+        self.idx = idx
+    }
+    
+    func fetchFollowings() {
+        databaseService?.getFollowings(idx: idx)
     }
 }
