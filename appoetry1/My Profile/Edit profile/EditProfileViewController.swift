@@ -86,7 +86,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         let uid = Auth.auth().currentUser!.uid
         
-        let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
+        let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
         let imageRef = storage.child("users").child(uid).child("\(key!).jpg")

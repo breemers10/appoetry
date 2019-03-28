@@ -82,13 +82,13 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         AppDelegate.instance().showActivityIndicator()
         
         let uid = Auth.auth().currentUser!.uid
-        MySharedInstance.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
+        DatabaseService.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
             if snapshot.key == "username" {
                 self.username = snapshot.value as? String
             }
         })
         
-        let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
+        let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
         let imageRef = storage.child("posts").child(uid).child("\(key!).jpg")
@@ -114,7 +114,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                                 "postID" : key! ] as [String : Any]
                     let postFeed = ["\(key!)" : feed]
                     
-                    MySharedInstance.instance.ref.child("posts").updateChildValues(postFeed)
+                    DatabaseService.instance.ref.child("posts").updateChildValues(postFeed)
                     
                     AppDelegate.instance().dismissActivityIndicator()
                     self.viewModel?.onMainScreen?()

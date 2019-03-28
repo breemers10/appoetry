@@ -14,9 +14,9 @@ class RegisterStep2ViewModel {
     var onFirstStep: (() -> Void)?
     
     func addSecondStepCredentials(username: String, fullName: String, dateOfBirth: String?) {
-        MySharedInstance.instance.userRegister.username = username
-        MySharedInstance.instance.userRegister.fullName = fullName
-        MySharedInstance.instance.userRegister.dateOfBirth = dateOfBirth
+        DatabaseService.instance.userRegister.username = username
+        DatabaseService.instance.userRegister.fullName = fullName
+        DatabaseService.instance.userRegister.dateOfBirth = dateOfBirth
     }
     
     func toThirdStep() {
