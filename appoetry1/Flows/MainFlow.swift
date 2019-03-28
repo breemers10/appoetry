@@ -73,7 +73,7 @@ class MainFlow: PFlowController {
     func moveToEditPost() {
         
         guard let editProfileVC = editProfileViewController else { return }
-        let editProfileViewModel = EditProfileViewModel()
+        let editProfileViewModel = EditProfileViewModel(databaseService: databaseService!)
         editProfileViewModel.onEditProfileCompletion = { [weak self] in
             self?.myProfileWrapper?.popViewController(animated: true)
         }
@@ -139,7 +139,7 @@ class MainFlow: PFlowController {
     
     func moveToFollowings(idx: String) {
         guard let followingVC = followingViewController else { return }
-        let followingVM = FollowingViewModel(idx: idx)
+        let followingVM = FollowingViewModel(idx: idx, databaseService: databaseService!)
         followingVM.onCellTap = { [weak self] idx in
             self?.moveToProfiles(idx: idx)
         }
@@ -149,7 +149,7 @@ class MainFlow: PFlowController {
     
        func moveToFollowingsFromMyProfile(idx: String) {
         guard let followingVC = followingViewController else { return }
-        let followingVM = FollowingViewModel(idx: idx)
+        let followingVM = FollowingViewModel(idx: idx, databaseService: databaseService!)
         followingVM.onCellTap = { [weak self] idx in
             self?.moveToProfilesFromFollowings(idx: idx)
         }
@@ -159,7 +159,7 @@ class MainFlow: PFlowController {
     
     func moveToFollowers(idx: String) {
         guard let followersVC = followersViewController else { return }
-        let followersVM = FollowersViewModel(idx: idx)
+        let followersVM = FollowersViewModel(idx: idx, databaseService: databaseService!)
         followersVM.onCellTap = { [weak self] idx in
             self?.moveToProfiles(idx: idx)
         }
@@ -169,7 +169,7 @@ class MainFlow: PFlowController {
     
     func moveToFollowersFromMyProfile(idx: String) {
         guard let followersVC = followersViewController else { return }
-        let followersVM = FollowersViewModel(idx: idx)
+        let followersVM = FollowersViewModel(idx: idx, databaseService: databaseService!)
         followersVM.onCellTap = { [weak self] idx in
             self?.moveToProfilesFromFollowings(idx: idx)
         }
@@ -198,7 +198,7 @@ class MainFlow: PFlowController {
         main.tabBarItem.title = "Main Feed"
         
         guard let search = searchViewController else { return }
-        let searchViewModel = SearchViewModel()
+        let searchViewModel = SearchViewModel(databaseService: databaseService!)
         searchViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromSearch()
         }

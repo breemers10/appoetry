@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class EditProfileViewModel: NSObject {
     
@@ -22,9 +21,10 @@ class EditProfileViewModel: NSObject {
     var thirdGenre: String?
     var imageUrl: String?
     
-    override init() {
-        super.init()
-        getUserInfo()
+    var databaseService: DatabaseService?
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
     }
     
     func addChangedCredentials(imageUrl: String, username: String, fullName: String, email: String, firstGenre: String, secondGenre: String, thirdGenre: String) {
@@ -38,20 +38,6 @@ class EditProfileViewModel: NSObject {
     }
     
     func getUserInfo() {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-            let usersObject = snapshot.value as? NSDictionary
-            
-            self.username = usersObject?["username"] as? String
-            self.email = usersObject?["email"] as? String
-            self.fullName = usersObject?["fullName"] as? String
-            self.firstGenre = usersObject?["firstGenre"] as? String
-            self.secondGenre = usersObject?["secondGenre"] as? String
-            self.thirdGenre = usersObject?["thirdGenre"] as? String
-            self.imageUrl = usersObject?["imageUrl"] as? String
-            
-            MySharedInstance.instance.ref.child("users").child(id).updateChildValues(usersObject as! [AnyHashable : Any])
-        })
+        databaseService?.getMyProfileInfo()
     }
-
 }

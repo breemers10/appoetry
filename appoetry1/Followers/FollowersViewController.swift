@@ -39,32 +39,11 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func retrieveUsers() {
+        viewModel?.fetchFollowers()
         
-        MySharedInstance.instance.userInfo = []
-        var followers: String?
-        
-        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).child("followers").observe(.childAdded, with: { (snapshot) in
-            followers = snapshot.value as? String
-            
-            MySharedInstance.instance.ref.child("users").child(followers!).observeSingleEvent(of: .value, with: { (snap) in
-                
-                let usersObject = snap.value as? NSDictionary
-                self.username = usersObject?["username"] as? String
-                self.fullName = usersObject?["fullName"] as? String
-                self.imageUrl = usersObject?["imageUrl"] as? String
-                self.userID = snap.key
-                
-                var userInfo = UserInfo()
-                userInfo.fullName = self.fullName
-                userInfo.username = self.username
-                userInfo.imageUrl = self.imageUrl
-                userInfo.userID = self.userID
-                
-                MySharedInstance.instance.userInfo.append(userInfo)
-                
-                self.tableView.reloadData()
-            })
-        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            self.tableView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

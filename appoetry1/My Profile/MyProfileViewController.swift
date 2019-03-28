@@ -52,7 +52,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         
         fetchUserInfo()
         fetchPosts()
-
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,19 +60,23 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func fetchUserInfo() {
-        let url = URL(string: (self.viewModel?.imageUrl)!)
+        viewModel?.getUserInfo()
         
-        self.usernameLabel.text = self.viewModel?.username
-        self.fullNameLabel.text = self.viewModel?.fullName
-        self.emailLabel.text = self.viewModel?.email
-        self.firstGenreLabel.text = self.viewModel?.firstGenre
-        self.secondGenreLabel.text = self.viewModel?.secondGenre
-        self.thirdGenreLabel.text = self.viewModel?.thirdGenre
-        self.favouriteGenresLabel.text = "Favourite genres:"
-        self.firstNumberLabel.text = "1."
-        self.secondNumberLabel.text = "2."
-        self.thirdNumberLabel.text = "3."
-        self.profilePicture.kf.setImage(with: url)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+            let url = URL(string: userInfo.imageUrl!)
+            self.usernameLabel.text = userInfo.username
+            self.fullNameLabel.text = userInfo.fullName
+            self.emailLabel.text = userInfo.email
+            self.firstGenreLabel.text = userInfo.firstGenre
+            self.secondGenreLabel.text = userInfo.secondGenre
+            self.thirdGenreLabel.text = userInfo.thirdGenre
+            self.favouriteGenresLabel.text = "Favourite genres:"
+            self.firstNumberLabel.text = "1."
+            self.secondNumberLabel.text = "2."
+            self.thirdNumberLabel.text = "3."
+            self.profilePicture.kf.setImage(with: url)
+        }
     }
     
     func fetchPosts() {

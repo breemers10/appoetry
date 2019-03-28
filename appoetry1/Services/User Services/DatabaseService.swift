@@ -16,10 +16,15 @@ class DatabaseService {
     var myProfilePosts = [Post]()
     var profilesPosts = [Post]()
     
+    var userInfo = UserInfo()
+    
+    
     var postID: String?
     var idx: String?
     var count: Int?
-    
+    var followings: String?
+    var followers: String?
+
     var following = [String]()
     var favouritedPosts = [String]()
     var myPosts = [String]()
@@ -200,6 +205,91 @@ class DatabaseService {
             }
         })
         MySharedInstance.instance.ref.removeAllObservers()
+    }
+    
+    func getMyProfileInfo() {
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            let usersObject = snapshot.value as? NSDictionary
+            
+            self.userInfo.username = usersObject?["username"] as? String
+            self.userInfo.email = usersObject?["email"] as? String
+            self.userInfo.fullName = usersObject?["fullName"] as? String
+            self.userInfo.firstGenre = usersObject?["firstGenre"] as? String
+            self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
+            self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
+            self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
+        })
+    }
+    
+    func getProfilesInfo(idx: String) {
+        MySharedInstance.instance.ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
+            let usersObject = snapshot.value as? NSDictionary
+            
+            self.userInfo.username = usersObject?["username"] as? String
+            self.userInfo.email = usersObject?["email"] as? String
+            self.userInfo.fullName = usersObject?["fullName"] as? String
+            self.userInfo.firstGenre = usersObject?["firstGenre"] as? String
+            self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
+            self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
+            self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
+        })
+    }
+    
+    func searchUsers() {
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
+            guard snapshot.key != id else { return }
+            let usersObject = snapshot.value as? NSDictionary
+            
+            var userInfo = UserInfo()
+            userInfo.fullName = usersObject?["username"] as? String
+            userInfo.username = usersObject?["fullName"] as? String
+            userInfo.imageUrl = usersObject?["imageUrl"] as? String
+            userInfo.userID = snapshot.key
+            
+            MySharedInstance.instance.userInfo.append(userInfo)
+        })
+    }
+    
+    func getFollowings(idx: String) {
+        MySharedInstance.instance.userInfo = []
+        
+        MySharedInstance.instance.ref.child("users").child(idx).child("following").observe(.childAdded, with: { (snapshot) in
+            self.followings = snapshot.value as? String
+            
+            MySharedInstance.instance.ref.child("users").child(self.followings!).observeSingleEvent(of: .value, with: { (snap) in
+                let usersObject = snap.value as? NSDictionary
+                
+                var userInfo = UserInfo()
+                userInfo.fullName = usersObject?["username"] as? String
+                userInfo.username = usersObject?["fullName"] as? String
+                userInfo.imageUrl = usersObject?["imageUrl"] as? String
+                userInfo.userID = snap.key
+                
+                MySharedInstance.instance.userInfo.append(userInfo)
+            })
+        })
+    }
+    
+    func getFollowers(idx: String) {
+        MySharedInstance.instance.userInfo = []
+        
+        MySharedInstance.instance.ref.child("users").child(idx).child("followers").observe(.childAdded, with: { (snapshot) in
+            self.followers = snapshot.value as? String
+            
+            MySharedInstance.instance.ref.child("users").child(self.followers!).observeSingleEvent(of: .value, with: { (snap) in
+                let usersObject = snap.value as? NSDictionary
+
+                var userInfo = UserInfo()
+                userInfo.fullName = usersObject?["username"] as? String
+                userInfo.username = usersObject?["fullName"] as? String
+                userInfo.imageUrl = usersObject?["imageUrl"] as? String
+                userInfo.userID = snap.key
+                
+                MySharedInstance.instance.userInfo.append(userInfo)
+            })
+        })
     }
     
     func favouritePressed(postID: String) {

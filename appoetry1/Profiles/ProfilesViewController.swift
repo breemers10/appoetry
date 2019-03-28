@@ -46,15 +46,27 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
         
+        fetchUsersInfo()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
+    func fetchUsersInfo() {
+        viewModel?.getUserInfo()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            guard let url = URL(string: (self.viewModel?.imageUrl)!) else { return }
-            
-            self.usernameLabel.text = self.viewModel?.username
-            self.fullNameLabel.text = self.viewModel?.fullName
-            self.emailLabel.text = self.viewModel?.email
-            self.firstGenreLabel.text = self.viewModel?.firstGenre
-            self.secondGenreLabel.text = self.viewModel?.secondGenre
-            self.thirdGenreLabel.text = self.viewModel?.thirdGenre
+            guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+
+            let url = URL(string: userInfo.imageUrl!)
+
+            self.usernameLabel.text = userInfo.username
+            self.fullNameLabel.text = userInfo.fullName
+            self.emailLabel.text = userInfo.email
+            self.firstGenreLabel.text = userInfo.firstGenre
+            self.secondGenreLabel.text = userInfo.secondGenre
+            self.thirdGenreLabel.text = userInfo.thirdGenre
             self.favouriteGenresLabel.text = "Favourite genres:"
             self.firstNumberLabel.text = "1."
             self.secondNumberLabel.text = "2."
@@ -63,12 +75,8 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        self.view.applyGradient()
-    }
-    
     func fetchPosts() {
-        viewModel?.getUsersProfile()
+        viewModel?.getProfilesFeed()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         self.collectionView.reloadData()
         }
