@@ -14,10 +14,12 @@ class AppFlow: PFlowController {
     
     fileprivate var childFlow: PFlowController?
     var userService: PUserService
+    var databaseService: DatabaseService
     
     init(with window: UIWindow) {
         self.window = window
         userService = UserService()
+        databaseService = DatabaseService()
     }
     
     func start() {
@@ -37,7 +39,7 @@ class AppFlow: PFlowController {
     }
     
     private func showMainScreen() {
-        let mainFlow = MainFlow(userService: userService)
+        let mainFlow = MainFlow(userService: userService, databaseService: databaseService)
         mainFlow.onMainStart = { [weak self] rootController in
             self?.window.rootViewController = rootController
         }

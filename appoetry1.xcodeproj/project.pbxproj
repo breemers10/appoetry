@@ -34,6 +34,7 @@
 		63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */; };
 		63AFEE32223BF34900C5068E /* MainFeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEE31223BF34900C5068E /* MainFeedViewCell.swift */; };
 		63AFEE34223C07BC00C5068E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEE33223C07BC00C5068E /* Post.swift */; };
+		63B56347224A6F1C00B68AB2 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B56346224A6F1C00B68AB2 /* DatabaseService.swift */; };
 		63C4687B2244E4BE00895153 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4687A2244E4BE00895153 /* EditProfileViewController.swift */; };
 		63C4687D2244E4D200895153 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4687C2244E4D200895153 /* EditProfileViewModel.swift */; };
 		63C777C5223174B800CC753C /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C777C4223174B800CC753C /* CreatePostViewController.swift */; };
@@ -113,6 +114,7 @@
 		63A91829222524E6008F0B68 /* RegisterStep3ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStep3ViewModel.swift; sourceTree = "<group>"; };
 		63AFEE31223BF34900C5068E /* MainFeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedViewCell.swift; sourceTree = "<group>"; };
 		63AFEE33223C07BC00C5068E /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		63B56346224A6F1C00B68AB2 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		63C4687A2244E4BE00895153 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		63C4687C2244E4D200895153 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		63C777C4223174B800CC753C /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 			children = (
 				63D60D542229215B000ECAA8 /* UserServices.swift */,
 				630C7380222FCB440020C2FC /* DumbUserService.swift */,
+				63B56346224A6F1C00B68AB2 /* DatabaseService.swift */,
 			);
 			path = "User Services";
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				63D60D552229215B000ECAA8 /* UserServices.swift in Sources */,
 				63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */,
 				63F85768223293B80096C9FA /* MySharedInstance.swift in Sources */,
+				63B56347224A6F1C00B68AB2 /* DatabaseService.swift in Sources */,
 				63F8575E223277F10096C9FA /* FavouritesViewModel.swift in Sources */,
 				630C7381222FCB440020C2FC /* DumbUserService.swift in Sources */,
 				637BE03A2224361200B4E7CC /* RegisterStep3ViewController.swift in Sources */,

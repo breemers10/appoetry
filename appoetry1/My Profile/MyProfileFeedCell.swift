@@ -23,71 +23,61 @@ class MyProfileFeedCell: UICollectionViewCell {
     @IBOutlet weak var textViewHC: NSLayoutConstraint!
     
     var postID: String!
+    var viewModel: MyProfileViewModel?
+    
+    func configure(post: Post) {
+        guard let url = URL(string: post.pathToImage!) else { return }
+        
+        postImage.kf.setImage(with: url)
+        authorLabel.text = post.username
+        textView.text = post.poem
+        textView.isEditable = false
+        favouritesLabel.text = "\(post.favourites!) Favourites"
+        postID = post.postID
+        genreLabel.text = post.genre
+        dateLabel.text = post.createdAt!.calendarTimeSinceNow()
+        textViewHC.constant = textView.contentSize.height
+        
+        for person in post.peopleFavourited {
+            if person == Auth.auth().currentUser!.uid {
+                favouriteButton.isHidden = true
+                unfavouriteButton.isHidden = false
+                break
+            }
+        }
+    }
     
     @IBAction func favouriteButtonPressed(_ sender: Any) {
         self.favouriteButton.isHidden = false
-        let keyToPost = MySharedInstance.instance.ref.child("posts").childByAutoId().key!
         
-        MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let _ = snapshot.value as? [String: AnyObject] {
-                let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : Auth.auth().currentUser!.uid]
-                MySharedInstance.instance.ref.child("posts").child(self.postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
-                    if error == nil {
-                        MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snap) in
-                            if let properties = snap.value as? [String : AnyObject] {
-                                if let favourites = properties["peopleFavourited"] as? [String : AnyObject] {
-                                    let count = favourites.count
-                                    self.favouritesLabel.text = "\(count) Favourites"
-                                    
-                                    let update = ["favourites" : count]
-                                    MySharedInstance.instance.ref.child("posts").child(self.postID).updateChildValues(update)
-                                    
-                                    self.favouriteButton.isHidden = true
-                                    self.unfavouriteButton.isHidden = false
-                                    self.favouriteButton.isEnabled = true
-                                }
-                            }
-                        })
-                    }
-                })
+        viewModel?.favouritePost(postID: postID)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            
+            if (self.viewModel?.databaseService?.favourited)! {
+                self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
+                
+                self.favouriteButton.isHidden = true
+                self.unfavouriteButton.isHidden = false
+                self.favouriteButton.isEnabled = true
+                
             }
-        })
-        MySharedInstance.instance.ref.removeAllObservers()
+        }
     }
+    
     @IBAction func unfavouriteButtonPressed(_ sender: Any) {
         self.unfavouriteButton.isEnabled = false
-        MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        viewModel?.unfavouritePost(postID: postID)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             
-            if let properties = snapshot.value as? [String : AnyObject] {
-                if let peopleFavourited = properties["peopleFavourited"] as? [String : AnyObject] {
-                    
-                    
-                    for (id, person) in peopleFavourited {
-                        if person as? String == Auth.auth().currentUser!.uid {
-                            MySharedInstance.instance.ref.child("posts").child(self.postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in
-                                if error == nil {
-                                    MySharedInstance.instance.ref.child("posts").child(self.postID).observeSingleEvent(of: .value, with: { (snap) in
-                                        if let prop = snap.value as? [String : AnyObject] {
-                                            if let favourites = prop["peopleFavourited"] as? [String : AnyObject] {
-                                                let count = favourites.count
-                                                self.favouritesLabel.text = "\(count) Favourites"
-                                                MySharedInstance.instance.ref.child("posts").child(self.postID).updateChildValues(["favourites" : count]) } else {
-                                                self.favouritesLabel.text = "0 Favourites"
-                                                MySharedInstance.instance.ref.child("posts").child(self.postID).updateChildValues(["favourites" : 0])
-                                            }
-                                        }
-                                    })
-                                }
-                            })
-                            
-                            self.favouriteButton.isHidden = false
-                            self.unfavouriteButton.isHidden = true
-                            self.unfavouriteButton.isEnabled = true
-                            break
-                        }
-                    }
-                }
+            if (self.viewModel?.databaseService?.unfavourited)! {
+                self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
+                self.favouriteButton.isHidden = false
+                self.unfavouriteButton.isHidden = true
+                self.unfavouriteButton.isEnabled = true
             }
-        })
+        }
     }
 }

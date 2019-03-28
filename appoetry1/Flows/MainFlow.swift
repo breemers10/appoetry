@@ -15,6 +15,7 @@ class MainFlow: PFlowController {
     var onMainStart: ((UITabBarController) -> Void)?
     var onSuccessfullPost: (() -> ())?
     var userService: PUserService
+    var databaseService: DatabaseService?
     fileprivate var childFlow: PFlowController?
     private var presenterVC: UITabBarController?
     private var mainWrapper: UINavigationController?
@@ -22,8 +23,9 @@ class MainFlow: PFlowController {
     private var favouritesWrapper: UINavigationController?
     private var myProfileWrapper: UINavigationController?
 
-    init(userService: PUserService) {
+    init(userService: PUserService, databaseService: DatabaseService) {
         self.userService = userService
+        self.databaseService = databaseService
     }
     
     func start() {
@@ -83,7 +85,7 @@ class MainFlow: PFlowController {
     func moveToProfiles(idx: String) {
         
         guard let profilesVC = profilesViewController else { return }
-        let profilesViewModel = ProfilesViewModel(idx: idx)
+        let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
         profilesViewModel.onFollowingButtonTap = { [weak self] in
             self?.moveToFollowings(idx: idx)
         }
@@ -93,10 +95,38 @@ class MainFlow: PFlowController {
         profilesVC.viewModel = profilesViewModel
         searchWrapper?.pushViewController(profilesVC, animated: false)
     }
+    
+    func moveToProfilesFromFollowings(idx: String) {
+        
+        guard let profilesVC = profilesViewController else { return }
+        let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
+        profilesViewModel.onFollowingButtonTap = { [weak self] in
+            self?.moveToFollowings(idx: idx)
+        }
+        profilesViewModel.onFollowersButtonTap = { [weak self] in
+            self?.moveToFollowers(idx: idx)
+        }
+        profilesVC.viewModel = profilesViewModel
+        myProfileWrapper?.pushViewController(profilesVC, animated: false)
+    }
+    func moveToProfilesFromFollowers(idx: String) {
+        
+        guard let profilesVC = profilesViewController else { return }
+        let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
+        profilesViewModel.onFollowingButtonTap = { [weak self] in
+            self?.moveToFollowings(idx: idx)
+        }
+        profilesViewModel.onFollowersButtonTap = { [weak self] in
+            self?.moveToFollowers(idx: idx)
+        }
+        profilesVC.viewModel = profilesViewModel
+        myProfileWrapper?.pushViewController(profilesVC, animated: false)
+    }
+    
     func moveToProfilesFromMain(idx: String) {
         
         guard let profilesVC = profilesViewController else { return }
-        let profilesViewModel = ProfilesViewModel(idx: idx)
+        let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
         profilesViewModel.onFollowingButtonTap = { [weak self] in
             self?.moveToFollowings(idx: idx)
         }
@@ -121,7 +151,7 @@ class MainFlow: PFlowController {
         guard let followingVC = followingViewController else { return }
         let followingVM = FollowingViewModel(idx: idx)
         followingVM.onCellTap = { [weak self] idx in
-            self?.moveToProfiles(idx: idx)
+            self?.moveToProfilesFromFollowings(idx: idx)
         }
         followingVC.viewModel = followingVM
         myProfileWrapper?.pushViewController(followingVC, animated: true)
@@ -141,7 +171,7 @@ class MainFlow: PFlowController {
         guard let followersVC = followersViewController else { return }
         let followersVM = FollowersViewModel(idx: idx)
         followersVM.onCellTap = { [weak self] idx in
-            self?.moveToProfiles(idx: idx)
+            self?.moveToProfilesFromFollowings(idx: idx)
         }
         followersVC.viewModel = followersVM
         myProfileWrapper?.pushViewController(followersVC, animated: true)
@@ -154,7 +184,7 @@ class MainFlow: PFlowController {
     private func setupTabBar() {
         presenterVC = UITabBarController()
         guard let main = mainViewController else { return }
-        let viewModel = MainViewModel()
+        let viewModel = MainViewModel(databaseService: databaseService!)
         viewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromMain()
         }
@@ -182,9 +212,12 @@ class MainFlow: PFlowController {
         search.tabBarItem.title = "Search"
         
         guard let favourites = favouritesViewController else { return }
-        let favouritesViewModel = FavouritesViewModel()
+        let favouritesViewModel = FavouritesViewModel(databaseService: databaseService!)
         favouritesViewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromFavourites()
+        }
+        favouritesViewModel.onAuthorTap = { [weak self] idx in
+            self?.moveToProfilesFromMain(idx: idx)
         }
         favourites.viewModel = favouritesViewModel
         favouritesWrapper = UINavigationController(rootViewController: favourites)
@@ -193,7 +226,7 @@ class MainFlow: PFlowController {
         favourites.tabBarItem.title = "Favorites"
         
         guard let profile = myProfileViewController else { return }
-        let myProfileViewModel = MyProfileViewModel()
+        let myProfileViewModel = MyProfileViewModel(databaseService: databaseService!)
         myProfileViewModel.onEditProfileTap = { [weak self] in
             self?.moveToEditPost()
         }

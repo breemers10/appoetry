@@ -13,7 +13,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     var viewModel: MainViewModel?
     let createPostButton = UIButton(type: .system)
-   
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -39,7 +39,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func fetchPosts() {
-        viewModel?.loadMainFeed()
+        viewModel?.getMainFeed()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
         }
@@ -71,38 +71,26 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (viewModel?.posts.count)!
+        return (viewModel?.databaseService?.mainPosts.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as! MainFeedViewCell
-        let url = URL(string: (viewModel?.posts[indexPath.row].pathToImage)!)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
         
-        cell.postImage.kf.setImage(with: url)
-        cell.authorLabel.text = viewModel?.posts[indexPath.row].username
-        cell.postTextView.text = viewModel?.posts[indexPath.row].poem
-        cell.postTextView.isEditable = false
-        cell.favouritesLabel.text = "\((viewModel?.posts[indexPath.row].favourites)!) Favourites"
-        cell.postID = viewModel?.posts[indexPath.row].postID
-        cell.genreLabel.text = viewModel?.posts[indexPath.row].genre
-        cell.dateLabel.text = viewModel?.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
-        cell.textViewHC.constant = cell.postTextView.contentSize.height
-        
-        cell.authorButton.isUserInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.labelPressed))
-        cell.authorButton.addGestureRecognizer(gestureRecognizer)
-        
-        for person in (viewModel?.posts[indexPath.row].peopleFavourited)! {
-            if person == Auth.auth().currentUser!.uid {
-                cell.favouriteButton.isHidden = true
-                cell.unfavouriteButton.isHidden = false
-                break
+        if let myCell = cell as? MainFeedViewCell {
+            if let post = viewModel?.databaseService?.mainPosts[indexPath.row] {
+                myCell.configure(post: post)
+                myCell.viewModel = viewModel
+                myCell.authorButton.isUserInteractionEnabled = true
+                let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.labelPressed))
+                myCell.authorButton.addGestureRecognizer(gestureRecognizer)
             }
         }
         return cell
     }
+    
     @objc func labelPressed(){
-        viewModel?.onAuthorTap?((viewModel?.idx)!)
+        viewModel?.onAuthorTap?((viewModel?.databaseService?.idx)!)
     }
 }
 
