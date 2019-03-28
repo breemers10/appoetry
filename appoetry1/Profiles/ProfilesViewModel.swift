@@ -42,7 +42,7 @@ class ProfilesViewModel {
     }
     
     func getUsersProfile() {
-        databaseService?.loadProfilesFeed()
+        databaseService?.loadProfilesFeed(idx: idx)
     }
     
     func getUserInfo() {

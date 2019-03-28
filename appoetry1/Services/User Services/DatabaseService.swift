@@ -138,7 +138,6 @@ class DatabaseService {
                 if let userID = post["userID"] as? String {
                     for each in self.myPosts {
                         if each == userID {
-                            self.idx = each
                             let myProfilePost = Post()
                             myProfilePost.username = post["author"] as? String
                             myProfilePost.favourites = post["favourites"] as? Int
@@ -163,12 +162,13 @@ class DatabaseService {
         MySharedInstance.instance.ref.removeAllObservers()
     }
     
-    func loadProfilesFeed() {
-        MySharedInstance.instance.ref.child("users").child(idx!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+    func loadProfilesFeed(idx: String) {
+        usersPosts.removeAll()
+        profilesPosts.removeAll()
+        MySharedInstance.instance.ref.child("users").child(idx).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             _ = snapshot.value as! [String : AnyObject]
             
-            self.usersPosts.append(self.idx!)
-            
+            self.usersPosts.append(idx)
         })
         
         MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
