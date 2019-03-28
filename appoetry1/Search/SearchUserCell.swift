@@ -21,7 +21,6 @@ class SearchUserCell: UITableViewCell {
         usernameLabel.text = MySharedInstance.instance.userInfo[indexPath].username
         fullNameLabel.text = MySharedInstance.instance.userInfo[indexPath].fullName
         
-        
         userImage.layer.cornerRadius = userImage.frame.size.width / 2
         userImage.clipsToBounds = true
     }

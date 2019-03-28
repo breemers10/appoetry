@@ -62,31 +62,26 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.posts.count ?? 0
+        return (viewModel?.databaseService?.favouritePosts.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favouritePostCell", for: indexPath) as! FavouriteFeedViewCell
-        let url = URL(string: (viewModel?.posts[indexPath.row].pathToImage)!)
-        
-        cell.postImage.kf.setImage(with: url)
-        cell.authorLabel.text = viewModel?.posts[indexPath.row].username
-        cell.textView.text = viewModel?.posts[indexPath.row].poem
-        cell.textView.isEditable = false
-        cell.favouritesLabel.text = "\((viewModel?.posts[indexPath.row].favourites)!) Favourites"
-        cell.postID = viewModel?.posts[indexPath.row].postID
-        cell.dateLabel.text = viewModel?.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
-        cell.genreLabel.text = viewModel?.posts[indexPath.row].genre
-        cell.textViewHC.constant = cell.textView.contentSize.height
-        
-        for person in (viewModel?.posts[indexPath.row].peopleFavourited)! {
-            if person == Auth.auth().currentUser!.uid {
-                cell.favouriteButton.isHidden = true
-                cell.unfavouriteButton.isHidden = false
-                break
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favouritePostCell", for: indexPath)
+
+        if let myCell = cell as? FavouriteFeedViewCell {
+            if let post = viewModel?.databaseService?.favouritePosts[indexPath.row] {
+                myCell.configure(post: post)
+                myCell.viewModel = viewModel
+                myCell.authorButton.isUserInteractionEnabled = true
+                let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.labelPressed))
+                myCell.authorButton.addGestureRecognizer(gestureRecognizer)
             }
         }
         return cell
+    }
+    
+    @objc func labelPressed(){
+        viewModel?.onAuthorTap?((viewModel?.databaseService?.idx)!)
     }
 }
 

@@ -56,7 +56,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         toolBar.isUserInteractionEnabled = true
         
         genreField.inputAccessoryView = toolBar
-        
+
         toolBar.barTintColor = .white
         toolBar.backgroundColor = .white
     }
@@ -91,7 +91,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
-        let imageRef = storage.child("posts").child(uid).child("\(String(describing: key)).jpg")
+        let imageRef = storage.child("posts").child(uid).child("\(key!).jpg")
         
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
         

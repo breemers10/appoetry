@@ -26,7 +26,7 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         
-        MySharedInstance.instance.userInfo = []
+//        MySharedInstance.instance.userInfo = []
         
         setupNavigationBarItems()
         addingTargetToCreatePostVC()

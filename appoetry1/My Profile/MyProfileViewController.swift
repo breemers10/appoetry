@@ -42,8 +42,6 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         addingTargetToCreatePostVC()
         addingTargetToSignOut()
         
-        fetchPosts()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -52,6 +50,16 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         profilePicture.isUserInteractionEnabled = true
         
+        fetchUserInfo()
+        fetchPosts()
+
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.view.applyGradient()
+    }
+    
+    func fetchUserInfo() {
         let url = URL(string: (self.viewModel?.imageUrl)!)
         
         self.usernameLabel.text = self.viewModel?.username
@@ -67,23 +75,19 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         self.profilePicture.kf.setImage(with: url)
     }
     
-    override func viewDidLayoutSubviews() {
-        self.view.applyGradient()
-    }
-    
     func fetchPosts() {
-        viewModel?.getMyProfileInfo()
+        viewModel?.getMyProfilePosts()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-        self.collectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
     @IBAction func followerButtonPressed(_ sender: Any) {
-        viewModel?.onFollowersButtonTap?((viewModel?.idx)!)
+        viewModel?.onFollowersButtonTap?((viewModel?.databaseService?.idx)!)
     }
     
     @IBAction func followingButtonPressed(_ sender: Any) {
-        viewModel?.onFollowingButtonTap?((viewModel?.idx)!)
+        viewModel?.onFollowingButtonTap?((viewModel?.databaseService?.idx)!)
         
     }
     
@@ -144,28 +148,15 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.posts.count ?? 0
+        return (viewModel?.databaseService?.myProfilePosts.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myPostCell", for: indexPath) as! MyProfileFeedCell
-        let url = URL(string: (viewModel?.posts[indexPath.row].pathToImage)!)
-        
-        cell.postImage.kf.setImage(with: url)
-        cell.authorLabel.text = viewModel?.posts[indexPath.row].username
-        cell.textView.text = viewModel?.posts[indexPath.row].poem
-        cell.textView.isEditable = false
-        cell.favouritesLabel.text = "\((viewModel?.posts[indexPath.row].favourites)!) Favourites"
-        cell.postID = viewModel?.posts[indexPath.row].postID
-        cell.genreLabel.text = viewModel?.posts[indexPath.row].genre
-        cell.dateLabel.text = viewModel?.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
-        cell.textViewHC.constant = cell.textView.contentSize.height
-        
-        for person in (viewModel?.posts[indexPath.row].peopleFavourited)! {
-            if person == Auth.auth().currentUser!.uid {
-                cell.favouriteButton.isHidden = true
-                cell.unfavouriteButton.isHidden = false
-                break
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myPostCell", for: indexPath)
+        if let myCell = cell as? MyProfileFeedCell {
+            if let post = viewModel?.databaseService?.myProfilePosts[indexPath.row] {
+                myCell.configure(post: post)
+                myCell.viewModel = viewModel
             }
         }
         return cell

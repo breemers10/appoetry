@@ -45,6 +45,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             guard let url = URL(string: (self.viewModel?.imageUrl)!) else { return }
             
@@ -130,7 +131,6 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         viewModel?.onFollowingButtonTap?()
     }
     
-    
     private func addingTargetToCreatePostVC() {
         createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
     }
@@ -156,29 +156,15 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.posts.count ?? 0
+        return (viewModel?.databaseService?.profilesPosts.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myPostCell", for: indexPath) as! MyProfileFeedCell
-        let url = URL(string: (viewModel?.posts[indexPath.row].pathToImage)!)
-        
-        cell.postImage.kf.setImage(with: url)
-        cell.authorLabel.text = viewModel?.posts[indexPath.row].username
-        cell.textView.text = viewModel?.posts[indexPath.row].poem
-        cell.textView.isEditable = false
-        cell.favouritesLabel.text = "\((viewModel?.posts[indexPath.row].favourites)!) Favourites"
-        cell.postID = viewModel?.posts[indexPath.row].postID
-        cell.genreLabel.text = viewModel?.posts[indexPath.row].genre
-        cell.dateLabel.text = viewModel?.posts[indexPath.row].createdAt!.calendarTimeSinceNow()
-        cell.textViewHC.constant = cell.textView.contentSize.height
-        
-        
-        for person in (viewModel?.posts[indexPath.row].peopleFavourited)! {
-            if person == Auth.auth().currentUser!.uid {
-                cell.favouriteButton.isHidden = true
-                cell.unfavouriteButton.isHidden = false
-                break
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profilesPostCell", for: indexPath)
+        if let myCell = cell as? ProfilesFeedCell {
+            if let post = viewModel?.databaseService?.profilesPosts[indexPath.row] {
+                myCell.configure(post: post)
+                myCell.viewModel = viewModel
             }
         }
         return cell

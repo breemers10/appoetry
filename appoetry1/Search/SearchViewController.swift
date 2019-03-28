@@ -17,17 +17,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var viewModel: SearchViewModel?
     let createPostButton = UIButton(type: .system)
     
-    var username: String?
-    var fullName: String?
-    var imageUrl: String?
-    var userID: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        MySharedInstance.instance.userInfo = []
         
         searchBar.delegate = self
         setupNavigationBarItems()
@@ -40,28 +33,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func retrieveUsers() {
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
-            guard snapshot.key != id else { return }
-            let usersObject = snapshot.value as? NSDictionary
-            self.username = usersObject?["username"] as? String
-            self.fullName = usersObject?["fullName"] as? String
-            self.imageUrl = usersObject?["imageUrl"] as? String
-            self.userID = snapshot.key
+        viewModel?.fetchUsers()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             
-            var userInfo = UserInfo()
-            userInfo.fullName = self.fullName
-            userInfo.username = self.username
-            userInfo.imageUrl = self.imageUrl
-            userInfo.userID = self.userID
-            
-            MySharedInstance.instance.userInfo.append(userInfo)
-            self.tableView.reloadData()
-        })
+        self.tableView.reloadData()
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel?.searchUser(fullName: searchText, username: searchText)
         tableView.reloadData()
     }
     
