@@ -62,12 +62,12 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(MySharedInstance.instance.userInfo[indexPath.row].userID!)
+        viewModel?.onCellTap?(DatabaseService.instance.userInfoArr[indexPath.row].userID!)
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MySharedInstance.instance.userInfo.count
+        return DatabaseService.instance.userInfoArr.count
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {

@@ -11,6 +11,12 @@ import Firebase
 
 class DatabaseService {
     
+    static let instance = DatabaseService()
+    var ref = Database.database().reference()
+    var userRegister = UserRegister()
+    var userInfoArr = [UserInfo]()
+    let storageRef = Storage.storage().reference()
+    
     var mainPosts = [Post]()
     var favouritePosts = [Post]()
     var myProfilePosts = [Post]()
@@ -38,7 +44,7 @@ class DatabaseService {
         
         let uid = Auth.auth().currentUser?.uid
         
-        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             let users = snapshot.value as! [String : AnyObject]
             
             if let followingUsers = users["following"] as? [String : String] {
@@ -50,7 +56,7 @@ class DatabaseService {
             AppDelegate.instance().dismissActivityIndicator()
         })
         
-        MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             
             for (_,post) in postSnap {
@@ -80,13 +86,13 @@ class DatabaseService {
                 }
             }
         })
-        MySharedInstance.instance.ref.removeAllObservers()
+        ref.removeAllObservers()
     }
     
     func loadFavouriteFeed() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        MySharedInstance.instance.ref.child("users").child(uid).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        ref.child("users").child(uid).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             
             let snap = snapshot.value as! [String : AnyObject]
             
@@ -97,7 +103,7 @@ class DatabaseService {
             }
         })
         
-        MySharedInstance.instance.ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             for (_,post) in postSnap {
                 if let postID = post["postID"] as? String {
@@ -124,19 +130,19 @@ class DatabaseService {
                 }
             }
         })
-        MySharedInstance.instance.ref.removeAllObservers()
+        ref.removeAllObservers()
     }
     
     func loadMyProfileFeed() {
         let uid = Auth.auth().currentUser?.uid
         
-        MySharedInstance.instance.ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             _ = snapshot.value as! [String : AnyObject]
             
             self.myPosts.append(uid!)
         })
         
-        MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             
             for (_,post) in postSnap {
@@ -164,19 +170,19 @@ class DatabaseService {
                 }
             }
         })
-        MySharedInstance.instance.ref.removeAllObservers()
+        ref.removeAllObservers()
     }
     
     func loadProfilesFeed(idx: String) {
         usersPosts.removeAll()
         profilesPosts.removeAll()
-        MySharedInstance.instance.ref.child("users").child(idx).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
+        ref.child("users").child(idx).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             _ = snapshot.value as! [String : AnyObject]
             
             self.usersPosts.append(idx)
         })
         
-        MySharedInstance.instance.ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             
             for (_,post) in postSnap {
@@ -204,12 +210,12 @@ class DatabaseService {
                 }
             }
         })
-        MySharedInstance.instance.ref.removeAllObservers()
+        ref.removeAllObservers()
     }
     
     func getMyProfileInfo() {
         guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
             self.userInfo.username = usersObject?["username"] as? String
@@ -223,7 +229,7 @@ class DatabaseService {
     }
     
     func getProfilesInfo(idx: String) {
-        MySharedInstance.instance.ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
             self.userInfo.username = usersObject?["username"] as? String
@@ -237,8 +243,10 @@ class DatabaseService {
     }
     
     func searchUsers() {
+        userInfoArr = []
+
         guard let id = Auth.auth().currentUser?.uid else { return }
-        MySharedInstance.instance.ref.child("users").observe(.childAdded, with: { (snapshot) in
+        ref.child("users").observe(.childAdded, with: { (snapshot) in
             guard snapshot.key != id else { return }
             let usersObject = snapshot.value as? NSDictionary
             
@@ -248,17 +256,17 @@ class DatabaseService {
             userInfo.imageUrl = usersObject?["imageUrl"] as? String
             userInfo.userID = snapshot.key
             
-            MySharedInstance.instance.userInfo.append(userInfo)
+            self.userInfoArr.append(userInfo)
         })
     }
     
     func getFollowings(idx: String) {
-        MySharedInstance.instance.userInfo = []
+        userInfoArr = []
         
-        MySharedInstance.instance.ref.child("users").child(idx).child("following").observe(.childAdded, with: { (snapshot) in
+        ref.child("users").child(idx).child("following").observe(.childAdded, with: { (snapshot) in
             self.followings = snapshot.value as? String
             
-            MySharedInstance.instance.ref.child("users").child(self.followings!).observeSingleEvent(of: .value, with: { (snap) in
+            self.ref.child("users").child(self.followings!).observeSingleEvent(of: .value, with: { (snap) in
                 let usersObject = snap.value as? NSDictionary
                 
                 var userInfo = UserInfo()
@@ -267,18 +275,18 @@ class DatabaseService {
                 userInfo.imageUrl = usersObject?["imageUrl"] as? String
                 userInfo.userID = snap.key
                 
-                MySharedInstance.instance.userInfo.append(userInfo)
+                self.userInfoArr.append(userInfo)
             })
         })
     }
     
     func getFollowers(idx: String) {
-        MySharedInstance.instance.userInfo = []
+        userInfoArr = []
         
-        MySharedInstance.instance.ref.child("users").child(idx).child("followers").observe(.childAdded, with: { (snapshot) in
+        ref.child("users").child(idx).child("followers").observe(.childAdded, with: { (snapshot) in
             self.followers = snapshot.value as? String
             
-            MySharedInstance.instance.ref.child("users").child(self.followers!).observeSingleEvent(of: .value, with: { (snap) in
+            self.ref.child("users").child(self.followers!).observeSingleEvent(of: .value, with: { (snap) in
                 let usersObject = snap.value as? NSDictionary
 
                 var userInfo = UserInfo()
@@ -287,20 +295,20 @@ class DatabaseService {
                 userInfo.imageUrl = usersObject?["imageUrl"] as? String
                 userInfo.userID = snap.key
                 
-                MySharedInstance.instance.userInfo.append(userInfo)
+                self.userInfoArr.append(userInfo)
             })
         })
     }
     
     func favouritePressed(postID: String) {
-        let keyToPost = MySharedInstance.instance.ref.child("posts").childByAutoId().key!
-        let keyToUsers = MySharedInstance.instance.ref.child("users").childByAutoId().key!
+        let keyToPost = ref.child("posts").childByAutoId().key!
+        let keyToUsers = ref.child("users").childByAutoId().key!
         guard let id = Auth.auth().currentUser?.uid else { return }
         
-        MySharedInstance.instance.ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snap) in
             if let _ = snap.value as? [String : AnyObject] {
                 let updateFavouritedPosts: [String : Any] = ["favouritedPosts/\(keyToUsers)" : postID]
-                MySharedInstance.instance.ref.child("users").child(id).updateChildValues(updateFavouritedPosts, withCompletionBlock: { (error, ref) in
+                self.ref.child("users").child(id).updateChildValues(updateFavouritedPosts, withCompletionBlock: { (error, ref) in
                     if error == nil {
                         print("all gucci")
                     }
@@ -308,19 +316,19 @@ class DatabaseService {
             }
         })
         
-        MySharedInstance.instance.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? [String: AnyObject] {
                 let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : id]
-                MySharedInstance.instance.ref.child("posts").child(postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
+                self.ref.child("posts").child(postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
                     if error == nil {
-                        MySharedInstance.instance.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
+                        ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
                             if let properties = snap.value as? [String : AnyObject] {
                                 if let favourites = properties["peopleFavourited"] as? [String : AnyObject] {
                                     let count = favourites.count
                                     self.count = count
                                     
                                     let update = ["favourites" : count]
-                                    MySharedInstance.instance.ref.child("posts").child(postID).updateChildValues(update)
+                                    ref.child("posts").child(postID).updateChildValues(update)
                                     self.favourited = true
                                 }
                             }
@@ -329,20 +337,20 @@ class DatabaseService {
                 })
             }
         })
-        MySharedInstance.instance.ref.removeAllObservers()
+        ref.removeAllObservers()
         self.favourited = false
     }
     
     func unfavouritePressed(postID: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        MySharedInstance.instance.ref.child("users").child(uid).observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("users").child(uid).observeSingleEvent(of: .value, with: { (snap) in
             if let favouritedPosts = snap.value as? [String : AnyObject] {
                 if let favourites = favouritedPosts["favouritedPosts"] as? [String : AnyObject] {
                     
                     for (id, post) in favourites {
                         if post as? String == postID {
-                            MySharedInstance.instance.ref.child("users").child(uid).child("favouritedPosts").child(id).removeValue(completionBlock: { (error, ref) in
+                            self.ref.child("users").child(uid).child("favouritedPosts").child(id).removeValue(completionBlock: { (error, ref) in
                                 if error == nil {
                                     print("all gucci")
                                 }
@@ -353,23 +361,23 @@ class DatabaseService {
             }
         })
         
-        MySharedInstance.instance.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let properties = snapshot.value as? [String : AnyObject] {
                 if let peopleFavourited = properties["peopleFavourited"] as? [String : AnyObject] {
                     
                     for (id, person) in peopleFavourited {
                         if person as? String == Auth.auth().currentUser!.uid {
-                            MySharedInstance.instance.ref.child("posts").child(postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in
+                            self.ref.child("posts").child(postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in
                                 if error == nil {
-                                    MySharedInstance.instance.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
+                                    ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
                                         if let prop = snap.value as? [String : AnyObject] {
                                             if let favourites = prop["peopleFavourited"] as? [String : AnyObject] {
                                                 let count = favourites.count
                                                 self.count = count
-                                                MySharedInstance.instance.ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
+                                                ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
                                                 self.count = 0
-                                                MySharedInstance.instance.ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
+                                                ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
                                             }
                                         }
                                     })

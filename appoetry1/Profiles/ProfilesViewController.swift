@@ -83,13 +83,13 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     @IBAction func followButtonPressed(_ sender: Any) {
-        let key = MySharedInstance.instance.ref.child("users").childByAutoId().key
+        let key = DatabaseService.instance.ref.child("users").childByAutoId().key
         let uid = Auth.auth().currentUser!.uid
         let following = ["following/\(key!)" : (viewModel?.idx)!]
         let followers = ["followers/\(key!)" : uid]
         
-        MySharedInstance.instance.ref.child("users").child(uid).updateChildValues(following)
-        MySharedInstance.instance.ref.child("users").child((viewModel?.idx)!).updateChildValues(followers)
+        DatabaseService.instance.ref.child("users").child(uid).updateChildValues(following)
+        DatabaseService.instance.ref.child("users").child((viewModel?.idx)!).updateChildValues(followers)
         
         self.followButton.isHidden = true
         self.unfollowButton.isHidden = false
@@ -98,13 +98,13 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBAction func unfollowButtonPressed(_ sender: Any) {
         let uid = Auth.auth().currentUser!.uid
-        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        DatabaseService.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
                 for (ke, value) in following {
                     if value as? String == (self.viewModel?.idx)! {
                         
-                        MySharedInstance.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
-                        MySharedInstance.instance.ref.child("users").child((self.viewModel?.idx)!).child("followers/\(ke)").removeValue()
+                        DatabaseService.instance.ref.child("users").child(uid).child("following/\(ke)").removeValue()
+                        DatabaseService.instance.ref.child("users").child((self.viewModel?.idx)!).child("followers/\(ke)").removeValue()
                         self.unfollowButton.isHidden = true
                         self.followButton.isHidden = false
                         self.unfollowButton.isEnabled = true
@@ -117,7 +117,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     func checkFollowing() {
         let uid = Auth.auth().currentUser!.uid
         
-        MySharedInstance.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        DatabaseService.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
                 for (_, value) in following {
                     if value as? String == (self.viewModel?.idx)! {
@@ -128,7 +128,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
                 }
             }
         })
-        MySharedInstance.instance.ref.removeAllObservers()
+        DatabaseService.instance.ref.removeAllObservers()
     }
     
     @IBAction func followersButtonPressed(_ sender: Any) {

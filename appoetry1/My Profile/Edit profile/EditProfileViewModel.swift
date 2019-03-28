@@ -28,13 +28,13 @@ class EditProfileViewModel: NSObject {
     }
     
     func addChangedCredentials(imageUrl: String, username: String, fullName: String, email: String, firstGenre: String, secondGenre: String, thirdGenre: String) {
-        MySharedInstance.instance.userRegister.imageUrl = imageUrl
-        MySharedInstance.instance.userRegister.username = username
-        MySharedInstance.instance.userRegister.fullName = fullName
-        MySharedInstance.instance.userRegister.email = email
-        MySharedInstance.instance.userRegister.firstGenre = firstGenre
-        MySharedInstance.instance.userRegister.secondGenre = secondGenre
-        MySharedInstance.instance.userRegister.thirdGenre = thirdGenre
+        DatabaseService.instance.userRegister.imageUrl = imageUrl
+        DatabaseService.instance.userRegister.username = username
+        DatabaseService.instance.userRegister.fullName = fullName
+        DatabaseService.instance.userRegister.email = email
+        DatabaseService.instance.userRegister.firstGenre = firstGenre
+        DatabaseService.instance.userRegister.secondGenre = secondGenre
+        DatabaseService.instance.userRegister.thirdGenre = thirdGenre
     }
     
     func getUserInfo() {

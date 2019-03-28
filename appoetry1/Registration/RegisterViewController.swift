@@ -73,7 +73,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         
         if isEmailAddressUsed {
             self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
-
+            
         } else {
             print("Email is not taken so you can use it!")
         }
@@ -95,7 +95,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             
             let uid = Auth.auth().currentUser!.uid
             
-            let key = MySharedInstance.instance.ref.child("posts").childByAutoId().key
+            let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
             let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
             
             let imageRef = storage.child("users").child(uid).child("\(String(describing: key)).jpg")
@@ -113,13 +113,13 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                         print(err!.localizedDescription)
                     }
                     if let url = url {
-
+                        
                         self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
                     }
                 })
             }
             uploadTask.resume()
-          
+            
         } else {
             print("Passwords does not match!")
             displayAlertMessage(messageToDisplay: "Passwords does not match!")
@@ -150,14 +150,16 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     func isEmailAlreadyTaken(emailAddressString: String) -> Bool {
         var itIsUsed = false
         
-        MySharedInstance.instance.ref.child("users").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
+        DatabaseService.instance.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+//            let value = snapshot.value as! [String : AnyObject]
             
-            if snapshot.exists() {
-                itIsUsed = true
-                print("email is used")
-            } else {
-                print("all guccccii")
-            }
+//            value.forEach({ (key: "email", value: AnyObject) in
+//                guard let email = { $0.value } else { return }
+//                if email = value {
+//                    return itIsUsed
+
+//                }
+//            })
         })
         return itIsUsed
     }

@@ -17,15 +17,15 @@ class RegisterStep3ViewModel {
     var databaseHandle: DatabaseHandle?
     
     func addThirdStepCredentials(firstGenre: String?, secondGenre: String?, thirdGenre: String?) {
-        MySharedInstance.instance.userRegister.firstGenre = firstGenre
-        MySharedInstance.instance.userRegister.secondGenre = secondGenre
-        MySharedInstance.instance.userRegister.thirdGenre = thirdGenre
+        DatabaseService.instance.userRegister.firstGenre = firstGenre
+        DatabaseService.instance.userRegister.secondGenre = secondGenre
+        DatabaseService.instance.userRegister.thirdGenre = thirdGenre
     }
     
     func toMainScreen() {
         guard
-            let email = MySharedInstance.instance.userRegister.email,
-            let password = MySharedInstance.instance.userRegister.password
+            let email = DatabaseService.instance.userRegister.email,
+            let password = DatabaseService.instance.userRegister.password
             else { return }
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if user != nil {
@@ -33,7 +33,7 @@ class RegisterStep3ViewModel {
             }
             guard error == nil else { return }
             guard let id = Auth.auth().currentUser?.uid else { return }
-            MySharedInstance.instance.ref.child("users").child(id).setValue(MySharedInstance.instance.userRegister.sendData())
+            DatabaseService.instance.ref.child("users").child(id).setValue(DatabaseService.instance.userRegister.sendData())
             
             self.onMainScreen?()
         }
