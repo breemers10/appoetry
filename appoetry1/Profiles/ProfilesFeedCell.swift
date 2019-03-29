@@ -60,7 +60,6 @@ class ProfilesFeedCell: UICollectionViewCell {
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
-                
             }
         }
     }
