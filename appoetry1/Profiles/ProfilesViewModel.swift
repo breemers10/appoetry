@@ -39,6 +39,18 @@ class ProfilesViewModel {
         databaseService?.getProfilesInfo(idx: idx)
     }
     
+    func followUser() {
+        databaseService?.follow(idx: idx)
+    }
+    
+    func unfollowUser() {
+        databaseService?.unfollow(idx: idx)
+    }
+    
+    func checkFollowings() {
+        databaseService?.checkFollowingStatus(idx: idx)
+    }
+    
     func createPost() {
         onCreatePostTap?()
     }

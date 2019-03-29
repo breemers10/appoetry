@@ -38,6 +38,9 @@ class DatabaseService {
     var unfavourited = false
     var favourited = false
     var isCurrentUser = false
+    var hasFollowed = false
+    var hasUnfollowed = false
+    var followed = false
     
     func loadMainFeed() {
         AppDelegate.instance().showActivityIndicator()
@@ -394,5 +397,48 @@ class DatabaseService {
             }
         })
         self.unfavourited = false
+    }
+    
+    func follow(idx: String) {
+        let key = DatabaseService.instance.ref.child("users").childByAutoId().key
+        let uid = Auth.auth().currentUser!.uid
+        let following = ["following/\(key!)" : idx]
+        let followers = ["followers/\(key!)" : uid]
+        
+        ref.child("users").child(uid).updateChildValues(following)
+        ref.child("users").child(idx).updateChildValues(followers)
+        
+        hasFollowed = true
+    }
+    
+    func unfollow(idx: String) {
+        let uid = Auth.auth().currentUser!.uid
+        ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let following = snapshot.value as? [String : AnyObject] {
+                for (ke, value) in following {
+                    if value as? String == idx {
+                        
+                        self.ref.child("users").child(uid).child("following/\(ke)").removeValue()
+                        self.ref.child("users").child(idx).child("followers/\(ke)").removeValue()
+                    }
+                    self.hasUnfollowed = true
+                }
+            }
+        })
+    }
+    
+    func checkFollowingStatus(idx: String) {
+        let uid = Auth.auth().currentUser!.uid
+        
+        DatabaseService.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let following = snapshot.value as? [String : AnyObject] {
+                for (_, value) in following {
+                    if value as? String == idx {
+                        self.followed = true
+                    }
+                }
+            }
+        })
+        DatabaseService.instance.ref.removeAllObservers()
     }
 }
