@@ -34,7 +34,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func retrieveUsers() {
         viewModel?.fetchUsers()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            
             self.tableView.reloadData()
         }
     }
@@ -56,7 +55,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if let myCell = cell as? SearchUserCell {
             if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
-
             myCell.configure(userInfo: userInfo)
             }
         }

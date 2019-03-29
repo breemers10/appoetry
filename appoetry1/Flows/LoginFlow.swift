@@ -17,11 +17,13 @@ class LoginFlow:  PFlowController {
 
     private var presenterVC: UINavigationController?
     private var userService: PUserService
+    private var databaseService: DatabaseService?
     private var child: PFlowController?
     
     
-    init(userService: PUserService) {
+    init(userService: PUserService, databaseService: DatabaseService) {
         self.userService = userService
+        self.databaseService = databaseService
     }
     
     func start() {
@@ -44,14 +46,12 @@ class LoginFlow:  PFlowController {
     private func getToRegistrationScreen() {
         guard let regVC = presenterVC else { return }
 
-        let regFlow = RegFlow(navCtrllr: regVC)
+        let regFlow = RegFlow(navCtrllr: regVC, databaseService: databaseService!)
         
         regFlow.onThirdStepNextTap = { [weak self] in
             self?.onSuccessfullLogin?()
         }
-        
         regFlow.start()
-        
         childFlow = regFlow
     }
 }

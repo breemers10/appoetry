@@ -52,7 +52,6 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         
         fetchUserInfo()
         fetchPosts()
-        
     }
     
     override func viewDidLayoutSubviews() {

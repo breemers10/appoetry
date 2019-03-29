@@ -23,7 +23,7 @@ class AppFlow: PFlowController {
     }
     
     func start() {
-        let loginFlow = LoginFlow(userService: userService)
+        let loginFlow = LoginFlow(userService: userService, databaseService: databaseService)
         
         loginFlow.onLoginStart = {[weak self] rootController in
             self?.window.rootViewController = rootController

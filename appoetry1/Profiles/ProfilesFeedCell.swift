@@ -63,6 +63,7 @@ class ProfilesFeedCell: UICollectionViewCell {
             }
         }
     }
+    
     @IBAction func unfavouriteButtonPressed(_ sender: Any) {
         self.unfavouriteButton.isEnabled = false
         

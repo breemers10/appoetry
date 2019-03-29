@@ -59,17 +59,14 @@ class MainFeedViewCell: UICollectionViewCell {
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
-                
             }
         }
     }
     @IBAction func unfavouriteBttnPressed(_ sender: Any) {
         self.unfavouriteButton.isEnabled = false
-        
         viewModel?.unfavouritePost(postID: postID)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            
             if (self.viewModel?.databaseService?.unfavourited)! {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
                 self.favouriteButton.isHidden = false

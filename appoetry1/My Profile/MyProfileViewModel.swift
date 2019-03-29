@@ -45,7 +45,6 @@ class MyProfileViewModel: NSObject {
         databaseService?.unfavouritePressed(postID: postID)
     }
     
-    
     func toEditProfile() {
         onEditProfileTap?()
     }
