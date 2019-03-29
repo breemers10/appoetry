@@ -20,7 +20,7 @@ class DatabaseService {
     var myProfilePosts = [Post]()
     var profilesPosts = [Post]()
     var userInfoArr = [UserInfo]()
-
+    
     var userRegister = UserRegister()
     var userInfo = UserInfo()
     
@@ -29,7 +29,7 @@ class DatabaseService {
     var count: Int?
     var followings: String?
     var followers: String?
-
+    
     var following = [String]()
     var favouritedPosts = [String]()
     var myPosts = [String]()
@@ -37,6 +37,7 @@ class DatabaseService {
     
     var unfavourited = false
     var favourited = false
+    var isCurrentUser = false
     
     func loadMainFeed() {
         AppDelegate.instance().showActivityIndicator()
@@ -228,6 +229,7 @@ class DatabaseService {
     }
     
     func getProfilesInfo(idx: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
@@ -238,12 +240,15 @@ class DatabaseService {
             self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
             self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
             self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
+            if idx == uid {
+                self.isCurrentUser = true
+            }
         })
     }
     
     func searchUsers() {
         userInfoArr = []
-
+        
         guard let id = Auth.auth().currentUser?.uid else { return }
         ref.child("users").observe(.childAdded, with: { (snapshot) in
             guard snapshot.key != id else { return }
@@ -287,7 +292,7 @@ class DatabaseService {
             
             self.ref.child("users").child(self.followers!).observeSingleEvent(of: .value, with: { (snap) in
                 let usersObject = snap.value as? NSDictionary
-
+                
                 var userInfo = UserInfo()
                 userInfo.fullName = usersObject?["username"] as? String
                 userInfo.username = usersObject?["fullName"] as? String

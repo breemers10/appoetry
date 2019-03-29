@@ -74,7 +74,6 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
                 myCell.authorButton.isUserInteractionEnabled = true
                 myCell.authorButton.tag = indexPath.row
                 myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
-
             }
         }
         return cell
@@ -83,7 +82,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     @objc func authorButtonPressed(button: UIButton) {
         let id = button.tag
         
-        guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }
+        guard let userId = viewModel?.databaseService?.favouritePosts[id].userID else { return }
         viewModel?.onAuthorTap?(userId)
     }
 }
