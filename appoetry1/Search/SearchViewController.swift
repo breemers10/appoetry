@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 import Kingfisher
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
@@ -36,7 +35,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         viewModel?.fetchUsers()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             
-        self.tableView.reloadData()
+            self.tableView.reloadData()
         }
     }
     
@@ -56,17 +55,20 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath)
         
         if let myCell = cell as? SearchUserCell {
-            myCell.configure(indexPath: indexPath.row)
+            if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+
+            myCell.configure(userInfo: userInfo)
+            }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(DatabaseService.instance.userInfoArr[indexPath.row].userID!)
+        viewModel?.onCellTap?((viewModel?.databaseService?.userInfoArr[indexPath.row].userID)!)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DatabaseService.instance.userInfoArr.count
+        return (viewModel?.databaseService?.userInfoArr.count)!
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {

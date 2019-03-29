@@ -75,6 +75,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+      
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
         
         if let myCell = cell as? MainFeedViewCell {
@@ -82,15 +83,19 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 myCell.configure(post: post)
                 myCell.viewModel = viewModel
                 myCell.authorButton.isUserInteractionEnabled = true
-                let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.labelPressed))
-                myCell.authorButton.addGestureRecognizer(gestureRecognizer)
+                myCell.authorButton.tag = indexPath.row
+                myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
+
             }
         }
         return cell
     }
     
-    @objc func labelPressed(){
-        viewModel?.onAuthorTap?((viewModel?.databaseService?.idx)!)
+    @objc func authorButtonPressed(button: UIButton) {
+        let id = button.tag
+        
+        guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }
+        viewModel?.onAuthorTap?(userId)
     }
 }
 

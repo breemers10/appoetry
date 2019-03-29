@@ -86,15 +86,6 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    @IBAction func followerButtonPressed(_ sender: Any) {
-        viewModel?.onFollowersButtonTap?((viewModel?.databaseService?.idx)!)
-    }
-    
-    @IBAction func followingButtonPressed(_ sender: Any) {
-        viewModel?.onFollowingButtonTap?((viewModel?.databaseService?.idx)!)
-        
-    }
-    
     @objc func handleSelectProfileImageView() {
         present(picker, animated: true, completion: nil)
     }
@@ -164,6 +155,15 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
             }
         }
         return cell
+    }
+    
+    @IBAction func followerButtonPressed(_ sender: Any) {
+        viewModel?.onFollowersButtonTap?((viewModel?.databaseService?.idx)!)
+    }
+    
+    @IBAction func followingButtonPressed(_ sender: Any) {
+        viewModel?.onFollowingButtonTap?((viewModel?.databaseService?.idx)!)
+        
     }
 }
 

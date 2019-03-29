@@ -112,9 +112,6 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="117" id="j6g-be-QzQ"/>
                                                     </constraints>
-                                                    <connections>
-                                                        <action selector="authorOfPostPressed:" destination="eEJ-i6-UT3" eventType="touchUpInside" id="EUn-iw-qed"/>
-                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vx2-bc-cRr">
                                                     <rect key="frame" x="39" y="4" width="58" height="21"/>

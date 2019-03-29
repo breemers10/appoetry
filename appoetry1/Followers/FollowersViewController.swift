@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Firebase
-
 
 class FollowersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
@@ -26,9 +24,7 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        DatabaseService.instance.userInfoArr = []
-        
+                
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
@@ -58,18 +54,20 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "followersUserCell", for: indexPath)
         
         if let myCell = cell as? FollowersTableViewCell {
-            myCell.configure(indexPath: indexPath.row)
+            if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+                myCell.configure(userInfo: userInfo)
+            }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(DatabaseService.instance.userInfoArr[indexPath.row].userID!)
+        viewModel?.onCellTap?((viewModel?.databaseService?.userInfoArr[indexPath.row].userID)!)
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DatabaseService.instance.userInfoArr.count
+        return (viewModel?.databaseService?.userInfoArr.count)!
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
