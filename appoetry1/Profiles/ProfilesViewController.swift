@@ -36,7 +36,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewDidLoad()
         
         setupNavigationBarItems()
-        
+        fetchUsersInfo()
         fetchPosts()
         checkFollowing()
         
@@ -45,8 +45,6 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
-        
-        fetchUsersInfo()
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,7 +54,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     func fetchUsersInfo() {
         viewModel?.getUserInfo()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
 
             let url = URL(string: userInfo.imageUrl!)
@@ -72,6 +70,11 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.secondNumberLabel.text = "2."
             self.thirdNumberLabel.text = "3."
             self.profilePicture.kf.setImage(with: url)
+            
+            if (self.viewModel?.databaseService?.isCurrentUser)! {
+                self.followButton.isHidden = true
+                self.unfollowButton.isHidden = true
+            }
         }
     }
     

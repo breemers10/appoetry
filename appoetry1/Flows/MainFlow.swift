@@ -137,6 +137,20 @@ class MainFlow: PFlowController {
         mainWrapper?.pushViewController(profilesVC, animated: false)
     }
     
+    func moveToProfilesFromFavourites(idx: String) {
+        
+        guard let profilesVC = profilesViewController else { return }
+        let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
+        profilesViewModel.onFollowingButtonTap = { [weak self] in
+            self?.moveToFollowings(idx: idx)
+        }
+        profilesViewModel.onFollowersButtonTap = { [weak self] in
+            self?.moveToFollowers(idx: idx)
+        }
+        profilesVC.viewModel = profilesViewModel
+        favouritesWrapper?.pushViewController(profilesVC, animated: false)
+    }
+    
     func moveToFollowings(idx: String) {
         guard let followingVC = followingViewController else { return }
         let followingVM = FollowingViewModel(idx: idx, databaseService: databaseService!)
@@ -177,9 +191,7 @@ class MainFlow: PFlowController {
         myProfileWrapper?.pushViewController(followersVC, animated: true)
     }
     
-    func moveToMainScreen() {
-        
-    }
+    func moveToMainScreen() { }
     
     private func setupTabBar() {
         presenterVC = UITabBarController()
@@ -217,7 +229,7 @@ class MainFlow: PFlowController {
             self?.moveToCreatePostFromFavourites()
         }
         favouritesViewModel.onAuthorTap = { [weak self] idx in
-            self?.moveToProfilesFromMain(idx: idx)
+            self?.moveToProfilesFromFavourites(idx: idx)
         }
         favourites.viewModel = favouritesViewModel
         favouritesWrapper = UINavigationController(rootViewController: favourites)
