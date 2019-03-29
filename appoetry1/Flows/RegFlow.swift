@@ -17,9 +17,11 @@ class RegFlow: PFlowController {
     
     private var navigationController: UINavigationController
     var child: PFlowController?
+    var databaseService: DatabaseService?
     
-    init(navCtrllr: UINavigationController) {
+    init(navCtrllr: UINavigationController, databaseService: DatabaseService) {
         navigationController = navCtrllr
+        self.databaseService = databaseService
     }
     
     func start() {
@@ -46,7 +48,7 @@ class RegFlow: PFlowController {
     
     func moveToRegStep3() {
         guard let regStep3VC = registerStep3ViewController else { return }
-        let viewModel3 = RegisterStep3ViewModel()
+        let viewModel3 = RegisterStep3ViewModel(databaseService: databaseService!)
         viewModel3.onMainScreen = { [weak self] in
             self?.onThirdStepNextTap?()
         }

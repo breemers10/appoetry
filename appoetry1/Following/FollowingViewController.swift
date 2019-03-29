@@ -34,7 +34,6 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.tableView.reloadData()
-            
         }
     }
     

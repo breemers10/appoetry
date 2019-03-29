@@ -41,6 +41,23 @@ class DatabaseService {
     var hasFollowed = false
     var hasUnfollowed = false
     var followed = false
+    var hasBeenRegistered = false
+    
+    func registerUser() {
+        guard
+            let email = userRegister.email,
+            let password = userRegister.password
+            else { return }
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if user != nil {
+                print("User has signed up")
+            }
+            guard error == nil else { return }
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            self.ref.child("users").child(uid).setValue(self.userRegister.sendData())
+            self.hasBeenRegistered = true
+        }
+    }
     
     func loadMainFeed() {
         AppDelegate.instance().showActivityIndicator()

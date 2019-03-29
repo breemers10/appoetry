@@ -73,14 +73,12 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         
         if isEmailAddressUsed {
             self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
-            
         } else {
             print("Email is not taken so you can use it!")
         }
         
         if isPasswordValid {
             print("Password is valid")
-            
         } else {
             print("Password is not valid")
             displayAlertMessage(messageToDisplay: "Password is not valid")
@@ -113,7 +111,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                         print(err!.localizedDescription)
                     }
                     if let url = url {
-                        
                         self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
                     }
                 })
@@ -166,7 +163,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func isValidPassword(testStr:String?) -> Bool {
         guard testStr != nil else { return false }
-        
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
         return passwordTest.evaluate(with: testStr)
     }
@@ -179,7 +175,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             print("Ok button tapped");
         }
         alertController.addAction(OKAction)
-        
         self.present(alertController, animated: true, completion:nil)
     }
 }

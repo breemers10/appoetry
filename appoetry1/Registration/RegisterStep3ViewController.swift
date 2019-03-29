@@ -70,8 +70,13 @@ class RegisterStep3ViewController: UIViewController {
             let thirdGenre = thirdGenreTextField.text
             else { return }
         viewModel?.addThirdStepCredentials(firstGenre: firstGenre, secondGenre: secondGenre, thirdGenre: thirdGenre)
-      
-        viewModel?.toMainScreen()
+        
+        viewModel?.onMainScreen?()
+        
+        if (viewModel?.databaseService?.hasBeenRegistered)! {
+            viewModel?.onMainScreen?()
+        }
+        
     }
     
     @objc func dismissKeyboard() {

@@ -87,12 +87,10 @@ class RegisterStep2ViewController: UIViewController {
         let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-            
             print("Ok button tapped");
         }
         
         alertController.addAction(OKAction)
-        
         self.present(alertController, animated: true, completion:nil)
     }
 }

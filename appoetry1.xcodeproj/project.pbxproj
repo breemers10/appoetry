@@ -35,6 +35,7 @@
 		63AFEE32223BF34900C5068E /* MainFeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEE31223BF34900C5068E /* MainFeedViewCell.swift */; };
 		63AFEE34223C07BC00C5068E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AFEE33223C07BC00C5068E /* Post.swift */; };
 		63B56347224A6F1C00B68AB2 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B56346224A6F1C00B68AB2 /* DatabaseService.swift */; };
+		63B56349224E6B1400B68AB2 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B56348224E6B1400B68AB2 /* Labels.swift */; };
 		63C4687B2244E4BE00895153 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4687A2244E4BE00895153 /* EditProfileViewController.swift */; };
 		63C4687D2244E4D200895153 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4687C2244E4D200895153 /* EditProfileViewModel.swift */; };
 		63C777C5223174B800CC753C /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C777C4223174B800CC753C /* CreatePostViewController.swift */; };
@@ -114,6 +115,7 @@
 		63AFEE31223BF34900C5068E /* MainFeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedViewCell.swift; sourceTree = "<group>"; };
 		63AFEE33223C07BC00C5068E /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		63B56346224A6F1C00B68AB2 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		63B56348224E6B1400B68AB2 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		63C4687A2244E4BE00895153 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		63C4687C2244E4D200895153 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		63C777C4223174B800CC753C /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				6334F55E2248C72200538933 /* Date.swift */,
 				63FF78ED2243CB20002720AD /* Design.swift */,
 				63FF78EF2243D9EC002720AD /* Buttons.swift */,
+				63B56348224E6B1400B68AB2 /* Labels.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -661,6 +664,7 @@
 				63FF78EE2243CB20002720AD /* Design.swift in Sources */,
 				63D60D492227CFA3000ECAA8 /* RegisterStep2ViewModel.swift in Sources */,
 				63FF78F02243D9EC002720AD /* Buttons.swift in Sources */,
+				63B56349224E6B1400B68AB2 /* Labels.swift in Sources */,
 				63D60D472227CEF3000ECAA8 /* PFlowController.swift in Sources */,
 				63D60D552229215B000ECAA8 /* UserServices.swift in Sources */,
 				63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */,

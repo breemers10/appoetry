@@ -16,6 +16,12 @@ class RegisterStep3ViewModel {
     var onMainScreen: (() -> Void)?
     var databaseHandle: DatabaseHandle?
     
+    var databaseService: DatabaseService?
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
+    
     func addThirdStepCredentials(firstGenre: String?, secondGenre: String?, thirdGenre: String?) {
         DatabaseService.instance.userRegister.firstGenre = firstGenre
         DatabaseService.instance.userRegister.secondGenre = secondGenre
@@ -23,19 +29,6 @@ class RegisterStep3ViewModel {
     }
     
     func toMainScreen() {
-        guard
-            let email = DatabaseService.instance.userRegister.email,
-            let password = DatabaseService.instance.userRegister.password
-            else { return }
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-            if user != nil {
-                print("User has signed up")
-            }
-            guard error == nil else { return }
-            guard let id = Auth.auth().currentUser?.uid else { return }
-            DatabaseService.instance.ref.child("users").child(id).setValue(DatabaseService.instance.userRegister.sendData())
-            
-            self.onMainScreen?()
-        }
+        databaseService?.registerUser()
     }
 }

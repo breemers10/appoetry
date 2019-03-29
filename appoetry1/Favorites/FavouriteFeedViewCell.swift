@@ -20,6 +20,7 @@ class FavouriteFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var textViewHC: NSLayoutConstraint!
     @IBOutlet weak var authorButton: UIButton!
+    @IBOutlet weak var poemLabel: UILabel!
     
     var postID: String!
     var viewModel: FavouritesViewModel?
@@ -29,13 +30,15 @@ class FavouriteFeedViewCell: UICollectionViewCell {
         
         postImage.kf.setImage(with: url)
         authorLabel.text = post.username
-        textView.text = post.poem
-        textView.isEditable = false
+        poemLabel.text = post.poem
+        let readmoreFont = UIFont(name: "Helvetica-Oblique", size: 11.0)
+        let readmoreFontColor = UIColor.blue
+        self.poemLabel.addTrailing(with: "... ", moreText: "Read whole post", moreTextFont: readmoreFont!, moreTextColor: readmoreFontColor)
+
         favouritesLabel.text = "\(post.favourites!) Favourites"
         postID = post.postID
         genreLabel.text = post.genre
         dateLabel.text = post.createdAt!.calendarTimeSinceNow()
-        textViewHC.constant = textView.contentSize.height
         
         for person in post.peopleFavourited {
             if person == Auth.auth().currentUser!.uid {

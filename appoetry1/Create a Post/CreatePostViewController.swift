@@ -82,11 +82,6 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         AppDelegate.instance().showActivityIndicator()
         
         let uid = Auth.auth().currentUser!.uid
-        DatabaseService.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
-            if snapshot.key == "username" {
-                self.username = snapshot.value as? String
-            }
-        })
         
         let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
@@ -101,7 +96,13 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
                 AppDelegate.instance().dismissActivityIndicator()
                 return
             }
-            
+        
+        DatabaseService.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
+            if snapshot.key == "username" {
+                self.username = snapshot.value as? String
+            }
+        })
+
             imageRef.downloadURL(completion: { (url, error) in
                 if let url = url {
                     let feed = ["userID" : uid,

@@ -85,7 +85,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 myCell.authorButton.isUserInteractionEnabled = true
                 myCell.authorButton.tag = indexPath.row
                 myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
-
             }
         }
         return cell
