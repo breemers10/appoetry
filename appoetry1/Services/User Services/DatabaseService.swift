@@ -10,20 +10,19 @@ import UIKit
 import Firebase
 
 class DatabaseService {
-    
     static let instance = DatabaseService()
+    
     var ref = Database.database().reference()
-    var userRegister = UserRegister()
-    var userInfoArr = [UserInfo]()
     let storageRef = Storage.storage().reference()
     
     var mainPosts = [Post]()
     var favouritePosts = [Post]()
     var myProfilePosts = [Post]()
     var profilesPosts = [Post]()
-    
+    var userInfoArr = [UserInfo]()
+
+    var userRegister = UserRegister()
     var userInfo = UserInfo()
-    
     
     var postID: String?
     var idx: String?

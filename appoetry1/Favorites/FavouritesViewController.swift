@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -73,15 +72,19 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
                 myCell.configure(post: post)
                 myCell.viewModel = viewModel
                 myCell.authorButton.isUserInteractionEnabled = true
-                let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.labelPressed))
-                myCell.authorButton.addGestureRecognizer(gestureRecognizer)
+                myCell.authorButton.tag = indexPath.row
+                myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
+
             }
         }
         return cell
     }
     
-    @objc func labelPressed(){
-        viewModel?.onAuthorTap?((viewModel?.databaseService?.idx)!)
+    @objc func authorButtonPressed(button: UIButton) {
+        let id = button.tag
+        
+        guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }
+        viewModel?.onAuthorTap?(userId)
     }
 }
 

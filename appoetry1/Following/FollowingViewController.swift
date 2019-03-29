@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class FollowingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
@@ -16,16 +15,11 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
     var viewModel: FollowingViewModel?
     let createPostButton = UIButton(type: .system)
     
-    var username: String?
-    var fullName: String?
-    var imageUrl: String?
-    var userID: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-
+        
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
@@ -39,11 +33,11 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         viewModel?.fetchFollowings()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-        self.tableView.reloadData()
+            self.tableView.reloadData()
             
         }
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
@@ -56,18 +50,20 @@ class FollowingViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "followingUserCell", for: indexPath)
         
         if let myCell = cell as? FollowingTableViewCell {
-            myCell.configure(indexPath: indexPath.row)
+            if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+                myCell.configure(userInfo: userInfo)
+            }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?(DatabaseService.instance.userInfoArr[indexPath.row].userID!)
+        viewModel?.onCellTap?((viewModel?.databaseService?.userInfoArr[indexPath.row].userID)!)
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DatabaseService.instance.userInfoArr.count
+        return (viewModel?.databaseService?.userInfoArr.count)!
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {
