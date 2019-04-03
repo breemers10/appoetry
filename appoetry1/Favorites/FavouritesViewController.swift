@@ -28,14 +28,14 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         self.view.applyGradient()
     }
     
-    func fetchPosts() {
+    private func fetchPosts() {
         viewModel?.getFavouritesPosts()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
         }
     }
     
-    @objc func createPostButtonPressed(sender: UIButton) {
+    @objc private func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
     }
     
@@ -79,7 +79,7 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         return cell
     }
     
-    @objc func authorButtonPressed(button: UIButton) {
+    @objc private func authorButtonPressed(button: UIButton) {
         let id = button.tag
         
         guard let userId = viewModel?.databaseService?.favouritePosts[id].userID else { return }

@@ -31,7 +31,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.applyGradient()
     }
     
-    func retrieveUsers() {
+    private func retrieveUsers() {
         viewModel?.fetchUsers()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.tableView.reloadData()
@@ -69,7 +69,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return (viewModel?.databaseService?.userInfoArr.count)!
     }
     
-    @objc func createPostButtonPressed(sender: UIButton) {
+    @objc private func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
     }
     

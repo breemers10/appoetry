@@ -32,13 +32,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
             flowLayout.estimatedItemSize = CGSize(width: width, height: 300)
         }
-    }
-    
-    override func viewDidLayoutSubviews() {
         self.view.applyGradient()
     }
     
-    func fetchPosts() {
+    private func fetchPosts() {
         viewModel?.getMainFeed()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
@@ -82,15 +79,27 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             if let post = viewModel?.databaseService?.mainPosts[indexPath.row] {
                 myCell.configure(post: post)
                 myCell.viewModel = viewModel
-                myCell.authorButton.isUserInteractionEnabled = true
+                
                 myCell.authorButton.tag = indexPath.row
                 myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
+                
+                myCell.poemLabel.tag = indexPath.row
+                myCell.poemLabel.isUserInteractionEnabled = true
+                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+                myCell.poemLabel.addGestureRecognizer(tap)
             }
         }
         return cell
     }
     
-    @objc func authorButtonPressed(button: UIButton) {
+    @objc private func tapFunction(sender: UITapGestureRecognizer) {
+        print("it works")
+        guard let postId = viewModel?.databaseService?.mainPosts[(sender.view?.tag)!].postID else { return }
+        
+        viewModel?.onPostTap?(postId)
+    }
+    
+    @objc private func authorButtonPressed(button: UIButton) {
         let id = button.tag
         
         guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }

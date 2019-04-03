@@ -14,6 +14,7 @@ class DatabaseService {
     
     var ref = Database.database().reference()
     let storageRef = Storage.storage().reference()
+    let currentUserID = Auth.auth().currentUser!.uid
     
     var mainPosts = [Post]()
     var favouritePosts = [Post]()
@@ -23,6 +24,7 @@ class DatabaseService {
     
     var userRegister = UserRegister()
     var userInfo = UserInfo()
+    var usersPost = Post()
     
     var postID: String?
     var idx: String?
@@ -248,6 +250,21 @@ class DatabaseService {
         })
     }
     
+    func openPost(idx: String) {
+        
+        ref.child("posts").child(idx).observeSingleEvent(of: .value, with: { (snap) in
+            let postSnap = snap.value as? NSDictionary
+            
+            self.usersPost.username = postSnap?["author"] as? String
+            self.usersPost.favourites = postSnap?["favourites"] as? Int
+             self.usersPost.pathToImage = postSnap?["pathToImage"] as? String
+             self.usersPost.postID = postSnap?["postID"] as? String
+             self.usersPost.poem = postSnap?["poem"] as? String
+             self.usersPost.genre = postSnap?["genre"] as? String
+             self.usersPost.timestamp = postSnap?["createdAt"] as? Double
+        })
+    }
+    
     func getProfilesInfo(idx: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -345,14 +362,14 @@ class DatabaseService {
                 let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : id]
                 self.ref.child("posts").child(postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
                     if error == nil {
-                        ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
+                        self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
                             if let properties = snap.value as? [String : AnyObject] {
                                 if let favourites = properties["peopleFavourited"] as? [String : AnyObject] {
                                     let count = favourites.count
                                     self.count = count
                                     
                                     let update = ["favourites" : count]
-                                    ref.child("posts").child(postID).updateChildValues(update)
+                                    self.ref.child("posts").child(postID).updateChildValues(update)
                                     self.favourited = true
                                 }
                             }
@@ -394,14 +411,14 @@ class DatabaseService {
                         if person as? String == Auth.auth().currentUser!.uid {
                             self.ref.child("posts").child(postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in
                                 if error == nil {
-                                    ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
+                                    self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
                                         if let prop = snap.value as? [String : AnyObject] {
                                             if let favourites = prop["peopleFavourited"] as? [String : AnyObject] {
                                                 let count = favourites.count
                                                 self.count = count
-                                                ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
+                                                self.ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
                                                 self.count = 0
-                                                ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
+                                                self.ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
                                             }
                                         }
                                     })

@@ -11,20 +11,11 @@ import UIKit
 extension UIView {
     func applyGradient() {
         let gradient = CAGradientLayer()
-        gradient.colors = [UIColor(displayP3Red: 227/255, green: 253/255, blue: 245/255, alpha: 1).cgColor,
-                           UIColor(displayP3Red: 255/255, green: 230/255, blue: 250/255, alpha: 1).cgColor]
+
+        gradient.colors = [UIColor(displayP3Red: 228/255, green: 239/255, blue: 233/255, alpha: 1).cgColor,
+                           UIColor(displayP3Red: 147/255, green: 165/255, blue: 207/255, alpha: 1).cgColor]
         gradient.locations = [0.0, 1.0]
         gradient.frame = self.bounds
         self.layer.insertSublayer(gradient, at: 0)
     }
 }
-
-extension UIButton {
-    func applyButtonDesign() {
-        let buttonLayer = CALayer()
-        buttonLayer.borderWidth = 3
-        buttonLayer.borderColor = UIColor.lightGray.cgColor
-        buttonLayer.cornerRadius = 5
-    }
-}
-

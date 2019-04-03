@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appFlow = AppFlow(with: rootWindow)
         appFlow.start()
         
-        UITabBar.appearance().tintColor = UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85)
+        UITabBar.appearance().tintColor = UIColor(displayP3Red: 25/255, green: 25/255, blue: 112/255, alpha: 0.85)
 
         return true
     }

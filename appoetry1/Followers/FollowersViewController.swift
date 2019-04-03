@@ -34,7 +34,7 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
         self.view.applyGradient()
     }
     
-    func retrieveUsers() {
+    private func retrieveUsers() {
         viewModel?.fetchFollowers()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -70,7 +70,7 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
         return (viewModel?.databaseService?.userInfoArr.count)!
     }
     
-    @objc func createPostButtonPressed(sender: UIButton) {
+    @objc private func createPostButtonPressed(sender: UIButton) {
         viewModel?.onCreatePostTap?()
     }
     

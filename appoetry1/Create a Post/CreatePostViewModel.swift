@@ -13,7 +13,6 @@ class CreatePostViewModel {
     var realGenre: Genre?
     var onMainScreen: (() -> Void)?
     
-    
     func toMainScreen() {
         self.onMainScreen?()
     }

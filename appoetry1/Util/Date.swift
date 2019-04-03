@@ -38,6 +38,5 @@ extension Date {
         } else {
             return seconds == 1 ? "1 second ago" : "\(seconds) seconds ago"
         }
-        
     }
 }

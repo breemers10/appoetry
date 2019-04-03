@@ -11,7 +11,6 @@ import Firebase
 
 class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var unfavouriteButton: UIButton!
     @IBOutlet weak var authorLabel: UILabel!
@@ -19,7 +18,7 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var favouritesLabel: UILabel!
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var authorButton: UIButton!
-    @IBOutlet weak var textViewHC: NSLayoutConstraint!
+    @IBOutlet weak var poemLabel: UILabel!
     
     var postID: String!
     var viewModel: MainViewModel?
@@ -29,13 +28,16 @@ class MainFeedViewCell: UICollectionViewCell {
         
         postImage.kf.setImage(with: url)
         authorLabel.text = post.username
-        postTextView.text = post.poem
-        postTextView.isEditable = false
-        favouritesLabel.text = "\(post.favourites!) Favourites"
+        poemLabel.text = post.poem
+        favouritesLabel.text = "\(post.favourites!.formatUsingAbbrevation()) Favourites"
         postID = post.postID
         genreLabel.text = post.genre
         dateLabel.text = post.createdAt!.calendarTimeSinceNow()
-        textViewHC.constant = postTextView.contentSize.height
+        
+        let readmoreFont = UIFont(name: "Helvetica-Oblique", size: 11.0)
+        let readmoreFontColor = UIColor.blue
+        self.poemLabel.addTrailing(with: "... ", moreText: "Read whole post", moreTextFont: readmoreFont!, moreTextColor: readmoreFontColor)
+        poemLabel.roundCorners([.bottomLeft, .bottomRight], radius: 5)
         
         for person in post.peopleFavourited {
             if person == Auth.auth().currentUser!.uid {
@@ -46,8 +48,8 @@ class MainFeedViewCell: UICollectionViewCell {
         }
     }
     
-    @IBAction func favouriteBttnPressed(_ sender: Any) {
-        self.favouriteButton.isHidden = false
+    @IBAction private func favouriteBttnPressed(_ sender: Any) {
+        favouriteButton.isHidden = false
         
         viewModel?.favouritePost(postID: postID)
         
@@ -62,8 +64,9 @@ class MainFeedViewCell: UICollectionViewCell {
             }
         }
     }
-    @IBAction func unfavouriteBttnPressed(_ sender: Any) {
-        self.unfavouriteButton.isEnabled = false
+    
+    @IBAction private func unfavouriteBttnPressed(_ sender: Any) {
+        unfavouriteButton.isEnabled = false
         viewModel?.unfavouritePost(postID: postID)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -74,18 +77,5 @@ class MainFeedViewCell: UICollectionViewCell {
                 self.unfavouriteButton.isEnabled = true
             }
         }
-    }
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        setNeedsLayout()
-        layoutSubviews()
-        
-        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
-        
-        var frame = layoutAttributes.frame
-        frame.size.height = ceil(size.height)
-        layoutAttributes.frame = frame
-        
-        return layoutAttributes
     }
 }
