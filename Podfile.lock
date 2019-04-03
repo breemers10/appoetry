@@ -1,4 +1,5 @@
 PODS:
+  - ExpandableLabel (0.5.2)
   - Firebase (5.17.0):
     - Firebase/Core (= 5.17.0)
   - Firebase/Auth (5.17.0):
@@ -78,6 +79,7 @@ PODS:
   - nanopb/encode (0.3.901)
 
 DEPENDENCIES:
+  - ExpandableLabel
   - Firebase
   - Firebase/Auth
   - Firebase/Core
@@ -87,6 +89,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ExpandableLabel
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -103,6 +106,7 @@ SPEC REPOS:
     - nanopb
 
 SPEC CHECKSUMS:
+  ExpandableLabel: c2fab6d27860c572d67134b30522a5917746171d
   Firebase: 59d557e064217fab6a03ff00baa73c06e73832e6
   FirebaseAnalytics: 75e4bbc6417d190cc98ec1f17c41a4fad4c2c976
   FirebaseAuth: 0f61e1329237da5682c49c9abd135e8f9d07a151
@@ -118,6 +122,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: 6490acfbf79b2e3937ed3b9b0e75eb2e7e9332e5
+PODFILE CHECKSUM: 12effef88bbc72084d120847dfeec863d2afc884
 
 COCOAPODS: 1.6.0

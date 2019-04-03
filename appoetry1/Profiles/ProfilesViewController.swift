@@ -51,7 +51,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.view.applyGradient()
     }
     
-    func fetchUsersInfo() {
+    private func fetchUsersInfo() {
         viewModel?.getUserInfo()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -78,14 +78,14 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    func fetchPosts() {
+    private func fetchPosts() {
         viewModel?.getProfilesFeed()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
         }
     }
     
-    @IBAction func followButtonPressed(_ sender: Any) {
+    @IBAction private func followButtonPressed(_ sender: Any) {
         viewModel?.followUser()
         
         if (self.viewModel?.databaseService?.hasFollowed)! {
@@ -95,7 +95,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    @IBAction func unfollowButtonPressed(_ sender: Any) {
+    @IBAction private func unfollowButtonPressed(_ sender: Any) {
         viewModel?.unfollowUser()
         
         if (self.viewModel?.databaseService?.hasUnfollowed)! {
@@ -106,7 +106,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    func checkFollowing() {
+    private func checkFollowing() {
         viewModel?.checkFollowings()
         
         if (self.viewModel?.databaseService?.followed)! {
@@ -117,11 +117,11 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    @IBAction func followersButtonPressed(_ sender: Any) {
+    @IBAction private func followersButtonPressed(_ sender: Any) {
         viewModel?.onFollowersButtonTap?()
     }
     
-    @IBAction func followingButtonPressed(_ sender: Any) {
+    @IBAction private func followingButtonPressed(_ sender: Any) {
         viewModel?.onFollowingButtonTap?()
     }
     
@@ -129,7 +129,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
     }
     
-    @objc func createPostButtonPressed(sender: UIButton) {
+    @objc private func createPostButtonPressed(sender: UIButton) {
         viewModel?.createPost()
     }
     

@@ -11,7 +11,6 @@ import Firebase
 
 class MyProfileFeedCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var favouritesLabel: UILabel!
     @IBOutlet weak var viewStripe: UIView!
@@ -20,7 +19,7 @@ class MyProfileFeedCell: UICollectionViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     
     @IBOutlet weak var unfavouriteButton: UIButton!
-    @IBOutlet weak var textViewHC: NSLayoutConstraint!
+    @IBOutlet weak var poemLabel: UILabel!
     
     var postID: String!
     var viewModel: MyProfileViewModel?
@@ -30,13 +29,14 @@ class MyProfileFeedCell: UICollectionViewCell {
         
         postImage.kf.setImage(with: url)
         authorLabel.text = post.username
-        textView.text = post.poem
-        textView.isEditable = false
-        favouritesLabel.text = "\(post.favourites!) Favourites"
+        poemLabel.text = post.poem
+        let readmoreFont = UIFont(name: "Helvetica-Oblique", size: 11.0)
+        let readmoreFontColor = UIColor.blue
+        self.poemLabel.addTrailing(with: "... ", moreText: "Read whole post", moreTextFont: readmoreFont!, moreTextColor: readmoreFontColor)
+        favouritesLabel.text = "\(post.favourites!.formatUsingAbbrevation()) Favourites"
         postID = post.postID
         genreLabel.text = post.genre
         dateLabel.text = post.createdAt!.calendarTimeSinceNow()
-        textViewHC.constant = textView.contentSize.height
         
         for person in post.peopleFavourited {
             if person == Auth.auth().currentUser!.uid {
@@ -47,8 +47,8 @@ class MyProfileFeedCell: UICollectionViewCell {
         }
     }
     
-    @IBAction func favouriteButtonPressed(_ sender: Any) {
-        self.favouriteButton.isHidden = false
+    @IBAction private func favouriteButtonPressed(_ sender: UIButton) {
+        favouriteButton.isHidden = false
         viewModel?.favouritePost(postID: postID)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -62,8 +62,8 @@ class MyProfileFeedCell: UICollectionViewCell {
         }
     }
     
-    @IBAction func unfavouriteButtonPressed(_ sender: Any) {
-        self.unfavouriteButton.isEnabled = false
+    @IBAction private func unfavouriteButtonPressed(_ sender: UIButton) {
+        unfavouriteButton.isEnabled = false
         viewModel?.unfavouritePost(postID: postID)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

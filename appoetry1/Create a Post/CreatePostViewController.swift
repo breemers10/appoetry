@@ -39,14 +39,14 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         self.view.applyGradient()
     }
     
-    func createGenrePicker() {
+    private func createGenrePicker() {
         
         genrePicker.delegate = self
         genreField.inputView = genrePicker
         genrePicker.backgroundColor = .white
     }
     
-    func createToolbar() {
+    private func createToolbar() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
@@ -70,14 +70,14 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func selectPhotoButtonPressed(_ sender: Any) {
+    @IBAction private func selectPhotoButtonPressed(_ sender: Any) {
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
         
         self.present(picker, animated: true, completion: nil)
     }
     
-    @IBAction func postButtonPressed(_ sender: Any) {
+    @IBAction private func postButtonPressed(_ sender: Any) {
         
         AppDelegate.instance().showActivityIndicator()
         
@@ -125,7 +125,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         uploadTask.resume()
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
 }

@@ -34,3 +34,29 @@ class Buttons: UIButton {
         }
     }
 }
+
+class TextField: UITextField {
+    @IBInspectable var rounded: CGFloat = 0 { didSet {
+        self.layer.cornerRadius = rounded
+        }
+    }
+    @IBInspectable var borderWidth: CGFloat = 0 { didSet {
+        self.layer.borderWidth = borderWidth
+        }
+    }
+    @IBInspectable var borderColor: UIColor? {
+        get {
+            if let color = layer.borderColor {
+                return UIColor(cgColor: color)
+            }
+            return nil
+        }
+        set {
+            if let color = newValue {
+                layer.borderColor = color.cgColor
+            } else {
+                layer.borderColor = nil
+            }
+        }
+    }
+}

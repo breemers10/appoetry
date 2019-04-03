@@ -123,6 +123,16 @@ class MainFlow: PFlowController {
         myProfileWrapper?.pushViewController(profilesVC, animated: false)
     }
     
+    func moveToPostFromMain(idx: String) {
+        guard let postVC = postViewController else { return }
+        let postVM = PostViewModel(idx: idx, databaseService: databaseService!)
+        postVM.onAuthorTap = { [weak self] idx in
+            self?.moveToProfilesFromMain(idx: idx)
+        }
+        postVC.viewModel = postVM
+        mainWrapper?.pushViewController(postVC, animated: true)
+    }
+    
     func moveToProfilesFromMain(idx: String) {
         
         guard let profilesVC = profilesViewController else { return }
@@ -134,7 +144,7 @@ class MainFlow: PFlowController {
             self?.moveToFollowers(idx: idx)
         }
         profilesVC.viewModel = profilesViewModel
-        mainWrapper?.pushViewController(profilesVC, animated: false)
+        mainWrapper?.pushViewController(profilesVC, animated: true)
     }
     
     func moveToProfilesFromFavourites(idx: String) {
@@ -202,6 +212,9 @@ class MainFlow: PFlowController {
         }
         viewModel.onAuthorTap = { [weak self] idx in
             self?.moveToProfilesFromMain(idx: idx)
+        }
+        viewModel.onPostTap = { [weak self] idx in
+            self?.moveToPostFromMain(idx: idx)
         }
         main.viewModel = viewModel
         mainWrapper = UINavigationController(rootViewController: main)
@@ -302,6 +315,9 @@ extension MainFlow {
     }
     fileprivate var editProfileViewController: EditProfileViewController? {
         return mainSB.instantiateViewController(withIdentifier: EditProfileViewController.className) as? EditProfileViewController
+    }
+    fileprivate var postViewController: PostViewController? {
+        return mainSB.instantiateViewController(withIdentifier: PostViewController.className) as? PostViewController
     }
 }
 

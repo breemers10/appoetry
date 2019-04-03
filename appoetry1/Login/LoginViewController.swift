@@ -22,14 +22,11 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         emailLogin.text = "sss@sss.lv"
         passwordLogin.text = "Aa1234567"
-    }
-    
-    override func viewDidLayoutSubviews() {
+        
         self.view.applyGradient()
-        self.loginButton.applyButtonDesign()
     }
     
-    @IBAction func pressLogin(_ sender: Any) {
+    @IBAction private func pressLogin(_ sender: Any) {
         
         viewModel?.wrongCredentials = { [weak self] in
             self?.displayAlertMessage(messageToDisplay: "E-mail or password are incorrect!")
@@ -37,7 +34,7 @@ class LoginViewController: UIViewController {
         viewModel?.signIn(email: emailLogin.text, password: passwordLogin.text)
     }
     
-    func displayAlertMessage(messageToDisplay: String) {
+    private func displayAlertMessage(messageToDisplay: String) {
         let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
@@ -49,7 +46,7 @@ class LoginViewController: UIViewController {
         self.present(alertController, animated: true, completion:nil)
     }
     
-    @IBAction func pressRegister(_ sender: Any) {
+    @IBAction private func pressRegister(_ sender: Any) {
         viewModel?.signUp()
     }
 }

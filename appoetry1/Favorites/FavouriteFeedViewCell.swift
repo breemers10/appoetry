@@ -11,14 +11,12 @@ import Firebase
 
 class FavouriteFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var favouritesLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var unfavouriteButton: UIButton!
     @IBOutlet weak var genreLabel: UILabel!
-    @IBOutlet weak var textViewHC: NSLayoutConstraint!
     @IBOutlet weak var authorButton: UIButton!
     @IBOutlet weak var poemLabel: UILabel!
     
@@ -31,11 +29,13 @@ class FavouriteFeedViewCell: UICollectionViewCell {
         postImage.kf.setImage(with: url)
         authorLabel.text = post.username
         poemLabel.text = post.poem
+        
         let readmoreFont = UIFont(name: "Helvetica-Oblique", size: 11.0)
         let readmoreFontColor = UIColor.blue
         self.poemLabel.addTrailing(with: "... ", moreText: "Read whole post", moreTextFont: readmoreFont!, moreTextColor: readmoreFontColor)
+        poemLabel.roundCorners([.bottomLeft, .bottomRight], radius: 5)
 
-        favouritesLabel.text = "\(post.favourites!) Favourites"
+        favouritesLabel.text = "\(post.favourites!.formatUsingAbbrevation()) Favourites"
         postID = post.postID
         genreLabel.text = post.genre
         dateLabel.text = post.createdAt!.calendarTimeSinceNow()
@@ -49,8 +49,8 @@ class FavouriteFeedViewCell: UICollectionViewCell {
         }
     }
     
-    @IBAction func favouriteButtonPressed(_ sender: Any) {
-        self.favouriteButton.isHidden = false
+    @IBAction private func favouriteButtonPressed(_ sender: Any) {
+        favouriteButton.isHidden = false
         
         viewModel?.favouritePost(postID: postID)
         
@@ -62,13 +62,12 @@ class FavouriteFeedViewCell: UICollectionViewCell {
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
-                
             }
         }
     }
     
-    @IBAction func unfavouriteButtonPressed(_ sender: Any) {
-        self.unfavouriteButton.isEnabled = false
+    @IBAction private func unfavouriteButtonPressed(_ sender: Any) {
+        unfavouriteButton.isEnabled = false
         
         viewModel?.unfavouritePost(postID: postID)
         

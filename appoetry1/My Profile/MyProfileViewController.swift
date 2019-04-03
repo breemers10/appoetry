@@ -58,7 +58,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         self.view.applyGradient()
     }
     
-    func fetchUserInfo() {
+    private func fetchUserInfo() {
         viewModel?.getUserInfo()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -78,14 +78,14 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    func fetchPosts() {
+    private func fetchPosts() {
         viewModel?.getMyProfilePosts()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.collectionView.reloadData()
         }
     }
     
-    @objc func handleSelectProfileImageView() {
+    @objc private func handleSelectProfileImageView() {
         present(picker, animated: true, completion: nil)
     }
     
@@ -105,7 +105,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func editProfileButtonPressed(sender: UIButton) {
+    @objc private func editProfileButtonPressed(sender: UIButton) {
         viewModel?.toEditProfile()
     }
     
@@ -113,7 +113,7 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         editProfileButton.addTarget(self, action: #selector(self.editProfileButtonPressed(sender:)), for: .touchUpInside)
     }
     
-    @objc func signOutButtonPressed(sender: UIButton) {
+    @objc private func signOutButtonPressed(sender: UIButton) {
         viewModel?.signOut()
     }
     
@@ -156,11 +156,11 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         return cell
     }
     
-    @IBAction func followerButtonPressed(_ sender: Any) {
+    @IBAction private func followerButtonPressed(_ sender: Any) {
         viewModel?.onFollowersButtonTap?((viewModel?.databaseService?.idx)!)
     }
     
-    @IBAction func followingButtonPressed(_ sender: Any) {
+    @IBAction private func followingButtonPressed(_ sender: Any) {
         viewModel?.onFollowingButtonTap?((viewModel?.databaseService?.idx)!)
         
     }

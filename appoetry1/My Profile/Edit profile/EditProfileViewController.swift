@@ -46,7 +46,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLayoutSubviews() {
         self.view.applyGradient()
-        self.doneButton.applyButtonDesign()
     }
     
     func fetchUserInfo() {

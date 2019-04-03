@@ -1,32 +1,26 @@
 //
-//  MainViewModel.swift
+//  PostViewModel.swift
 //  appoetry1
 //
-//  Created by Kristaps Brēmers on 01.03.19.
+//  Created by Kristaps Brēmers on 01.04.19.
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
 import UIKit
-import Firebase
 
-class MainViewModel: NSObject {
-    
-    var onCreatePostTap: (() -> Void)?
+class PostViewModel: NSObject {
     var onAuthorTap: ((String) -> Void)?
-    var onPostTap: ((String) -> Void)?
-
+    
+    var idx: String
     var databaseService: DatabaseService?
     
-    init(databaseService: DatabaseService) {
+    init(idx: String, databaseService: DatabaseService) {
         self.databaseService = databaseService
-    }
-
-    func createPost() {
-        onCreatePostTap?()
+        self.idx = idx
     }
     
-    func getMainFeed() {
-        databaseService?.loadMainFeed()
+    func openPost() {
+        databaseService?.openPost(idx: idx)
     }
     
     func favouritePost(postID: String) {
