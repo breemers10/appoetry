@@ -38,7 +38,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromMain() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService!)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.mainWrapper?.popViewController(animated: true)
         }
@@ -49,7 +49,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromSearch() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService!)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.searchWrapper?.popViewController(animated: true)
         }
@@ -61,7 +61,7 @@ class MainFlow: PFlowController {
     func moveToCreatePostFromFavourites() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService!)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.favouritesWrapper?.popViewController(animated: true)
         }
@@ -294,7 +294,7 @@ class MainFlow: PFlowController {
    private func postCreated() {
         
         guard let createPostVC = createPostViewController else { return }
-        let createPostViewModel = CreatePostViewModel()
+        let createPostViewModel = CreatePostViewModel(databaseService: databaseService!)
         createPostViewModel.onMainScreen = { [weak self] in
             self?.moveToMainScreen()
         }

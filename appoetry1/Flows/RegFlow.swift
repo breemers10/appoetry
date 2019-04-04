@@ -27,7 +27,7 @@ class RegFlow: PFlowController {
     func start() {
         guard let vc = registerViewController else { return }
         
-        let viewModel = RegisterViewModel()
+        let viewModel = RegisterViewModel(databaseService: databaseService!)
         viewModel.onFirstStepCompletion = { [weak self] in
             self?.moveToRegStep2()
         }

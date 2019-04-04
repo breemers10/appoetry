@@ -7,11 +7,17 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterViewModel {
     
     var onFirstStepCompletion: (() -> Void)?
     var onLogin: (() -> Void)?
+    var databaseService: DatabaseService?
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
     
     func addCredentials(email: String, password: String, imageUrl: String) {
         DatabaseService.instance.userRegister.email = email
@@ -21,6 +27,12 @@ class RegisterViewModel {
     
     func secondStep() {
         onFirstStepCompletion?()
+    }
+    
+    func storeUsersPhoto(data: Data, with completionHandler: @escaping (URL) -> Void) {
+        databaseService?.storeUsersPhoto(data: data, with: { (url) in
+            completionHandler(url)
+        })
     }
 }
 

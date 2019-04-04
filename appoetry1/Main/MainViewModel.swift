@@ -25,8 +25,12 @@ class MainViewModel: NSObject {
         onCreatePostTap?()
     }
     
-    func getMainFeed() {
-        databaseService?.loadMainFeed()
+    func getMainFeed(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.loadMainFeed(with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
     func favouritePost(postID: String) {

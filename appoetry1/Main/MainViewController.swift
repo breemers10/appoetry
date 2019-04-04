@@ -36,10 +36,11 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     private func fetchPosts() {
-        viewModel?.getMainFeed()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.collectionView.reloadData()
-        }
+        viewModel?.getMainFeed(with: { (fetched) in
+            if fetched {
+                self.collectionView.reloadData()
+            }
+        })
     }
     
     @objc func createPostButtonPressed(sender: UIButton) {

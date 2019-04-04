@@ -91,32 +91,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                 let password = registerPassword.text
                 else { return }
             
-            let uid = Auth.auth().currentUser!.uid
-            
-            let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
-            let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
-            
-            let imageRef = storage.child("users").child(uid).child("\(String(describing: key)).jpg")
-            
-            let data = imageView.image!.jpegData(compressionQuality: 0.6)
-            
-            let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    return
-                }
-                
-                imageRef.downloadURL(completion: { (url, err) in
-                    if err != nil {
-                        print(err!.localizedDescription)
-                    }
-                    if let url = url {
-                        self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
-                    }
-                })
-            }
-            uploadTask.resume()
-            
+            guard let data = imageView.image!.jpegData(compressionQuality: 0.6) else { return }
+
+            viewModel?.storeUsersPhoto(data: data, with: { [weak self] (url) in
+                self?.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
+            })
         } else {
             print("Passwords does not match!")
             displayAlertMessage(messageToDisplay: "Passwords does not match!")

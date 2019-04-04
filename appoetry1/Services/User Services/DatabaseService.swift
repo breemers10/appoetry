@@ -13,7 +13,7 @@ class DatabaseService {
     static var instance = DatabaseService()
     
     var ref = Database.database().reference()
-    let storageRef = Storage.storage().reference()
+    let storageRef = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
     let currentUserID = Auth.auth().currentUser!.uid
     
     var mainPosts = [Post]()
@@ -61,7 +61,71 @@ class DatabaseService {
         }
     }
     
-    func loadMainFeed() {
+    func storeUsersPhoto(data: Data, with completionHandler: @escaping (URL) -> Void) {
+        let uid = Auth.auth().currentUser!.uid
+        let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
+        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
+
+        let imageRef = storage.child("users").child(uid).child("\(key!).jpg")
+        
+        let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (url, err) in
+                if err != nil {
+                    print(err!.localizedDescription)
+                }
+                if let url = url {
+                    completionHandler(url)
+                }
+            })
+        }
+        uploadTask.resume()
+    }
+    
+    func getUsername(with completionHandler: @escaping (String) -> Void) {
+        let uid = Auth.auth().currentUser!.uid
+
+        DatabaseService.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
+            if snapshot.key == "username" {
+                guard let username = snapshot.value as? String else { return }
+
+                completionHandler(username)
+            }
+        })
+    }
+    
+    func storePostPhoto(data: Data, with completionHandler: @escaping (URL, String) -> Void) {
+        
+        let uid = Auth.auth().currentUser!.uid
+        let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
+        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
+        
+        let imageRef = storage.child("posts").child(uid).child("\(key!).jpg")
+        
+        let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (url, err) in
+                if err != nil {
+                    print(err!.localizedDescription)
+                }
+                if let url = url {
+                    
+                    completionHandler(url, key!)
+                }
+            })
+        }
+        uploadTask.resume()
+    }
+    
+    func loadMainFeed(with completionHandler: @escaping (Bool) -> Void) {
         AppDelegate.instance().showActivityIndicator()
         
         let uid = Auth.auth().currentUser?.uid
@@ -102,6 +166,7 @@ class DatabaseService {
                                 }
                             }
                             self.mainPosts.append(mainFeedPosts)
+                            completionHandler(true)
                         }
                     }
                     AppDelegate.instance().dismissActivityIndicator()
@@ -115,7 +180,6 @@ class DatabaseService {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         ref.child("users").child(uid).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            
             let snap = snapshot.value as! [String : AnyObject]
             
             if let favouritedPosts = snap["favouritedPosts"] as? [String : String] {
@@ -283,7 +347,6 @@ class DatabaseService {
             self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
             self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
             self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
-
         })
     }
     

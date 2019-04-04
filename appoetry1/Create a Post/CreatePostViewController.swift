@@ -56,7 +56,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         toolBar.isUserInteractionEnabled = true
         
         genreField.inputAccessoryView = toolBar
-
+        
         toolBar.barTintColor = .white
         toolBar.backgroundColor = .white
     }
@@ -78,52 +78,14 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @IBAction private func postButtonPressed(_ sender: Any) {
-        
-        AppDelegate.instance().showActivityIndicator()
-        
-        let uid = Auth.auth().currentUser!.uid
-        
-        let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
-        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
-        
-        let imageRef = storage.child("posts").child(uid).child("\(key!).jpg")
-        
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
         
-        let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-                AppDelegate.instance().dismissActivityIndicator()
-                return
-            }
         
-        DatabaseService.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
-            if snapshot.key == "username" {
-                self.username = snapshot.value as? String
-            }
-        })
-
-            imageRef.downloadURL(completion: { (url, error) in
-                if let url = url {
-                    let feed = ["userID" : uid,
-                                "poem" : self.textView.text,
-                                "pathToImage" : url.absoluteString,
-                                "favourites" : 0,
-                                "author" : self.username!,
-                                "genre" : self.genreField.text!,
-                                "createdAt" : [".sv":"timestamp"],
-                                "postID" : key! ] as [String : Any]
-                    let postFeed = ["\(key!)" : feed]
-                    
-                    DatabaseService.instance.ref.child("posts").updateChildValues(postFeed)
-                    
-                    AppDelegate.instance().dismissActivityIndicator()
-                    self.viewModel?.onMainScreen?()
-                }
-            })
-        }
-        uploadTask.resume()
+        viewModel?.get(author: self.username, poem: self.textView.text, genre: self.genreField.text, data: data)
+        
+        self.viewModel?.onMainScreen?()
     }
+    
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
