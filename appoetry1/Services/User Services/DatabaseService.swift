@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class DatabaseService {
-    static let instance = DatabaseService()
+    static var instance = DatabaseService()
     
     var ref = Database.database().reference()
     let storageRef = Storage.storage().reference()
@@ -43,21 +43,21 @@ class DatabaseService {
     var hasFollowed = false
     var hasUnfollowed = false
     var followed = false
-    var hasBeenRegistered = false
     
-    func registerUser() {
+    func registerUser(with completionHandler: @escaping ((Bool) -> Void)) {
         guard
             let email = userRegister.email,
             let password = userRegister.password
             else { return }
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-            if user != nil {
-                print("User has signed up")
+        
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
+            guard error == nil else {
+                    completionHandler(false)
+                    return
             }
-            guard error == nil else { return }
             guard let uid = Auth.auth().currentUser?.uid else { return }
-            self.ref.child("users").child(uid).setValue(self.userRegister.sendData())
-            self.hasBeenRegistered = true
+            self?.ref.child("users").child(uid).setValue(self?.userRegister.sendData())
+            completionHandler(true)
         }
     }
     
@@ -251,22 +251,28 @@ class DatabaseService {
     }
     
     func openPost(idx: String) {
-        
+      
         ref.child("posts").child(idx).observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as? NSDictionary
             
             self.usersPost.username = postSnap?["author"] as? String
             self.usersPost.favourites = postSnap?["favourites"] as? Int
-             self.usersPost.pathToImage = postSnap?["pathToImage"] as? String
-             self.usersPost.postID = postSnap?["postID"] as? String
-             self.usersPost.poem = postSnap?["poem"] as? String
-             self.usersPost.genre = postSnap?["genre"] as? String
-             self.usersPost.timestamp = postSnap?["createdAt"] as? Double
+            self.usersPost.pathToImage = postSnap?["pathToImage"] as? String
+            self.usersPost.postID = postSnap?["postID"] as? String
+            self.usersPost.userID = postSnap?["userID"] as? String
+            self.usersPost.poem = postSnap?["poem"] as? String
+            self.usersPost.genre = postSnap?["genre"] as? String
+            self.usersPost.timestamp = postSnap?["createdAt"] as? Double
+            
+            if let people = postSnap?["peopleFavourited"] as? [String : AnyObject] {
+                for (_,person) in people {
+                    self.usersPost.peopleFavourited.append(person as! String)
+                }
+            }
         })
     }
     
     func getProfilesInfo(idx: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
@@ -277,9 +283,7 @@ class DatabaseService {
             self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
             self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
             self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
-            if idx == uid {
-                self.isCurrentUser = true
-            }
+
         })
     }
     

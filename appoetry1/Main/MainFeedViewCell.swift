@@ -40,7 +40,7 @@ class MainFeedViewCell: UICollectionViewCell {
         poemLabel.roundCorners([.bottomLeft, .bottomRight], radius: 5)
         
         for person in post.peopleFavourited {
-            if person == Auth.auth().currentUser!.uid {
+            if person == DatabaseService.instance.currentUserID {
                 favouriteButton.isHidden = true
                 unfavouriteButton.isHidden = false
                 break

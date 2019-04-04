@@ -39,7 +39,7 @@ class MyProfileFeedCell: UICollectionViewCell {
         dateLabel.text = post.createdAt!.calendarTimeSinceNow()
         
         for person in post.peopleFavourited {
-            if person == Auth.auth().currentUser!.uid {
+            if person == DatabaseService.instance.currentUserID {
                 favouriteButton.isHidden = true
                 unfavouriteButton.isHidden = false
                 break

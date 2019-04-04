@@ -36,7 +36,7 @@ class ProfilesViewModel {
     }
     
     func getUserInfo() {
-        databaseService?.getProfilesInfo(idx: idx)
+         databaseService?.getProfilesInfo(idx: idx)
     }
     
     func followUser() {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class EditProfileViewModel: NSObject {
     
@@ -39,5 +40,10 @@ class EditProfileViewModel: NSObject {
     
     func getUserInfo() {
         databaseService?.getMyProfileInfo()
+    }
+    
+    func editCredentials() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        DatabaseService.instance.ref.child("users").child(uid).setValue(DatabaseService.instance.userRegister.sendData())
     }
 }

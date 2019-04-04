@@ -10,11 +10,10 @@ import UIKit
 import Firebase
 
 
-class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class MyProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var viewModel: MyProfileViewModel?
     @IBOutlet weak var collectionView: UICollectionView!
-    let editProfileButton = UIButton(type: .system)
     let signOutButton = UIButton(type: .system)
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var fullNameLabel: UILabel!
@@ -31,15 +30,10 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBOutlet weak var profilePicture: UIImageView!
     
-    let picker = UIImagePickerController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        picker.delegate = self
-        picker.allowsEditing = true
         setupNavigationBarItems()
-        addingTargetToCreatePostVC()
         addingTargetToSignOut()
         
         collectionView.delegate = self
@@ -47,8 +41,6 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
-        profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
-        profilePicture.isUserInteractionEnabled = true
         
         fetchUserInfo()
         fetchPosts()
@@ -85,34 +77,10 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    @objc private func handleSelectProfileImageView() {
-        present(picker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        var selectedImageFromPicker: UIImage?
-        
-        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            selectedImageFromPicker = editedImage
-        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            selectedImageFromPicker = originalImage
-        }
-        
-        if let selectedImage = selectedImageFromPicker {
-            profilePicture.image = selectedImage
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func editProfileButtonPressed(sender: UIButton) {
+    @IBAction func editProfileButtonPressed(_ sender: UIButton) {
         viewModel?.toEditProfile()
     }
-    
-    private func addingTargetToCreatePostVC() {
-        editProfileButton.addTarget(self, action: #selector(self.editProfileButtonPressed(sender:)), for: .touchUpInside)
-    }
-    
+
     @objc private func signOutButtonPressed(sender: UIButton) {
         viewModel?.signOut()
     }
@@ -122,14 +90,11 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     private func setupNavigationBarItems() {
-        editProfileButton.setTitle("Edit profile", for: .normal)
-        editProfileButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
+ 
         signOutButton.setTitle("Sign out", for: .normal)
         signOutButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editProfileButton)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: signOutButton)
+    
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: signOutButton)
         
         let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
         
@@ -162,7 +127,6 @@ class MyProfileViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBAction private func followingButtonPressed(_ sender: Any) {
         viewModel?.onFollowingButtonTap?((viewModel?.databaseService?.idx)!)
-        
     }
 }
 

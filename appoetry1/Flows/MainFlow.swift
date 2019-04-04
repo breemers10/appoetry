@@ -135,7 +135,10 @@ class MainFlow: PFlowController {
     
     func moveToProfilesFromMain(idx: String) {
         
-        guard let profilesVC = profilesViewController else { return }
+        guard let profilesVC = profilesViewController,
+              let myProfilesVC = myProfileViewController
+                  else { return }
+
         let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
         profilesViewModel.onFollowingButtonTap = { [weak self] in
             self?.moveToFollowings(idx: idx)
@@ -143,8 +146,23 @@ class MainFlow: PFlowController {
         profilesViewModel.onFollowersButtonTap = { [weak self] in
             self?.moveToFollowers(idx: idx)
         }
+        
+        let myProfileVM = MyProfileViewModel(databaseService: databaseService!)
+        myProfileVM.onFollowingButtonTap = { [weak self] idx in
+            self?.moveToFollowings(idx: idx)
+        }
+        myProfileVM.onFollowersButtonTap = { [weak self] idx in
+            self?.moveToFollowers(idx: idx)
+        }
+        
         profilesVC.viewModel = profilesViewModel
-        mainWrapper?.pushViewController(profilesVC, animated: true)
+        myProfilesVC.viewModel = myProfileVM
+        
+        if idx == DatabaseService.instance.currentUserID {
+            mainWrapper?.pushViewController(myProfilesVC, animated: true)
+        } else {
+            mainWrapper?.pushViewController(profilesVC, animated: true)
+        }
     }
     
     func moveToProfilesFromFavourites(idx: String) {

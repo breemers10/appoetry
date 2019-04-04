@@ -35,19 +35,19 @@ class PostViewController: UIViewController {
     
     private func fetchPost() {
         viewModel?.openPost()
-        guard let post = viewModel?.databaseService?.usersPost else { return }
+        guard let usersPost = viewModel?.databaseService?.usersPost else { return }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            guard let url = URL(string: post.pathToImage!) else { return }
+            guard let url = URL(string: usersPost.pathToImage!) else { return }
             self.poemImage.kf.setImage(with: url)
-            self.authorLabel.text = post.username
-            self.textView.text = post.poem
-            self.favouritesLabel.text = "\(post.favourites!) Favourites"
-            self.postID = post.postID
-            self.genreLabel.text = post.genre
-            self.dateLabel.text = post.createdAt!.calendarTimeSinceNow()
+            self.authorLabel.text = usersPost.username
+            self.textView.text = usersPost.poem
+            self.favouritesLabel.text = "\(usersPost.favourites!) Favourites"
+            self.postID = usersPost.postID
+            self.genreLabel.text = usersPost.genre
+            self.dateLabel.text = usersPost.createdAt!.calendarTimeSinceNow()
             
-            for person in post.peopleFavourited {
+            for person in usersPost.peopleFavourited {
                 if person == Auth.auth().currentUser!.uid {
                     self.favouriteButton.isHidden = true
                     self.unfavouriteButton.isHidden = false
@@ -86,7 +86,8 @@ class PostViewController: UIViewController {
     }
     
     @IBAction func authorButtonPressed(_ sender: Any) {
-        viewModel?.onAuthorTap?(postID)
+        guard let userId = viewModel?.databaseService?.usersPost.userID else { return }
+        viewModel?.onAuthorTap?(userId)
     }
 }
 

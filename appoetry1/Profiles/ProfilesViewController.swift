@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class ProfilesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     

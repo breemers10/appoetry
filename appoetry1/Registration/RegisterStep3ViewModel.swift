@@ -29,6 +29,10 @@ class RegisterStep3ViewModel {
     }
     
     func toMainScreen() {
-        databaseService?.registerUser()
+        DatabaseService.instance.registerUser { [weak self] (registered) in
+            if registered {
+                self?.onMainScreen?()
+            }
+        }
     }
 }
