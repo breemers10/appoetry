@@ -34,55 +34,52 @@ class PostViewController: UIViewController {
     }
     
     private func fetchPost() {
-        viewModel?.openPost()
         guard let usersPost = viewModel?.databaseService?.usersPost else { return }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            guard let url = URL(string: usersPost.pathToImage!) else { return }
-            self.poemImage.kf.setImage(with: url)
-            self.authorLabel.text = usersPost.username
-            self.textView.text = usersPost.poem
-            self.favouritesLabel.text = "\(usersPost.favourites!) Favourites"
-            self.postID = usersPost.postID
-            self.genreLabel.text = usersPost.genre
-            self.dateLabel.text = usersPost.createdAt!.calendarTimeSinceNow()
-            
-            for person in usersPost.peopleFavourited {
-                if person == Auth.auth().currentUser!.uid {
-                    self.favouriteButton.isHidden = true
-                    self.unfavouriteButton.isHidden = false
-                    break
+        viewModel?.openPost(with: { (fetched) in
+            if fetched {
+                guard let url = URL(string: usersPost.pathToImage!) else { return }
+                self.poemImage.kf.setImage(with: url)
+                self.authorLabel.text = usersPost.username
+                self.textView.text = usersPost.poem
+                self.favouritesLabel.text = "\(usersPost.favourites!) Favourites"
+                self.postID = usersPost.postID
+                self.genreLabel.text = usersPost.genre
+                self.dateLabel.text = usersPost.createdAt!.calendarTimeSinceNow()
+                
+                for person in usersPost.peopleFavourited {
+                    if person == Auth.auth().currentUser!.uid {
+                        self.favouriteButton.isHidden = true
+                        self.unfavouriteButton.isHidden = false
+                        break
+                    }
                 }
             }
-        }
+        })
     }
     
     @IBAction func favouriteButtonPressed(_ sender: Any) {
         favouriteButton.isHidden = false
-        viewModel?.favouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if (self.viewModel?.databaseService?.favourited)! {
+        viewModel?.favouritePost(postID: postID, with: { (favorited) in
+            if !favorited {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
+                
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
             }
-        }
+        })
     }
     
     @IBAction func unfavouriteButtonPressed(_ sender: Any) {
         unfavouriteButton.isEnabled = false
-        viewModel?.unfavouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if (self.viewModel?.databaseService?.unfavourited)! {
+        viewModel?.unfavouritePost(postID: postID, with: { (unfavorited) in
+            if !unfavorited {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
                 self.favouriteButton.isHidden = false
                 self.unfavouriteButton.isHidden = true
                 self.unfavouriteButton.isEnabled = true
             }
-        }
+        })
     }
     
     @IBAction func authorButtonPressed(_ sender: Any) {

@@ -126,7 +126,6 @@ class DatabaseService {
     }
     
     func loadMainFeed(with completionHandler: @escaping (Bool) -> Void) {
-        AppDelegate.instance().showActivityIndicator()
         
         let uid = Auth.auth().currentUser?.uid
         
@@ -139,7 +138,6 @@ class DatabaseService {
                 }
             }
             self.following.append(uid!)
-            AppDelegate.instance().dismissActivityIndicator()
         })
         
         ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
@@ -169,14 +167,13 @@ class DatabaseService {
                             completionHandler(true)
                         }
                     }
-                    AppDelegate.instance().dismissActivityIndicator()
                 }
             }
         })
         ref.removeAllObservers()
     }
     
-    func loadFavouriteFeed() {
+    func loadFavouriteFeed(with completionHandler: @escaping (Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         ref.child("users").child(uid).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
@@ -211,6 +208,7 @@ class DatabaseService {
                                 }
                             }
                             self.favouritePosts.append(favouritePost)
+                            completionHandler(true)
                         }
                     }
                 }
@@ -219,7 +217,7 @@ class DatabaseService {
         ref.removeAllObservers()
     }
     
-    func loadMyProfileFeed() {
+    func loadMyProfileFeed(with completionHandler: @escaping (Bool) -> Void) {
         let uid = Auth.auth().currentUser?.uid
         
         ref.child("users").child(uid!).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
@@ -251,6 +249,7 @@ class DatabaseService {
                                 }
                             }
                             self.myProfilePosts.append(myProfilePost)
+                            completionHandler(true)
                         }
                     }
                 }
@@ -259,7 +258,7 @@ class DatabaseService {
         ref.removeAllObservers()
     }
     
-    func loadProfilesFeed(idx: String) {
+    func loadProfilesFeed(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         usersPosts.removeAll()
         profilesPosts.removeAll()
         ref.child("users").child(idx).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
@@ -291,6 +290,7 @@ class DatabaseService {
                                 }
                             }
                             self.profilesPosts.append(usersPost)
+                            completionHandler(true)
                         }
                     }
                 }
@@ -299,7 +299,7 @@ class DatabaseService {
         ref.removeAllObservers()
     }
     
-    func getMyProfileInfo() {
+    func getMyProfileInfo(with completionHandler: @escaping (Bool) -> Void) {
         guard let id = Auth.auth().currentUser?.uid else { return }
         ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
@@ -311,10 +311,11 @@ class DatabaseService {
             self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
             self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
             self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
+            completionHandler(true)
         })
     }
     
-    func openPost(idx: String) {
+    func openPost(idx: String, with completionHandler: @escaping (Bool) -> Void) {
       
         ref.child("posts").child(idx).observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as? NSDictionary
@@ -333,10 +334,11 @@ class DatabaseService {
                     self.usersPost.peopleFavourited.append(person as! String)
                 }
             }
+            completionHandler(true)
         })
     }
     
-    func getProfilesInfo(idx: String) {
+    func getProfilesInfo(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         ref.child("users").child(idx).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
             
@@ -347,6 +349,7 @@ class DatabaseService {
             self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
             self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
             self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
+            completionHandler(true)
         })
     }
     
@@ -408,7 +411,7 @@ class DatabaseService {
         })
     }
     
-    func favouritePressed(postID: String) {
+    func favouritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
         let keyToPost = ref.child("posts").childByAutoId().key!
         let keyToUsers = ref.child("users").childByAutoId().key!
         guard let id = Auth.auth().currentUser?.uid else { return }
@@ -419,6 +422,7 @@ class DatabaseService {
                 self.ref.child("users").child(id).updateChildValues(updateFavouritedPosts, withCompletionBlock: { (error, ref) in
                     if error == nil {
                         print("all gucci")
+                        completionHandler(true)
                     }
                 })
             }
@@ -437,7 +441,7 @@ class DatabaseService {
                                     
                                     let update = ["favourites" : count]
                                     self.ref.child("posts").child(postID).updateChildValues(update)
-                                    self.favourited = true
+                                    completionHandler(true)
                                 }
                             }
                         })
@@ -446,10 +450,10 @@ class DatabaseService {
             }
         })
         ref.removeAllObservers()
-        self.favourited = false
+        completionHandler(false)
     }
     
-    func unfavouritePressed(postID: String) {
+    func unfavouritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         ref.child("users").child(uid).observeSingleEvent(of: .value, with: { (snap) in
@@ -461,6 +465,7 @@ class DatabaseService {
                             self.ref.child("users").child(uid).child("favouritedPosts").child(id).removeValue(completionBlock: { (error, ref) in
                                 if error == nil {
                                     print("all gucci")
+                                    completionHandler(true)
                                 }
                             })
                         }
@@ -486,21 +491,23 @@ class DatabaseService {
                                                 self.ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
                                                 self.count = 0
                                                 self.ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
+                                                completionHandler(true)
+
                                             }
                                         }
                                     })
                                 }
                             })
-                            self.unfavourited = true
+                            completionHandler(true)
                         }
                     }
                 }
             }
         })
-        self.unfavourited = false
+        completionHandler(false)
     }
     
-    func follow(idx: String) {
+    func follow(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         let key = DatabaseService.instance.ref.child("users").childByAutoId().key
         let uid = Auth.auth().currentUser!.uid
         let following = ["following/\(key!)" : idx]
@@ -509,10 +516,10 @@ class DatabaseService {
         ref.child("users").child(uid).updateChildValues(following)
         ref.child("users").child(idx).updateChildValues(followers)
         
-        hasFollowed = true
+        completionHandler(true)
     }
     
-    func unfollow(idx: String) {
+    func unfollow(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
@@ -522,7 +529,7 @@ class DatabaseService {
                         self.ref.child("users").child(uid).child("following/\(ke)").removeValue()
                         self.ref.child("users").child(idx).child("followers/\(ke)").removeValue()
                     }
-                    self.hasUnfollowed = true
+                    completionHandler(true)
                 }
             }
         })

@@ -33,7 +33,7 @@ class FavouriteFeedViewCell: UICollectionViewCell {
         let readmoreFontColor = UIColor.blue
         self.poemLabel.addTrailing(with: "... ", moreText: "Read whole post", moreTextFont: readmoreFont!, moreTextColor: readmoreFontColor)
         poemLabel.roundCorners([.bottomLeft, .bottomRight], radius: 5)
-
+        
         favouritesLabel.text = "\(post.favourites!.formatUsingAbbrevation()) Favourites"
         postID = post.postID
         genreLabel.text = post.genre
@@ -51,33 +51,27 @@ class FavouriteFeedViewCell: UICollectionViewCell {
     @IBAction private func favouriteButtonPressed(_ sender: Any) {
         favouriteButton.isHidden = false
         
-        viewModel?.favouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            
-            if (self.viewModel?.databaseService?.favourited)! {
+        viewModel?.favouritePost(postID: postID, with: { (favorited) in
+            if !favorited {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
                 
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
             }
-        }
+        })
     }
     
     @IBAction private func unfavouriteButtonPressed(_ sender: Any) {
         unfavouriteButton.isEnabled = false
         
-        viewModel?.unfavouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            
-            if (self.viewModel?.databaseService?.unfavourited)! {
+        viewModel?.unfavouritePost(postID: postID, with: { (unfavorited) in
+            if !unfavorited {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
                 self.favouriteButton.isHidden = false
                 self.unfavouriteButton.isHidden = true
                 self.unfavouriteButton.isEnabled = true
             }
-        }
+        })
     }
 }

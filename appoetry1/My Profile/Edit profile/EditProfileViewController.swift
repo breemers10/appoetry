@@ -49,21 +49,21 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func fetchUserInfo() {
-        viewModel?.getUserInfo()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
-            let url = URL(string: userInfo.imageUrl!)
-            
-            self.usernameField.text = userInfo.username
-            self.fullnameField.text = userInfo.fullName
-            self.emailField.text = userInfo.email
-            self.firstGenreField.text = userInfo.firstGenre
-            self.secondGenreField.text = userInfo.secondGenre
-            self.thirdGenreField.text = userInfo.thirdGenre
-            
-            self.imageView.kf.setImage(with: url)
-        }
+        viewModel?.getUserInfo(with: { (fetched) in
+            if fetched {
+                guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+                let url = URL(string: userInfo.imageUrl!)
+                
+                self.usernameField.text = userInfo.username
+                self.fullnameField.text = userInfo.fullName
+                self.emailField.text = userInfo.email
+                self.firstGenreField.text = userInfo.firstGenre
+                self.secondGenreField.text = userInfo.secondGenre
+                self.thirdGenreField.text = userInfo.thirdGenre
+                
+                self.imageView.kf.setImage(with: url)
+            }
+        })
     }
     
     @IBAction func changePhotoButtonPressed(_ sender: Any) {

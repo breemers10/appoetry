@@ -51,31 +51,27 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBAction private func favouriteBttnPressed(_ sender: Any) {
         favouriteButton.isHidden = false
         
-        viewModel?.favouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            
-            if (self.viewModel?.databaseService?.favourited)! {
-                self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
-                
+        viewModel?.favouritePost(postID: postID, with: { (favorited) in
+            if favorited {
+                guard let count = self.viewModel?.databaseService?.count else { return }
+                self.favouritesLabel.text = "\(count) Favourites"
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
             }
-        }
+        })
     }
     
     @IBAction private func unfavouriteBttnPressed(_ sender: Any) {
         unfavouriteButton.isEnabled = false
-        viewModel?.unfavouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if (self.viewModel?.databaseService?.unfavourited)! {
-                self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
+        viewModel?.unfavouritePost(postID: postID, with: { (unfavorited) in
+            if unfavorited {
+                guard let count = self.viewModel?.databaseService?.count else { return }
+                self.favouritesLabel.text = "\(count) Favourites"
                 self.favouriteButton.isHidden = false
                 self.unfavouriteButton.isHidden = true
                 self.unfavouriteButton.isEnabled = true
             }
-        }
+        })
     }
 }

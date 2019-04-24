@@ -51,30 +51,30 @@ class MyProfileViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     private func fetchUserInfo() {
-        viewModel?.getUserInfo()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
-            let url = URL(string: userInfo.imageUrl!)
-            self.usernameLabel.text = userInfo.username
-            self.fullNameLabel.text = userInfo.fullName
-            self.emailLabel.text = userInfo.email
-            self.firstGenreLabel.text = userInfo.firstGenre
-            self.secondGenreLabel.text = userInfo.secondGenre
-            self.thirdGenreLabel.text = userInfo.thirdGenre
-            self.favouriteGenresLabel.text = "Favourite genres:"
-            self.firstNumberLabel.text = "1."
-            self.secondNumberLabel.text = "2."
-            self.thirdNumberLabel.text = "3."
-            self.profilePicture.kf.setImage(with: url)
-        }
+        viewModel?.getUserInfo(with: { (fetched) in
+            if fetched {
+                guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+                let url = URL(string: userInfo.imageUrl!)
+                self.usernameLabel.text = userInfo.username
+                self.fullNameLabel.text = userInfo.fullName
+                self.emailLabel.text = userInfo.email
+                self.firstGenreLabel.text = userInfo.firstGenre
+                self.secondGenreLabel.text = userInfo.secondGenre
+                self.thirdGenreLabel.text = userInfo.thirdGenre
+                self.favouriteGenresLabel.text = "Favourite genres:"
+                self.firstNumberLabel.text = "1."
+                self.secondNumberLabel.text = "2."
+                self.thirdNumberLabel.text = "3."
+                self.profilePicture.kf.setImage(with: url)            }
+        })
     }
     
     private func fetchPosts() {
-        viewModel?.getMyProfilePosts()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.collectionView.reloadData()
-        }
+        viewModel?.getMyProfilePosts(with: { (fetched) in
+            if fetched {
+                self.collectionView.reloadData()
+            }
+        })
     }
     
     @IBAction func editProfileButtonPressed(_ sender: UIButton) {

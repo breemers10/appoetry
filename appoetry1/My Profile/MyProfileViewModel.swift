@@ -29,20 +29,36 @@ class MyProfileViewModel: NSObject {
         self.databaseService = databaseService
     }
     
-    func getMyProfilePosts() {
-        databaseService?.loadMyProfileFeed()
+    func getMyProfilePosts(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.loadMyProfileFeed(with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
-    func getUserInfo() {
-        databaseService?.getMyProfileInfo()
+    func getUserInfo(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.getMyProfileInfo(with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
-    func favouritePost(postID: String) {
-        databaseService?.favouritePressed(postID: postID)
+    func favouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favouritePressed(postID: postID, with: { (favorited) in
+            if favorited {
+                completionHandler(true)
+            }
+        })
     }
     
-    func unfavouritePost(postID: String) {
-        databaseService?.unfavouritePressed(postID: postID)
+    func unfavouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfavouritePressed(postID: postID, with: { (unfavorited) in
+            if unfavorited {
+                completionHandler(true)
+            }
+        })
     }
     
     func toEditProfile() {

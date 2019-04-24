@@ -29,10 +29,11 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     private func fetchPosts() {
-        viewModel?.getFavouritesPosts()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.collectionView.reloadData()
-        }
+        viewModel?.getFavouritesPosts(with: { (fetched) in
+            if fetched {
+                self.collectionView.reloadData()
+            }
+        })
     }
     
     @objc private func createPostButtonPressed(sender: UIButton) {

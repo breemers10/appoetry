@@ -19,15 +19,27 @@ class PostViewModel: NSObject {
         self.idx = idx
     }
     
-    func openPost() {
-        databaseService?.openPost(idx: idx)
+    func openPost(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.openPost(idx: idx, with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
-    func favouritePost(postID: String) {
-        databaseService?.favouritePressed(postID: postID)
+    func favouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favouritePressed(postID: postID, with: { (favorited) in
+            if favorited {
+                completionHandler(true)
+            }
+        })
     }
     
-    func unfavouritePost(postID: String) {
-        databaseService?.unfavouritePressed(postID: postID)
+    func unfavouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfavouritePressed(postID: postID, with: { (unfavorited) in
+            if unfavorited {
+                completionHandler(true)
+            }
+        })
     }
 }

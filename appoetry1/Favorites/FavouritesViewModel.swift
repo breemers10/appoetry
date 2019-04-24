@@ -23,15 +23,27 @@ class FavouritesViewModel: NSObject {
         onCreatePostTap?()
     }
     
-    func getFavouritesPosts() {
-        databaseService?.loadFavouriteFeed()
+    func getFavouritesPosts(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.loadFavouriteFeed(with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
-    func favouritePost(postID: String) {
-        databaseService?.favouritePressed(postID: postID)
+    func favouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favouritePressed(postID: postID, with: { (favorited) in
+            if favorited {
+                completionHandler(true)
+            }
+        })
     }
     
-    func unfavouritePost(postID: String) {
-        databaseService?.unfavouritePressed(postID: postID)
+    func unfavouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfavouritePressed(postID: postID, with: { (unfavorited) in
+            if unfavorited {
+                completionHandler(true)
+            }
+        })
     }
 }

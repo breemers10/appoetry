@@ -23,28 +23,52 @@ class ProfilesViewModel {
         self.idx = idx
     }
     
-    func favouritePost(postID: String) {
-        databaseService?.favouritePressed(postID: postID)
+    func favouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favouritePressed(postID: postID, with: { (favorited) in
+            if favorited {
+                completionHandler(true)
+            }
+        })
     }
     
-    func unfavouritePost(postID: String) {
-        databaseService?.unfavouritePressed(postID: postID)
+    func unfavouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfavouritePressed(postID: postID, with: { (unfavorited) in
+            if unfavorited {
+                completionHandler(true)
+            }
+        })
     }
     
-    func getProfilesFeed() {
-        databaseService?.loadProfilesFeed(idx: idx)
+    func getProfilesFeed(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.loadProfilesFeed(idx: idx, with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
-    func getUserInfo() {
-         databaseService?.getProfilesInfo(idx: idx)
+    func getUserInfo(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.getProfilesInfo(idx: idx, with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
-    func followUser() {
-        databaseService?.follow(idx: idx)
+    func followUser(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.follow(idx: idx, with: { (hasFollowed) in
+            if hasFollowed {
+                completionHandler(true)
+            }
+        })
     }
     
-    func unfollowUser() {
-        databaseService?.unfollow(idx: idx)
+    func unfollowUser(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfollow(idx: idx, with: { (hasUnfollowed) in
+            if hasUnfollowed {
+                completionHandler(true)
+            }
+        })
     }
     
     func checkFollowings() {

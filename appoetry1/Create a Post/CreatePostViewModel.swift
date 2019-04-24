@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class CreatePostViewModel {
     var realGenre: Genre?
     var onMainScreen: (() -> Void)?
@@ -33,15 +32,15 @@ class CreatePostViewModel {
             self?.storePostPhoto(data: data) { (url,key)  in
                 let feed = ["userID" : self?.databaseService?.currentUserID as Any,
                             "poem" : poem as Any,
-                                    "pathToImage" : url.absoluteString,
-                                    "favourites" : 0,
-                                    "author" : username,
-                                    "genre" : genre as Any,
-                                    "createdAt" : [".sv":"timestamp"],
-                                    "postID" : key ] as [String : Any]
-                        let postFeed = ["\(key)" : feed]
-                        
-                        DatabaseService.instance.ref.child("posts").updateChildValues(postFeed)
+                            "pathToImage" : url.absoluteString,
+                            "favourites" : 0,
+                            "author" : username,
+                            "genre" : genre as Any,
+                            "createdAt" : [".sv":"timestamp"],
+                            "postID" : key ] as [String : Any]
+                let postFeed = ["\(key)" : feed]
+                
+                DatabaseService.instance.ref.child("posts").updateChildValues(postFeed)
             }
         })
     }

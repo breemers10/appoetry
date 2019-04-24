@@ -38,8 +38,12 @@ class EditProfileViewModel: NSObject {
         DatabaseService.instance.userRegister.thirdGenre = thirdGenre
     }
     
-    func getUserInfo() {
-        databaseService?.getMyProfileInfo()
+    func getUserInfo(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.getMyProfileInfo(with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
     
     func editCredentials() {

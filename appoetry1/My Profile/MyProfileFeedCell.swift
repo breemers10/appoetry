@@ -49,30 +49,26 @@ class MyProfileFeedCell: UICollectionViewCell {
     
     @IBAction private func favouriteButtonPressed(_ sender: UIButton) {
         favouriteButton.isHidden = false
-        viewModel?.favouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if (self.viewModel?.databaseService?.favourited)! {
+        viewModel?.favouritePost(postID: postID, with: { (favorited) in
+            if !favorited {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
                 
                 self.favouriteButton.isHidden = true
                 self.unfavouriteButton.isHidden = false
                 self.favouriteButton.isEnabled = true
             }
-        }
+        })
     }
     
     @IBAction private func unfavouriteButtonPressed(_ sender: UIButton) {
         unfavouriteButton.isEnabled = false
-        viewModel?.unfavouritePost(postID: postID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if (self.viewModel?.databaseService?.unfavourited)! {
+        viewModel?.unfavouritePost(postID: postID, with: { (unfavorited) in
+            if !unfavorited {
                 self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
                 self.favouriteButton.isHidden = false
                 self.unfavouriteButton.isHidden = true
                 self.unfavouriteButton.isEnabled = true
             }
-        }
+        })
     }
 }

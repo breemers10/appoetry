@@ -51,68 +51,67 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     private func fetchUsersInfo() {
-        viewModel?.getUserInfo()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
-            
-            let url = URL(string: userInfo.imageUrl!)
-            
-            self.usernameLabel.text = userInfo.username
-            self.fullNameLabel.text = userInfo.fullName
-            self.emailLabel.text = userInfo.email
-            self.firstGenreLabel.text = userInfo.firstGenre
-            self.secondGenreLabel.text = userInfo.secondGenre
-            self.thirdGenreLabel.text = userInfo.thirdGenre
-            self.favouriteGenresLabel.text = "Favourite genres:"
-            self.firstNumberLabel.text = "1."
-            self.secondNumberLabel.text = "2."
-            self.thirdNumberLabel.text = "3."
-            self.profilePicture.kf.setImage(with: url)
-            
-            if (self.viewModel?.databaseService?.isCurrentUser)! {
-                self.followButton.isHidden = true
-                self.unfollowButton.isHidden = true
+        viewModel?.getUserInfo(with: { (fetched) in
+            if fetched {
+                guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+                
+                let url = URL(string: userInfo.imageUrl!)
+                
+                self.usernameLabel.text = userInfo.username
+                self.fullNameLabel.text = userInfo.fullName
+                self.emailLabel.text = userInfo.email
+                self.firstGenreLabel.text = userInfo.firstGenre
+                self.secondGenreLabel.text = userInfo.secondGenre
+                self.thirdGenreLabel.text = userInfo.thirdGenre
+                self.favouriteGenresLabel.text = "Favourite genres:"
+                self.firstNumberLabel.text = "1."
+                self.secondNumberLabel.text = "2."
+                self.thirdNumberLabel.text = "3."
+                self.profilePicture.kf.setImage(with: url)
+                
+                if (self.viewModel?.databaseService?.isCurrentUser)! {
+                    self.followButton.isHidden = true
+                    self.unfollowButton.isHidden = true
+                }
             }
-        }
+        })
     }
     
     private func fetchPosts() {
-        viewModel?.getProfilesFeed()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.collectionView.reloadData()
-        }
+        viewModel?.getProfilesFeed(with: { (fetched) in
+            if fetched {
+                self.collectionView.reloadData()
+            }
+        })
     }
     
     @IBAction private func followButtonPressed(_ sender: Any) {
-        viewModel?.followUser()
+        viewModel?.followUser(with: { (hasFollowed) in
+            if !hasFollowed {
+                self.followButton.isHidden = true
+                self.unfollowButton.isHidden = false
+                self.followButton.isEnabled = true           }
+        })
         
-        if (self.viewModel?.databaseService?.hasFollowed)! {
-            self.followButton.isHidden = true
-            self.unfollowButton.isHidden = false
-            self.followButton.isEnabled = true
-        }
     }
     
     @IBAction private func unfollowButtonPressed(_ sender: Any) {
-        viewModel?.unfollowUser()
-        
-        if (self.viewModel?.databaseService?.hasUnfollowed)! {
-            
-            self.unfollowButton.isHidden = true
-            self.followButton.isHidden = false
-            self.unfollowButton.isEnabled = true
-        }
+        viewModel?.unfollowUser(with: { (hasUnfollowed) in
+            if !hasUnfollowed {
+                self.unfollowButton.isHidden = true
+                self.followButton.isHidden = false
+                self.unfollowButton.isEnabled = true           }
+        })
     }
     
     private func checkFollowing() {
         viewModel?.checkFollowings()
         
         if (self.viewModel?.databaseService?.followed)! {
-
-        self.followButton.isHidden = true
-        self.unfollowButton.isHidden = false
-        self.followButton.isEnabled = true
+            
+            self.followButton.isHidden = true
+            self.unfollowButton.isHidden = false
+            self.followButton.isEnabled = true
         }
     }
     
