@@ -32,10 +32,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     private func retrieveUsers() {
-        viewModel?.fetchUsers()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            self.tableView.reloadData()
-        }
+        viewModel?.fetchUsers(with: { (fetched) in
+            if fetched {
+                self.tableView.reloadData()
+            }
+        })
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

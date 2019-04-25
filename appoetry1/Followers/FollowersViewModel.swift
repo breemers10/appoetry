@@ -22,7 +22,11 @@ class FollowersViewModel {
         self.idx = idx
     }
     
-    func fetchFollowers() {
-        databaseService?.getFollowers(idx: idx)
+    func fetchFollowers(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.getFollowers(idx: idx, with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
 }

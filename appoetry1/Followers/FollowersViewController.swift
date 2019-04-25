@@ -35,11 +35,11 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func retrieveUsers() {
-        viewModel?.fetchFollowers()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            self.tableView.reloadData()
-        }
+        viewModel?.fetchFollowers(with: { (fetched) in
+            if fetched {
+                self.tableView.reloadData()
+            }
+        })
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

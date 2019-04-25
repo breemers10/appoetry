@@ -22,7 +22,11 @@ class FollowingViewModel {
         self.idx = idx
     }
     
-    func fetchFollowings() {
-        databaseService?.getFollowings(idx: idx)
+    func fetchFollowings(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.getFollowings(idx: idx, with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
 }

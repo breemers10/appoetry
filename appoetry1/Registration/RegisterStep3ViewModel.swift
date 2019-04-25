@@ -7,14 +7,11 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FirebaseAuth
 
 class RegisterStep3ViewModel {
     
     var realGenre: Genre?
     var onMainScreen: (() -> Void)?
-    var databaseHandle: DatabaseHandle?
     
     var databaseService: DatabaseService?
     

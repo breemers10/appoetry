@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FirebaseAuth
 
 class RegisterStep3ViewController: UIViewController {
     

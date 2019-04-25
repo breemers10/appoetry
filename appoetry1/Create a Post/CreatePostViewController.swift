@@ -86,7 +86,6 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         self.viewModel?.onMainScreen?()
     }
     
-    
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }

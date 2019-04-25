@@ -23,7 +23,11 @@ class SearchViewModel: NSObject {
         onCreatePostTap?()
     }
     
-    func fetchUsers() {
-        databaseService?.searchUsers()
+    func fetchUsers(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.searchUsers(with: { (loaded) in
+            if loaded {
+                completionHandler(true)
+            }
+        })
     }
 }

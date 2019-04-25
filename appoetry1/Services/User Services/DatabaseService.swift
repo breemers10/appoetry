@@ -353,7 +353,7 @@ class DatabaseService {
         })
     }
     
-    func searchUsers() {
+    func searchUsers(with completionHandler: @escaping (Bool) -> Void) {
         userInfoArr = []
         
         guard let id = Auth.auth().currentUser?.uid else { return }
@@ -368,10 +368,12 @@ class DatabaseService {
             userInfo.userID = snapshot.key
             
             self.userInfoArr.append(userInfo)
+            
+            completionHandler(true)
         })
     }
     
-    func getFollowings(idx: String) {
+    func getFollowings(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         userInfoArr = []
         
         ref.child("users").child(idx).child("following").observe(.childAdded, with: { (snapshot) in
@@ -387,11 +389,12 @@ class DatabaseService {
                 userInfo.userID = snap.key
                 
                 self.userInfoArr.append(userInfo)
+                completionHandler(true)
             })
         })
     }
     
-    func getFollowers(idx: String) {
+    func getFollowers(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         userInfoArr = []
         
         ref.child("users").child(idx).child("followers").observe(.childAdded, with: { (snapshot) in
@@ -407,6 +410,7 @@ class DatabaseService {
                 userInfo.userID = snap.key
                 
                 self.userInfoArr.append(userInfo)
+                completionHandler(true)
             })
         })
     }

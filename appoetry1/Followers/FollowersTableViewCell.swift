@@ -14,7 +14,9 @@ class FollowersTableViewCell: UITableViewCell {
     @IBOutlet weak var fullNameLabel: UILabel!
 
     func configure(userInfo: UserInfo) {
-        guard let url = URL(string: userInfo.imageUrl!) else { return }
+        guard let imageUrl = userInfo.imageUrl else { return }
+        guard let url = URL(string:
+            imageUrl) else { return }
 
         usernameLabel.text = userInfo.username
         fullNameLabel.text = userInfo.fullName

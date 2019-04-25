@@ -54,8 +54,8 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         viewModel?.getUserInfo(with: { (fetched) in
             if fetched {
                 guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
-                
-                let url = URL(string: userInfo.imageUrl!)
+                guard let imageUrl = userInfo.imageUrl else { return }
+                let url = URL(string: imageUrl)
                 
                 self.usernameLabel.text = userInfo.username
                 self.fullNameLabel.text = userInfo.fullName

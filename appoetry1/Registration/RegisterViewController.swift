@@ -20,6 +20,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     var viewModel: RegisterViewModel?
     var picker = UIImagePickerController()
     var user: [UserInfo] = []
+    var isEmailUsed = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,47 +62,46 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         let providedPassword = registerPassword.text
         
         let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
-        let isEmailAddressUsed = isEmailAlreadyTaken(emailAddressString: providedEmailAddress!)
         let isPasswordValid = isValidPassword(testStr: providedPassword)
         
-        if isEmailAddressValid {
-            
-        } else {
+        if !isEmailAddressValid {
             print("Email address is not valid")
             displayAlertMessage(messageToDisplay: "Email address is not valid")
         }
         
-        if isEmailAddressUsed {
-            self.displayAlertMessage(messageToDisplay: "User with this email already exists!")
-        } else {
-            print("Email is not taken so you can use it!")
+        isEmailAlreadyTaken(emailAddressString: providedEmailAddress!) { [weak self] (isTaken) in
+            if isTaken {
+                self?.isEmailUsed = true
+                self?.displayAlertMessage(messageToDisplay: "User with this email already exists!")
+            } else {
+                self?.isEmailUsed = false
+            }
         }
         
-        if isPasswordValid {
-            print("Password is valid")
-        } else {
-            print("Password is not valid")
+        if !isPasswordValid {
             displayAlertMessage(messageToDisplay: "Password is not valid")
         }
         
         if self.confirmPassword.text == self.registerPassword.text {
-            print("All good Senjor")
             guard
                 let email = registerEmail.text,
                 let password = registerPassword.text
                 else { return }
             
             guard let data = imageView.image!.jpegData(compressionQuality: 0.6) else { return }
-
+            
             viewModel?.storeUsersPhoto(data: data, with: { [weak self] (url) in
-                self?.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
+                guard let self = self else { return }
+                self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
+                if !(self.isEmailUsed) {
+                    self.viewModel?.secondStep()
+                }
             })
         } else {
-            print("Passwords does not match!")
             displayAlertMessage(messageToDisplay: "Passwords does not match!")
         }
-        self.viewModel?.secondStep()
     }
+    
     func isValidEmailAddress(emailAddressString: String) -> Bool {
         
         var returnValue = true
@@ -123,21 +123,19 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         return returnValue
     }
     
-    func isEmailAlreadyTaken(emailAddressString: String) -> Bool {
-        var itIsUsed = false
+    func isEmailAlreadyTaken(emailAddressString: String, with completionHandler: @escaping (Bool) -> Void) {
         
         DatabaseService.instance.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-//            let value = snapshot.value as! [String : AnyObject]
-            
-//            value.forEach({ (key: "email", value: AnyObject) in
-//                guard let email = { $0.value } else { return }
-//                if email = value {
-//                    return itIsUsed
-
-//                }
-//            })
+            var isAlreadyUsed = false
+            let value = snapshot.value as! [String : AnyObject]
+            value.forEach({ (key, value) in
+                guard let email = value["email"] as? String else { return }
+                if email == emailAddressString {
+                    isAlreadyUsed = true
+                }
+            })
+            completionHandler(isAlreadyUsed)
         })
-        return itIsUsed
     }
     
     func isValidPassword(testStr:String?) -> Bool {
