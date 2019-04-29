@@ -310,6 +310,7 @@ class DatabaseService {
             self.userInfo.firstGenre = usersObject?["firstGenre"] as? String
             self.userInfo.secondGenre = usersObject?["secondGenre"] as? String
             self.userInfo.thirdGenre = usersObject?["thirdGenre"] as? String
+            self.userInfo.dateOfBirth = usersObject?["dateOfBirth"] as? String
             self.userInfo.imageUrl = usersObject?["imageUrl"] as? String
             completionHandler(true)
         })

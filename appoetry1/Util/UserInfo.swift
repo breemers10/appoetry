@@ -45,6 +45,20 @@ struct UserInfo {
     var secondGenre: String?
     var thirdGenre: String?
     var imageUrl: String?
+    var dateOfBirth: String?
+    
+    func sendData() -> Any {
+        return [
+            "username": username,
+            "fullName": fullName,
+            "firstGenre": firstGenre,
+            "secondGenre": secondGenre,
+            "thirdGenre": thirdGenre,
+            "dateOfBirth": dateOfBirth,
+            "email": email,
+            "imageUrl" : imageUrl
+        ]
+    }
 }
 
 enum Genre: Int {

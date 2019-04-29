@@ -21,6 +21,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var changePhotoButton: UIButton!
     
     var viewModel: EditProfileViewModel?
+    var hasNewImage = false
+    var url: URL?
     
     let picker = UIImagePickerController()
     
@@ -49,7 +51,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func fetchUserInfo() {
-        viewModel?.getUserInfo(with: { (fetched) in
+        viewModel?.getUserInfo(with: { [weak self] (fetched) in
+            guard let self = self else { return }
             if fetched {
                 guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
                 let url = URL(string: userInfo.imageUrl!)
@@ -74,45 +77,36 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
-        guard
-            let username = usernameField.text,
-            let fullName = fullnameField.text,
-            let email = emailField.text,
-            let firstGenre = firstGenreField.text,
-            let secondGenre = secondGenreField.text,
-            let thirdGenre = thirdGenreField.text
-            else { return }
-        
         let uid = Auth.auth().currentUser!.uid
         
         let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
         let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
         let imageRef = storage.child("users").child(uid).child("\(key!).jpg")
-        
-        let data = imageView.image!.jpegData(compressionQuality: 0.6)
-        
-        let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-                return
-            }
+        if hasNewImage == true {
+            let data = imageView.image!.jpegData(compressionQuality: 0.6)
             
-            imageRef.downloadURL(completion: { (url, err) in
-                if err != nil {
-                    print(err!.localizedDescription)
+            let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                    return
                 }
-                if let url = url {
+                
+                imageRef.downloadURL(completion: { [weak self] (url, err) in
+                    guard let self = self else { return }
+                    if err != nil {
+                        print(err!.localizedDescription)
+                    }
+                    self.url = url
                     
-                    self.viewModel?.addChangedCredentials(imageUrl: url.absoluteString, username: username, fullName: fullName, email: email, firstGenre: firstGenre, secondGenre: secondGenre, thirdGenre: thirdGenre)
-                }
-            })
+                    self.addChangedCredentials()
+                })
+            }
+            uploadTask.resume()
+        } else {
+            url = URL(string: (self.viewModel?.databaseService?.userInfo.imageUrl)!)
+            addChangedCredentials()
         }
-        uploadTask.resume()
-        
-        viewModel?.editCredentials()
-        
-        viewModel?.onEditProfileCompletion?()
     }
     
     @objc func handleSelectProfileImageView() {
@@ -123,6 +117,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             self.imageView.image = image
+            hasNewImage = true
             changePhotoButton.isHidden = true
         }
         self.dismiss(animated: true, completion: nil)
@@ -140,6 +135,21 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         genrePicker3.delegate = self
         thirdGenreField.inputView = genrePicker3
         genrePicker3.backgroundColor = .white
+    }
+    
+    func addChangedCredentials() {
+        guard
+            let username = usernameField.text,
+            let fullName = fullnameField.text,
+            let email = emailField.text,
+            let firstGenre = firstGenreField.text,
+            let secondGenre = secondGenreField.text,
+            let thirdGenre = thirdGenreField.text
+            else { return }
+        
+        viewModel?.addChangedCredentials(imageUrl: url?.absoluteString, username: username, fullName: fullName, email: email, firstGenre: firstGenre, secondGenre: secondGenre, thirdGenre: thirdGenre, dateOfBirth: (self.viewModel?.databaseService?.userInfo.dateOfBirth)!)
+        self.viewModel?.editCredentials()
+        self.viewModel?.onEditProfileCompletion?()
     }
     
     func createToolbar() {

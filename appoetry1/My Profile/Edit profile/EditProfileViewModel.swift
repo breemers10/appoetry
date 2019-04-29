@@ -28,14 +28,15 @@ class EditProfileViewModel: NSObject {
         self.databaseService = databaseService
     }
     
-    func addChangedCredentials(imageUrl: String, username: String, fullName: String, email: String, firstGenre: String, secondGenre: String, thirdGenre: String) {
-        DatabaseService.instance.userRegister.imageUrl = imageUrl
-        DatabaseService.instance.userRegister.username = username
-        DatabaseService.instance.userRegister.fullName = fullName
-        DatabaseService.instance.userRegister.email = email
-        DatabaseService.instance.userRegister.firstGenre = firstGenre
-        DatabaseService.instance.userRegister.secondGenre = secondGenre
-        DatabaseService.instance.userRegister.thirdGenre = thirdGenre
+    func addChangedCredentials(imageUrl: String?, username: String, fullName: String, email: String, firstGenre: String, secondGenre: String, thirdGenre: String, dateOfBirth: String) {
+        DatabaseService.instance.userInfo.imageUrl = imageUrl
+        DatabaseService.instance.userInfo.username = username
+        DatabaseService.instance.userInfo.fullName = fullName
+        DatabaseService.instance.userInfo.email = email
+        DatabaseService.instance.userInfo.firstGenre = firstGenre
+        DatabaseService.instance.userInfo.secondGenre = secondGenre
+        DatabaseService.instance.userInfo.thirdGenre = thirdGenre
+        DatabaseService.instance.userInfo.dateOfBirth = dateOfBirth
     }
     
     func getUserInfo(with completionHandler: @escaping (Bool) -> Void) {
@@ -48,6 +49,6 @@ class EditProfileViewModel: NSObject {
     
     func editCredentials() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        DatabaseService.instance.ref.child("users").child(uid).setValue(DatabaseService.instance.userRegister.sendData())
+        DatabaseService.instance.ref.child("users").child(uid).setValue(DatabaseService.instance.userInfo.sendData())
     }
 }
