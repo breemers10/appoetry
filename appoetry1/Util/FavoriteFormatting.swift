@@ -1,5 +1,5 @@
 //
-//  FavouriteFormatting.swift
+//  FavoriteFormatting.swift
 //  appoetry1
 //
 //  Created by Kristaps Brēmers on 03.04.19.

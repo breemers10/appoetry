@@ -13,7 +13,7 @@ class Post {
     var userID: String!
     var pathToImage: String!
     var postID: String!
-    var favourites: Int!
+    var favorites: Int!
     var poem: String!
     var genre: String?
     var createdAt: Date?
@@ -22,22 +22,5 @@ class Post {
             createdAt = Date(timeIntervalSince1970: timestamp / 1000)
         }
     }
-    var peopleFavourited: [String] = [String]()
-}
-
-struct PostTest {
-    var username: String!
-    var userID: String!
-    var pathToImage: String!
-    var postID: String!
-    var favourites: Int!
-    var poem: String!
-    var genre: String?
-    var createdAt: Date?
-    var timestamp: Double! {
-        didSet {
-            createdAt = Date(timeIntervalSince1970: timestamp / 1000)
-        }
-    }
-    var peopleFavourited: [String] = [String]()
+    var peopleFavorited: [String] = [String]()
 }

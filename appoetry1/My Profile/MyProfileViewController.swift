@@ -21,7 +21,7 @@ class MyProfileViewController: UIViewController, UICollectionViewDelegate, UICol
     @IBOutlet weak var firstGenreLabel: UILabel!
     @IBOutlet weak var secondGenreLabel: UILabel!
     @IBOutlet weak var thirdGenreLabel: UILabel!
-    @IBOutlet weak var favouriteGenresLabel: UILabel!
+    @IBOutlet weak var favoriteGenresLabel: UILabel!
     @IBOutlet weak var firstNumberLabel: UILabel!
     @IBOutlet weak var secondNumberLabel: UILabel!
     @IBOutlet weak var thirdNumberLabel: UILabel!
@@ -50,7 +50,7 @@ class MyProfileViewController: UIViewController, UICollectionViewDelegate, UICol
         self.view.applyGradient()
     }
     
-    private func fetchUserInfo() {
+    func fetchUserInfo() {
         viewModel?.getUserInfo(with: { (fetched) in
             if fetched {
                 guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
@@ -61,7 +61,7 @@ class MyProfileViewController: UIViewController, UICollectionViewDelegate, UICol
                 self.firstGenreLabel.text = userInfo.firstGenre
                 self.secondGenreLabel.text = userInfo.secondGenre
                 self.thirdGenreLabel.text = userInfo.thirdGenre
-                self.favouriteGenresLabel.text = "Favourite genres:"
+                self.favoriteGenresLabel.text = "Favorite genres:"
                 self.firstNumberLabel.text = "1."
                 self.secondNumberLabel.text = "2."
                 self.thirdNumberLabel.text = "3."

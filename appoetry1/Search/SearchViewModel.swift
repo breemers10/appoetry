@@ -12,7 +12,8 @@ import Firebase
 class SearchViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
     var onCellTap: ((String) -> Void)?
-
+    
+    var filteredTableData = [String]()
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {

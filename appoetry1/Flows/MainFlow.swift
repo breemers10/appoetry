@@ -14,13 +14,15 @@ class MainFlow: PFlowController {
     var onSignOutCompletion: (() -> Void)?
     var onMainStart: ((UITabBarController) -> Void)?
     var onSuccessfullPost: (() -> ())?
+    var onSuccessfullUnfavorite: (() -> ())?
+    var onSuccessfulEdit: (() -> ())?
     var userService: PUserService
     var databaseService: DatabaseService?
     fileprivate var childFlow: PFlowController?
     private var presenterVC: UITabBarController?
     private var mainWrapper: UINavigationController?
     private var searchWrapper: UINavigationController?
-    private var favouritesWrapper: UINavigationController?
+    private var favoritesWrapper: UINavigationController?
     private var myProfileWrapper: UINavigationController?
 
     init(userService: PUserService, databaseService: DatabaseService) {
@@ -58,16 +60,16 @@ class MainFlow: PFlowController {
         searchWrapper?.pushViewController(createPostVC, animated: false)
     }
     
-    func moveToCreatePostFromFavourites() {
+    func moveToCreatePostFromFavorites() {
         
         guard let createPostVC = createPostViewController else { return }
         let createPostViewModel = CreatePostViewModel(databaseService: databaseService!)
         createPostViewModel.onMainScreen = { [weak self] in
-            self?.favouritesWrapper?.popViewController(animated: true)
+            self?.favoritesWrapper?.popViewController(animated: true)
         }
         createPostVC.viewModel = createPostViewModel
 
-        favouritesWrapper?.pushViewController(createPostVC, animated: false)
+        favoritesWrapper?.pushViewController(createPostVC, animated: false)
     }
     
     func moveToEditPost() {
@@ -75,10 +77,11 @@ class MainFlow: PFlowController {
         guard let editProfileVC = editProfileViewController else { return }
         let editProfileViewModel = EditProfileViewModel(databaseService: databaseService!)
         editProfileViewModel.onEditProfileCompletion = { [weak self] in
+            self?.onSuccessfulEdit?()
             self?.myProfileWrapper?.popViewController(animated: true)
         }
         editProfileVC.viewModel = editProfileViewModel
-        
+
         myProfileWrapper?.pushViewController(editProfileVC, animated: false)
     }
     
@@ -138,7 +141,11 @@ class MainFlow: PFlowController {
         guard let profilesVC = profilesViewController,
               let myProfilesVC = myProfileViewController
                   else { return }
-
+        
+        onSuccessfulEdit = { 
+            myProfilesVC.fetchUserInfo()
+        }
+        
         let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
         profilesViewModel.onFollowingButtonTap = { [weak self] in
             self?.moveToFollowings(idx: idx)
@@ -165,7 +172,7 @@ class MainFlow: PFlowController {
         }
     }
     
-    func moveToProfilesFromFavourites(idx: String) {
+    func moveToProfilesFromFavorites(idx: String) {
         
         guard let profilesVC = profilesViewController else { return }
         let profilesViewModel = ProfilesViewModel(idx: idx, databaseService: databaseService!)
@@ -176,7 +183,7 @@ class MainFlow: PFlowController {
             self?.moveToFollowers(idx: idx)
         }
         profilesVC.viewModel = profilesViewModel
-        favouritesWrapper?.pushViewController(profilesVC, animated: false)
+        favoritesWrapper?.pushViewController(profilesVC, animated: false)
     }
     
     func moveToFollowings(idx: String) {
@@ -225,6 +232,18 @@ class MainFlow: PFlowController {
         presenterVC = UITabBarController()
         guard let main = mainViewController else { return }
         let viewModel = MainViewModel(databaseService: databaseService!)
+        onSuccessfullPost = {
+            main.fetchPosts()
+        }
+        onSuccessfullUnfavorite = {
+            main.checkIfChanged()
+        }
+//        viewModel.onFavoriteButtonTap = { [weak self] in
+//            self?.onSuccessfullUnfavorite?()
+//        }
+//        viewModel.onUnfavoriteButtonTap = { [weak self] in
+//            self?.onSuccessfullUnfavorite?()
+//        }
         viewModel.onCreatePostTap = { [weak self] in
             self?.moveToCreatePostFromMain()
         }
@@ -254,22 +273,32 @@ class MainFlow: PFlowController {
         search.tabBarItem.image = UIImage(named: "search")
         search.tabBarItem.title = "Search"
         
-        guard let favourites = favouritesViewController else { return }
-        let favouritesViewModel = FavouritesViewModel(databaseService: databaseService!)
-        favouritesViewModel.onCreatePostTap = { [weak self] in
-            self?.moveToCreatePostFromFavourites()
+        guard let favorites = favoritesViewController else { return }
+        let favoritesViewModel = FavoritesViewModel(databaseService: databaseService!)
+//        onSuccessfullUnfavorite = {
+//            favorites.fetchPosts()
+//        }
+        
+        favoritesViewModel.onCreatePostTap = { [weak self] in
+            self?.moveToCreatePostFromFavorites()
         }
-        favouritesViewModel.onAuthorTap = { [weak self] idx in
-            self?.moveToProfilesFromFavourites(idx: idx)
+        favoritesViewModel.onAuthorTap = { [weak self] idx in
+            self?.moveToProfilesFromFavorites(idx: idx)
         }
-        favourites.viewModel = favouritesViewModel
-        favouritesWrapper = UINavigationController(rootViewController: favourites)
-        guard let fw = favouritesWrapper else { return }
-        favourites.tabBarItem.image = UIImage(named: "star")
-        favourites.tabBarItem.title = "Favorites"
+        favoritesViewModel.onUnfavoriteButtonTap = { [weak self] in
+            self?.onSuccessfullUnfavorite?()
+        }
+        favorites.viewModel = favoritesViewModel
+        favoritesWrapper = UINavigationController(rootViewController: favorites)
+        guard let fw = favoritesWrapper else { return }
+        favorites.tabBarItem.image = UIImage(named: "star")
+        favorites.tabBarItem.title = "Favorites"
         
         guard let profile = myProfileViewController else { return }
         let myProfileViewModel = MyProfileViewModel(databaseService: databaseService!)
+        onSuccessfulEdit = {
+            profile.fetchUserInfo()
+        }
         myProfileViewModel.onEditProfileTap = { [weak self] in
             self?.moveToEditPost()
         }
@@ -296,6 +325,7 @@ class MainFlow: PFlowController {
         guard let createPostVC = createPostViewController else { return }
         let createPostViewModel = CreatePostViewModel(databaseService: databaseService!)
         createPostViewModel.onMainScreen = { [weak self] in
+            self?.onSuccessfullPost?()
             self?.moveToMainScreen()
         }
         createPostVC.viewModel = createPostViewModel
@@ -313,8 +343,8 @@ extension MainFlow {
     fileprivate var searchViewController: SearchViewController? {
         return mainSB.instantiateViewController(withIdentifier: SearchViewController.className) as? SearchViewController
     }
-    fileprivate var favouritesViewController: FavouritesViewController? {
-        return mainSB.instantiateViewController(withIdentifier: FavouritesViewController.className) as? FavouritesViewController
+    fileprivate var favoritesViewController: FavoritesViewController? {
+        return mainSB.instantiateViewController(withIdentifier: FavoritesViewController.className) as? FavoritesViewController
     }
     fileprivate var myProfileViewController: MyProfileViewController? {
         return mainSB.instantiateViewController(withIdentifier: MyProfileViewController.className) as? MyProfileViewController

@@ -1,5 +1,5 @@
 //
-//  FavouritesViewController.swift
+//  FavoritesViewController.swift
 //  appoetry1
 //
 //  Created by Kristaps Brēmers on 06.03.19.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class FavoritesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var viewModel: FavouritesViewModel?
+    var viewModel: FavoritesViewModel?
     let createPostButton = UIButton(type: .system)
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -19,17 +19,23 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         fetchPosts()
-        
+        viewModel?.checkIfChanged(with: { (isChanged) in
+            if isChanged {
+                 self.collectionView.reloadData()
+            }
+        })
+
         collectionView.delegate = self
         collectionView.dataSource = self
     }
+    
     
     override func viewDidLayoutSubviews() {
         self.view.applyGradient()
     }
     
-    private func fetchPosts() {
-        viewModel?.getFavouritesPosts(with: { (fetched) in
+    func fetchPosts() {
+        viewModel?.checkIfAdded(with: { (fetched) in
             if fetched {
                 self.collectionView.reloadData()
             }
@@ -62,19 +68,27 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (viewModel?.databaseService?.favouritePosts.count)!
+        return (viewModel?.databaseService?.favoritePosts.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favouritePostCell", for: indexPath)
-
-        if let myCell = cell as? FavouriteFeedViewCell {
-            if let post = viewModel?.databaseService?.favouritePosts[indexPath.row] {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePostCell", for: indexPath)
+        
+        if let myCell = cell as? FavoriteFeedViewCell {
+            if let post = viewModel?.databaseService?.favoritePosts[indexPath.row] {
                 myCell.configure(post: post)
                 myCell.viewModel = viewModel
                 myCell.authorButton.isUserInteractionEnabled = true
                 myCell.authorButton.tag = indexPath.row
                 myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
+                
+                myCell.unfavorite = {
+                    self.viewModel?.unfavoritePost(postID: (self.viewModel?.databaseService?.favoritePosts[indexPath.row].postID)!, with: { (unfavorited) in
+                        if unfavorited {
+                            self.collectionView.reloadData()
+                        }
+                    })
+                }
             }
         }
         return cell
@@ -83,12 +97,12 @@ class FavouritesViewController: UIViewController, UICollectionViewDelegate, UICo
     @objc private func authorButtonPressed(button: UIButton) {
         let id = button.tag
         
-        guard let userId = viewModel?.databaseService?.favouritePosts[id].userID else { return }
+        guard let userId = viewModel?.databaseService?.favoritePosts[id].userID else { return }
         viewModel?.onAuthorTap?(userId)
     }
 }
 
-extension FavouritesViewController: ClassName {
+extension FavoritesViewController: ClassName {
     static var className: String {
         return String(describing: self)
     }

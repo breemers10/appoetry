@@ -7,11 +7,15 @@
 //
 
 import UIKit
-import Kingfisher
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var noUsersLabel: UILabel!
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    var filteredNames: [UserInfo]?
     
     var viewModel: SearchViewModel?
     let createPostButton = UIButton(type: .system)
@@ -21,7 +25,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         
-        searchBar.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Candies"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
         setupNavigationBarItems()
         addingTargetToCreatePostVC()
         retrieveUsers()
@@ -39,7 +48,20 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func filterContentForSearchText(_ searchText: String) {
+        let names = viewModel?.databaseService?.userInfoArr
+        filteredNames = names!.filter({( name : UserInfo ) -> Bool in
+            return name.fullName!.lowercased().contains(searchText.lowercased()) || name.username!.lowercased().contains(searchText.lowercased())
+        })
+        
         tableView.reloadData()
     }
     
@@ -55,8 +77,18 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchUserCell", for: indexPath)
         
         if let myCell = cell as? SearchUserCell {
-            if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
-            myCell.configure(userInfo: userInfo)
+            if filteredNames?.isEmpty ?? false {
+                if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+                    myCell.configure(userInfo: userInfo)
+                }
+            } else if filteredNames != nil{
+                if let userInfo = filteredNames?[indexPath.row] {
+                    myCell.configure(userInfo: userInfo)
+                }
+            } else {
+                if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+                    myCell.configure(userInfo: userInfo)
+                }
             }
         }
         return cell
@@ -67,7 +99,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (viewModel?.databaseService?.userInfoArr.count)!
+        if isFiltering() && filteredNames?.isEmpty ?? false {
+            noUsersLabel.isHidden = false
+            return 0
+        } else if filteredNames?.isEmpty ?? false {
+            noUsersLabel.isHidden = true
+            return viewModel?.databaseService?.userInfoArr.count ?? 0
+        } else if filteredNames != nil {
+            noUsersLabel.isHidden = true
+            return (filteredNames?.count)!
+        } else {
+            noUsersLabel.isHidden = true
+            return viewModel?.databaseService?.userInfoArr.count ?? 0
+        }
     }
     
     @objc private func createPostButtonPressed(sender: UIButton) {
@@ -89,6 +133,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
         navigationItem.title = "Appoetry"
+    }
+}
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
 }
 

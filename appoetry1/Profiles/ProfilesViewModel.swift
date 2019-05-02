@@ -23,16 +23,16 @@ class ProfilesViewModel {
         self.idx = idx
     }
     
-    func favouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.favouritePressed(postID: postID, with: { (favorited) in
+    func favoritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favoritePressed(postID: postID, with: { (favorited) in
             if favorited {
                 completionHandler(true)
             }
         })
     }
     
-    func unfavouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.unfavouritePressed(postID: postID, with: { (unfavorited) in
+    func unfavoritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfavoritePressed(postID: postID, with: { (unfavorited) in
             if unfavorited {
                 completionHandler(true)
             }
@@ -71,8 +71,14 @@ class ProfilesViewModel {
         })
     }
     
-    func checkFollowings() {
-        databaseService?.checkFollowingStatus(idx: idx)
+    func checkFollowings(with completionHandler: @escaping ((Bool) -> Void)) {
+        databaseService?.checkFollowingStatus(idx: idx, with: { (isFollowing) in
+            if isFollowing {
+                completionHandler(true)
+            } else {
+                completionHandler(false)
+            }
+        })
     }
     
     func createPost() {

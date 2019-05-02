@@ -17,7 +17,7 @@ class DatabaseService {
     let currentUserID = Auth.auth().currentUser!.uid
     
     var mainPosts = [Post]()
-    var favouritePosts = [Post]()
+    var favoritePosts = [Post]()
     var myProfilePosts = [Post]()
     var profilesPosts = [Post]()
     var userInfoArr = [UserInfo]()
@@ -33,12 +33,9 @@ class DatabaseService {
     var followers: String?
     
     var following = [String]()
-    var favouritedPosts = [String]()
     var myPosts = [String]()
     var usersPosts = [String]()
     
-    var unfavourited = false
-    var favourited = false
     var isCurrentUser = false
     var hasFollowed = false
     var hasUnfollowed = false
@@ -52,8 +49,8 @@ class DatabaseService {
         
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
             guard error == nil else {
-                    completionHandler(false)
-                    return
+                completionHandler(false)
+                return
             }
             guard let uid = Auth.auth().currentUser?.uid else { return }
             self?.ref.child("users").child(uid).setValue(self?.userRegister.sendData())
@@ -64,9 +61,8 @@ class DatabaseService {
     func storeUsersPhoto(data: Data, with completionHandler: @escaping (URL) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
-        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
-
-        let imageRef = storage.child("users").child(uid).child("\(key!).jpg")
+        
+        let imageRef = storageRef.child("users").child(uid).child("\(key!).jpg")
         
         let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in
             if error != nil {
@@ -88,11 +84,11 @@ class DatabaseService {
     
     func getUsername(with completionHandler: @escaping (String) -> Void) {
         let uid = Auth.auth().currentUser!.uid
-
+        
         DatabaseService.instance.ref.child("users").child(uid).observe(.childAdded, with: { (snapshot) in
             if snapshot.key == "username" {
                 guard let username = snapshot.value as? String else { return }
-
+                
                 completionHandler(username)
             }
         })
@@ -102,9 +98,8 @@ class DatabaseService {
         
         let uid = Auth.auth().currentUser!.uid
         let key = DatabaseService.instance.ref.child("posts").childByAutoId().key
-        let storage = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
         
-        let imageRef = storage.child("posts").child(uid).child("\(key!).jpg")
+        let imageRef = storageRef.child("posts").child(uid).child("\(key!).jpg")
         
         let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in
             if error != nil {
@@ -123,6 +118,25 @@ class DatabaseService {
             })
         }
         uploadTask.resume()
+    }
+    
+    func createPost(author: String?, poem: String?, genre: String?, data: Data?) {
+        self.getUsername(with: { [weak self] (username) in
+            guard let data = data else { return }
+            self?.storePostPhoto(data: data) { (url,key)  in
+                let feed = ["userID" : DatabaseService.instance.currentUserID as Any,
+                            "poem" : poem as Any,
+                            "pathToImage" : url.absoluteString,
+                            "favourites" : 0,
+                            "author" : username,
+                            "genre" : genre as Any,
+                            "createdAt" : [".sv":"timestamp"],
+                            "postID" : key ] as [String : Any]
+                let postFeed = ["\(key)" : feed]
+                
+                DatabaseService.instance.ref.child("posts").updateChildValues(postFeed)
+            }
+        })
     }
     
     func loadMainFeed(with completionHandler: @escaping (Bool) -> Void) {
@@ -150,7 +164,7 @@ class DatabaseService {
                             self.idx = each
                             let mainFeedPosts = Post()
                             mainFeedPosts.username = post["author"] as? String
-                            mainFeedPosts.favourites = post["favourites"] as? Int
+                            mainFeedPosts.favorites = post["favourites"] as? Int
                             mainFeedPosts.pathToImage = post["pathToImage"] as? String
                             mainFeedPosts.postID = post["postID"] as? String
                             mainFeedPosts.userID = userID
@@ -160,7 +174,7 @@ class DatabaseService {
                             
                             if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                 for (_,person) in people {
-                                    mainFeedPosts.peopleFavourited.append(person as! String)
+                                    mainFeedPosts.peopleFavorited.append(person as! String)
                                 }
                             }
                             self.mainPosts.append(mainFeedPosts)
@@ -173,50 +187,65 @@ class DatabaseService {
         ref.removeAllObservers()
     }
     
-    func loadFavouriteFeed(with completionHandler: @escaping (Bool) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        ref.child("users").child(uid).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            let snap = snapshot.value as! [String : AnyObject]
+    func postChildChanged(with completionHandler: @escaping (Bool) -> Void) {
+        ref.child("posts").queryOrderedByKey().observe(.childChanged, with: { snapshot in
+            let post = snapshot.value as! [String : AnyObject]
+            let postID = post["postID"] as! String
             
-            if let favouritedPosts = snap["favouritedPosts"] as? [String : String] {
-                for (_,user) in favouritedPosts {
-                    self.favouritedPosts.append(user)
+            var index: Int?
+            
+            self.mainPosts.enumerated().forEach({ (post) in
+                if post.element.postID == postID {
+                    index = post.offset
                 }
+            })
+            
+            guard let idx = index else {
+                completionHandler(false)
+                return
             }
+            self.mainPosts[idx].username = post["author"] as? String
+            self.mainPosts[idx].favorites = post["favourites"] as? Int
+            self.mainPosts[idx].pathToImage = post["pathToImage"] as? String
+            self.mainPosts[idx].postID = postID
+            self.mainPosts[idx].userID = post["userID"] as? String
+            self.mainPosts[idx].poem = post["poem"] as? String
+            self.mainPosts[idx].genre = post["genre"] as? String
+            self.mainPosts[idx].timestamp = post["createdAt"] as? Double
+            completionHandler(true)
         })
-        
-        ref.child("posts").observeSingleEvent(of: .value, with: { (snap) in
-            let postSnap = snap.value as! [String: AnyObject]
-            for (_,post) in postSnap {
-                if let postID = post["postID"] as? String {
-                    for each in self.favouritedPosts {
-                        if each == postID {
-                            let favouritePost = Post()
-                            favouritePost.username = post["author"] as? String
-                            favouritePost.favourites = post["favourites"] as? Int
-                            favouritePost.pathToImage = post["pathToImage"] as? String
-                            favouritePost.postID = postID
-                            favouritePost.userID = post["userID"] as? String
-                            favouritePost.poem = post["poem"] as? String
-                            favouritePost.genre = post["genre"] as? String
-                            favouritePost.timestamp = post["createdAt"] as? Double
-                            
-                            if let people = post["peopleFavourited"] as? [String : AnyObject] {
-                                for (_,person) in people {
-                                    favouritePost.peopleFavourited.append(person as! String)
-                                }
-                            }
-                            self.favouritePosts.append(favouritePost)
-                            completionHandler(true)
-                        }
-                    }
-                }
-            }
-        })
-        ref.removeAllObservers()
     }
     
+    func favoritesChildAdded(with completionHandler: @escaping (Bool) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        ref.child("users").child(uid).child("favouritedPosts").queryOrderedByKey().observe(.childAdded, with: { snapshot in
+            let postID = snapshot.value as! String
+            
+            self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
+                let postSnap = snapshot.value as! [String: AnyObject]
+                let favoritePost = Post()
+                
+                favoritePost.username = postSnap["author"] as? String
+                favoritePost.favorites = postSnap["favourites"] as? Int
+                favoritePost.pathToImage = postSnap["pathToImage"] as? String
+                favoritePost.postID = postID
+                favoritePost.userID = postSnap["userID"] as? String
+                favoritePost.poem = postSnap["poem"] as? String
+                favoritePost.genre = postSnap["genre"] as? String
+                favoritePost.timestamp = postSnap["createdAt"] as? Double
+                
+                if let people = postSnap["peopleFavourited"] as? [String : AnyObject] {
+                    for (_,person) in people {
+                        favoritePost.peopleFavorited.append(person as! String)
+                    }
+                }
+                self.favoritePosts.append(favoritePost)
+                completionHandler(true)
+            })
+        })
+    }
+
     func loadMyProfileFeed(with completionHandler: @escaping (Bool) -> Void) {
         let uid = Auth.auth().currentUser?.uid
         
@@ -229,13 +258,13 @@ class DatabaseService {
         ref.child("posts").queryOrdered(byChild: "createdAt").observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as! [String: AnyObject]
             
-            for (_,post) in postSnap {
+            for (_, post) in postSnap {
                 if let userID = post["userID"] as? String {
                     for each in self.myPosts {
                         if each == userID {
                             let myProfilePost = Post()
                             myProfilePost.username = post["author"] as? String
-                            myProfilePost.favourites = post["favourites"] as? Int
+                            myProfilePost.favorites = post["favourites"] as? Int
                             myProfilePost.pathToImage = post["pathToImage"] as? String
                             myProfilePost.postID = post["postID"] as? String
                             myProfilePost.userID = userID
@@ -245,7 +274,7 @@ class DatabaseService {
                             
                             if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                 for (_,person) in people {
-                                    myProfilePost.peopleFavourited.append(person as! String)
+                                    myProfilePost.peopleFavorited.append(person as! String)
                                 }
                             }
                             self.myProfilePosts.append(myProfilePost)
@@ -276,7 +305,7 @@ class DatabaseService {
                         if each == userID {
                             let usersPost = Post()
                             usersPost.username = post["author"] as? String
-                            usersPost.favourites = post["favourites"] as? Int
+                            usersPost.favorites = post["favourites"] as? Int
                             usersPost.pathToImage = post["pathToImage"] as? String
                             usersPost.postID = post["postID"] as? String
                             usersPost.userID = userID
@@ -286,7 +315,7 @@ class DatabaseService {
                             
                             if let people = post["peopleFavourited"] as? [String : AnyObject] {
                                 for (_,person) in people {
-                                    usersPost.peopleFavourited.append(person as! String)
+                                    usersPost.peopleFavorited.append(person as! String)
                                 }
                             }
                             self.profilesPosts.append(usersPost)
@@ -300,6 +329,7 @@ class DatabaseService {
     }
     
     func getMyProfileInfo(with completionHandler: @escaping (Bool) -> Void) {
+        
         guard let id = Auth.auth().currentUser?.uid else { return }
         ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
             let usersObject = snapshot.value as? NSDictionary
@@ -317,12 +347,12 @@ class DatabaseService {
     }
     
     func openPost(idx: String, with completionHandler: @escaping (Bool) -> Void) {
-      
+        
         ref.child("posts").child(idx).observeSingleEvent(of: .value, with: { (snap) in
             let postSnap = snap.value as? NSDictionary
             
             self.usersPost.username = postSnap?["author"] as? String
-            self.usersPost.favourites = postSnap?["favourites"] as? Int
+            self.usersPost.favorites = postSnap?["favourites"] as? Int
             self.usersPost.pathToImage = postSnap?["pathToImage"] as? String
             self.usersPost.postID = postSnap?["postID"] as? String
             self.usersPost.userID = postSnap?["userID"] as? String
@@ -332,7 +362,7 @@ class DatabaseService {
             
             if let people = postSnap?["peopleFavourited"] as? [String : AnyObject] {
                 for (_,person) in people {
-                    self.usersPost.peopleFavourited.append(person as! String)
+                    self.usersPost.peopleFavorited.append(person as! String)
                 }
             }
             completionHandler(true)
@@ -416,7 +446,7 @@ class DatabaseService {
         })
     }
     
-    func favouritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+    func favoritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
         let keyToPost = ref.child("posts").childByAutoId().key!
         let keyToUsers = ref.child("users").childByAutoId().key!
         guard let id = Auth.auth().currentUser?.uid else { return }
@@ -435,13 +465,13 @@ class DatabaseService {
         
         ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? [String: AnyObject] {
-                let updateFavourites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : id]
-                self.ref.child("posts").child(postID).updateChildValues(updateFavourites, withCompletionBlock: { (error, ref) in
+                let updateFavorites: [String : Any] = [ "peopleFavourited/\(keyToPost)" : id]
+                self.ref.child("posts").child(postID).updateChildValues(updateFavorites, withCompletionBlock: { (error, ref) in
                     if error == nil {
                         self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
                             if let properties = snap.value as? [String : AnyObject] {
-                                if let favourites = properties["peopleFavourited"] as? [String : AnyObject] {
-                                    let count = favourites.count
+                                if let favorites = properties["peopleFavourited"] as? [String : AnyObject] {
+                                    let count = favorites.count
                                     self.count = count
                                     
                                     let update = ["favourites" : count]
@@ -458,14 +488,14 @@ class DatabaseService {
         completionHandler(false)
     }
     
-    func unfavouritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+    func unfavoritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         ref.child("users").child(uid).observeSingleEvent(of: .value, with: { (snap) in
-            if let favouritedPosts = snap.value as? [String : AnyObject] {
-                if let favourites = favouritedPosts["favouritedPosts"] as? [String : AnyObject] {
+            if let favoritedPosts = snap.value as? [String : AnyObject] {
+                if let favorites = favoritedPosts["favouritedPosts"] as? [String : AnyObject] {
                     
-                    for (id, post) in favourites {
+                    for (id, post) in favorites {
                         if post as? String == postID {
                             self.ref.child("users").child(uid).child("favouritedPosts").child(id).removeValue(completionBlock: { (error, ref) in
                                 if error == nil {
@@ -482,22 +512,24 @@ class DatabaseService {
         ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let properties = snapshot.value as? [String : AnyObject] {
-                if let peopleFavourited = properties["peopleFavourited"] as? [String : AnyObject] {
+                if let peopleFavorited = properties["peopleFavourited"] as? [String : AnyObject] {
                     
-                    for (id, person) in peopleFavourited {
+                    for (id, person) in peopleFavorited {
                         if person as? String == Auth.auth().currentUser!.uid {
                             self.ref.child("posts").child(postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in
+                                self.mainPosts.first(where: { $0.postID == postID})?.peopleFavorited.removeAll(where: { $0 == id})
+                                self.favoritePosts.removeAll(where: { $0.postID == postID})
                                 if error == nil {
                                     self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
                                         if let prop = snap.value as? [String : AnyObject] {
-                                            if let favourites = prop["peopleFavourited"] as? [String : AnyObject] {
-                                                let count = favourites.count
+                                            if let favorites = prop["peopleFavourited"] as? [String : AnyObject] {
+                                                let count = favorites.count
                                                 self.count = count
                                                 self.ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
                                                 self.count = 0
                                                 self.ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
                                                 completionHandler(true)
-
+                                                
                                             }
                                         }
                                     })
@@ -540,14 +572,14 @@ class DatabaseService {
         })
     }
     
-    func checkFollowingStatus(idx: String) {
+    func checkFollowingStatus(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         
         DatabaseService.instance.ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let following = snapshot.value as? [String : AnyObject] {
                 for (_, value) in following {
                     if value as? String == idx {
-                        self.followed = true
+                        completionHandler(true)
                     }
                 }
             }

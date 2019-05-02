@@ -20,7 +20,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     @IBOutlet weak var firstGenreLabel: UILabel!
     @IBOutlet weak var secondGenreLabel: UILabel!
     @IBOutlet weak var thirdGenreLabel: UILabel!
-    @IBOutlet weak var favouriteGenresLabel: UILabel!
+    @IBOutlet weak var favoriteGenresLabel: UILabel!
     @IBOutlet weak var firstNumberLabel: UILabel!
     @IBOutlet weak var secondNumberLabel: UILabel!
     @IBOutlet weak var thirdNumberLabel: UILabel!
@@ -63,7 +63,7 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
                 self.firstGenreLabel.text = userInfo.firstGenre
                 self.secondGenreLabel.text = userInfo.secondGenre
                 self.thirdGenreLabel.text = userInfo.thirdGenre
-                self.favouriteGenresLabel.text = "Favourite genres:"
+                self.favoriteGenresLabel.text = "Favorite genres:"
                 self.firstNumberLabel.text = "1."
                 self.secondNumberLabel.text = "2."
                 self.thirdNumberLabel.text = "3."
@@ -86,33 +86,37 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     @IBAction private func followButtonPressed(_ sender: Any) {
-        viewModel?.followUser(with: { (hasFollowed) in
-            if !hasFollowed {
-                self.followButton.isHidden = true
-                self.unfollowButton.isHidden = false
-                self.followButton.isEnabled = true           }
+        viewModel?.followUser(with: { [weak self] (hasFollowed) in
+            if hasFollowed {
+                self?.followButton.isHidden = true
+                self?.unfollowButton.isHidden = false
+                self?.followButton.isEnabled = true
+            }
         })
-        
     }
     
     @IBAction private func unfollowButtonPressed(_ sender: Any) {
-        viewModel?.unfollowUser(with: { (hasUnfollowed) in
-            if !hasUnfollowed {
-                self.unfollowButton.isHidden = true
-                self.followButton.isHidden = false
-                self.unfollowButton.isEnabled = true           }
+        viewModel?.unfollowUser(with: { [weak self] (hasUnfollowed) in
+            if hasUnfollowed {
+                self?.unfollowButton.isHidden = true
+                self?.followButton.isHidden = false
+                self?.unfollowButton.isEnabled = true
+            }
         })
     }
     
     private func checkFollowing() {
-        viewModel?.checkFollowings()
-        
-        if (self.viewModel?.databaseService?.followed)! {
-            
-            self.followButton.isHidden = true
-            self.unfollowButton.isHidden = false
-            self.followButton.isEnabled = true
-        }
+        viewModel?.checkFollowings(with: { [weak self] (isFollowed) in
+            if isFollowed {
+            self?.followButton.isHidden = true
+            self?.unfollowButton.isHidden = false
+            self?.followButton.isEnabled = true
+            } else {
+            self?.followButton.isHidden = false
+            self?.unfollowButton.isHidden = true
+            self?.unfollowButton.isEnabled = true
+            }
+        })
     }
     
     @IBAction private func followersButtonPressed(_ sender: Any) {

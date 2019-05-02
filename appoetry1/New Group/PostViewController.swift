@@ -14,11 +14,11 @@ class PostViewController: UIViewController {
     @IBOutlet weak var poemImage: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var authorButton: UIButton!
-    @IBOutlet weak var favouriteButton: UIButton!
-    @IBOutlet weak var unfavouriteButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var unfavoriteButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var genreLabel: UILabel!
-    @IBOutlet weak var favouritesLabel: UILabel!
+    @IBOutlet weak var favoritesLabel: UILabel!
     
     var viewModel: PostViewModel?
     var postID: String!
@@ -41,15 +41,15 @@ class PostViewController: UIViewController {
                 self.poemImage.kf.setImage(with: url)
                 self.authorLabel.text = usersPost.username
                 self.textView.text = usersPost.poem
-                self.favouritesLabel.text = "\(usersPost.favourites!) Favourites"
+                self.favoritesLabel.text = "\(usersPost.favorites!) Favorites"
                 self.postID = usersPost.postID
                 self.genreLabel.text = usersPost.genre
                 self.dateLabel.text = usersPost.createdAt!.calendarTimeSinceNow()
                 
-                for person in usersPost.peopleFavourited {
+                for person in usersPost.peopleFavorited {
                     if person == Auth.auth().currentUser!.uid {
-                        self.favouriteButton.isHidden = true
-                        self.unfavouriteButton.isHidden = false
+                        self.favoriteButton.isHidden = true
+                        self.unfavoriteButton.isHidden = false
                         break
                     }
                 }
@@ -57,27 +57,27 @@ class PostViewController: UIViewController {
         })
     }
     
-    @IBAction func favouriteButtonPressed(_ sender: Any) {
-        favouriteButton.isHidden = false
-        viewModel?.favouritePost(postID: postID, with: { (favorited) in
+    @IBAction func favoriteButtonPressed(_ sender: Any) {
+        favoriteButton.isHidden = false
+        viewModel?.favoritePost(postID: postID, with: { (favorited) in
             if !favorited {
-                self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
+                self.favoritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favorites"
                 
-                self.favouriteButton.isHidden = true
-                self.unfavouriteButton.isHidden = false
-                self.favouriteButton.isEnabled = true
+                self.favoriteButton.isHidden = true
+                self.unfavoriteButton.isHidden = false
+                self.favoriteButton.isEnabled = true
             }
         })
     }
     
-    @IBAction func unfavouriteButtonPressed(_ sender: Any) {
-        unfavouriteButton.isEnabled = false
-        viewModel?.unfavouritePost(postID: postID, with: { (unfavorited) in
+    @IBAction func unfavoriteButtonPressed(_ sender: Any) {
+        unfavoriteButton.isEnabled = false
+        viewModel?.unfavoritePost(postID: postID, with: { (unfavorited) in
             if !unfavorited {
-                self.favouritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favourites"
-                self.favouriteButton.isHidden = false
-                self.unfavouriteButton.isHidden = true
-                self.unfavouriteButton.isEnabled = true
+                self.favoritesLabel.text = "\((self.viewModel?.databaseService?.count)!) Favorites"
+                self.favoriteButton.isHidden = false
+                self.unfavoriteButton.isHidden = true
+                self.unfavoriteButton.isEnabled = true
             }
         })
     }

@@ -80,8 +80,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
     @IBAction private func postButtonPressed(_ sender: Any) {
         let data = previewImage.image!.jpegData(compressionQuality: 0.6)
         
-        
-        viewModel?.get(author: self.username, poem: self.textView.text, genre: self.genreField.text, data: data)
+        viewModel?.storePost(author: self.username, poem: self.textView.text, genre: self.genreField.text, data: data)
         
         self.viewModel?.onMainScreen?()
     }

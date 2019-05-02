@@ -45,16 +45,16 @@ class MyProfileViewModel: NSObject {
         })
     }
     
-    func favouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.favouritePressed(postID: postID, with: { (favorited) in
+    func favoritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favoritePressed(postID: postID, with: { (favorited) in
             if favorited {
                 completionHandler(true)
             }
         })
     }
     
-    func unfavouritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.unfavouritePressed(postID: postID, with: { (unfavorited) in
+    func unfavoritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.unfavoritePressed(postID: postID, with: { (unfavorited) in
             if unfavorited {
                 completionHandler(true)
             }

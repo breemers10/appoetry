@@ -23,8 +23,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         fetchPosts()
+
+        checkIfChanged()
         
         if let flowLayout = UICollectionViewLayout() as? UICollectionViewFlowLayout,
             let collectionView = collectionView {
@@ -34,10 +35,18 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         self.view.applyGradient()
     }
-    
-    private func fetchPosts() {
+
+    func fetchPosts() {
         viewModel?.getMainFeed(with: { (fetched) in
             if fetched {
+                self.collectionView.reloadData()
+            }
+        })
+    }
+    
+    func checkIfChanged() {
+        viewModel?.checkIfChanged(with: { (isChanged) in
+            if isChanged {
                 self.collectionView.reloadData()
             }
         })
@@ -73,7 +82,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
         
         if let myCell = cell as? MainFeedViewCell {

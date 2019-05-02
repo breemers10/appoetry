@@ -23,12 +23,6 @@ class LoginViewController: UIViewController {
         passwordLogin.text = "Aa1234567"
         
         self.view.applyGradient()
-        
-        let nav = self.navigationController
-        
-        nav?.navigationBar.barStyle = .blackTranslucent
-        nav?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        nav?.navigationBar.shadowImage = UIImage()
     }
     
     @IBAction private func pressLogin(_ sender: Any) {

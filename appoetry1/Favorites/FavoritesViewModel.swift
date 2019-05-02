@@ -1,34 +1,33 @@
 //
-//  MainViewModel.swift
+//  FavoritesViewModel.swift
 //  appoetry1
 //
-//  Created by Kristaps Brēmers on 01.03.19.
+//  Created by Kristaps Brēmers on 08.03.19.
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
 import UIKit
-import Firebase
 
-class MainViewModel: NSObject {
+class FavoritesViewModel: NSObject {
     
     var onCreatePostTap: (() -> Void)?
     var onAuthorTap: ((String) -> Void)?
-    var onPostTap: ((String) -> Void)?
-    var onFavoriteButtonTap: (() -> Void)?
-
+    var onUnfavoriteButtonTap: (() -> Void)?
+    
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
         self.databaseService = databaseService
+        
     }
-
+    
     func createPost() {
         onCreatePostTap?()
     }
     
-    func getMainFeed(with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.loadMainFeed(with: { (loaded) in
-            if loaded {
+    func checkIfAdded(with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.favoritesChildAdded(with: { (isAdded) in
+            if isAdded {
                 completionHandler(true)
             }
         })

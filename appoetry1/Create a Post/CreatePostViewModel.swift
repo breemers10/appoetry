@@ -25,23 +25,7 @@ class CreatePostViewModel {
             completionHandler(url, key)
         })
     }
-    
-    func get(author: String?, poem: String?, genre: String?, data: Data?) {
-        databaseService?.getUsername(with: { [weak self] (username) in
-            guard let data = data else { return }
-            self?.storePostPhoto(data: data) { (url,key)  in
-                let feed = ["userID" : self?.databaseService?.currentUserID as Any,
-                            "poem" : poem as Any,
-                            "pathToImage" : url.absoluteString,
-                            "favourites" : 0,
-                            "author" : username,
-                            "genre" : genre as Any,
-                            "createdAt" : [".sv":"timestamp"],
-                            "postID" : key ] as [String : Any]
-                let postFeed = ["\(key)" : feed]
-                
-                DatabaseService.instance.ref.child("posts").updateChildValues(postFeed)
-            }
-        })
+    func storePost(author: String?, poem: String?, genre: String?, data: Data?) {
+        databaseService?.createPost(author: author, poem: poem, genre: genre, data: data)
     }
 }

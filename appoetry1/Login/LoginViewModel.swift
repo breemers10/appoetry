@@ -35,7 +35,6 @@ class LoginViewModel {
                 self.onCompletion?()
                 self.error = "All gucci senjor"
             }
-            print("Received: \(String(describing: self.userService?.user?.email)))")
         })
     }
 }

@@ -47,13 +47,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-    
+
         rootWindow = UIWindow()
         
         appFlow = AppFlow(with: rootWindow)
         appFlow.start()
         
         UITabBar.appearance().tintColor = UIColor(displayP3Red: 25/255, green: 25/255, blue: 112/255, alpha: 0.85)
+        
+        UINavigationBar.appearance().barStyle = .default
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
 
         return true
     }
