@@ -18,6 +18,7 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var authorButton: UIButton!
     @IBOutlet weak var poemLabel: UILabel!
+    @IBOutlet weak var editPostButton: UIButton!
     
     var onFavourite: (() -> Void)?
     
@@ -61,6 +62,7 @@ class MainFeedViewCell: UICollectionViewCell {
         } else {
             favoriteButton.setImage(unfavoriteImage, for: UIControl.State.normal)
         }
+        
         //        favoriteButton.isHidden = contains
 //        containsFavourite = contains
 //        if !isFavorited {

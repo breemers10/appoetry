@@ -139,6 +139,10 @@ class DatabaseService {
         })
     }
     
+    func editPost(poem: String, postID: String) {
+        ref.child("posts").child(postID).updateChildValues([ "poem" : poem ])
+    }
+    
     func loadMainFeed(with completionHandler: @escaping (Bool) -> Void) {
         
         let uid = Auth.auth().currentUser?.uid
@@ -599,5 +603,9 @@ class DatabaseService {
                 self?.ref.child("users").child((user?.uid)!).removeValue()
             }
         })
+    }
+    
+    func deletePost(postID: String) {
+        ref.child("posts").child(postID).removeValue()
     }
 }

@@ -104,6 +104,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 myCell.authorButton.tag = indexPath.row
                 myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
                 
+                myCell.editPostButton.tag = indexPath.row
+                myCell.editPostButton.addTarget(self, action: #selector(editPostButtonPressed), for: .touchUpInside)
+                
                 myCell.poemLabel.tag = indexPath.row
                 myCell.poemLabel.isUserInteractionEnabled = true
                 let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
@@ -125,6 +128,15 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }
         viewModel?.onAuthorTap?(userId)
+    }
+    
+    @objc private func editPostButtonPressed(button: UIButton) {
+        print("it works")
+
+        let id = button.tag
+        
+        guard let postId = viewModel?.databaseService?.mainPosts[id].postID else { return }
+        viewModel?.onEditPostTap?(postId)
     }
 }
 

@@ -12,7 +12,6 @@ class DeleteAccViewController: UIViewController {
     var viewModel: DeleteAccViewModel?
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     override func viewDidLayoutSubviews() {

@@ -17,6 +17,7 @@ class MainFlow: PFlowController {
     var onSuccessfullUnfavorite: (() -> ())?
     var onSuccessfulEdit: (() -> ())?
     var onSuccessfulDeletion: (() -> ())?
+    var onSuccessfulPostDeletion: (() -> ())?
     var userService: PUserService
     var databaseService: DatabaseService?
     fileprivate var childFlow: PFlowController?
@@ -73,7 +74,7 @@ class MainFlow: PFlowController {
         favoritesWrapper?.pushViewController(createPostVC, animated: false)
     }
     
-    func moveToEditPost() {
+    func moveToEditProfile() {
         
         guard let editProfileVC = editProfileViewController else { return }
         let editProfileViewModel = EditProfileViewModel(databaseService: databaseService!)
@@ -152,6 +153,21 @@ class MainFlow: PFlowController {
         }
         postVC.viewModel = postVM
         mainWrapper?.pushViewController(postVC, animated: true)
+    }
+    
+    func moveToEditPost(idx: String) {
+        guard let editPostVC = editPostViewController else { return }
+        let editPostVM = EditPostViewModel(idx: idx, databaseService: databaseService!)
+        editPostVM.onSuccessfulDeletion = { [weak self] in
+            self?.onSuccessfulPostDeletion?()
+            self?.mainWrapper?.popViewController(animated: true)
+        }
+        editPostVM.onSuccessfulEdit = { [weak self] in
+            self?.onSuccessfulPostDeletion?()
+            self?.mainWrapper?.popViewController(animated: true)
+        }
+        editPostVC.viewModel = editPostVM
+        mainWrapper?.pushViewController(editPostVC, animated: true)
     }
     
     func moveToProfilesFromMain(idx: String) {
@@ -256,6 +272,9 @@ class MainFlow: PFlowController {
         onSuccessfullUnfavorite = {
             main.checkIfChanged()
         }
+        onSuccessfulPostDeletion = {
+            main.checkIfChanged()
+        }
 //        viewModel.onFavoriteButtonTap = { [weak self] in
 //            self?.onSuccessfullUnfavorite?()
 //        }
@@ -271,6 +290,10 @@ class MainFlow: PFlowController {
         viewModel.onPostTap = { [weak self] idx in
             self?.moveToPostFromMain(idx: idx)
         }
+        viewModel.onEditPostTap = { [weak self] idx in
+            self?.moveToEditPost(idx: idx)
+        }
+        
         main.viewModel = viewModel
         mainWrapper = UINavigationController(rootViewController: main)
         guard let mw = mainWrapper else { return }
@@ -318,7 +341,7 @@ class MainFlow: PFlowController {
             profile.fetchUserInfo()
         }
         myProfileViewModel.onEditProfileTap = { [weak self] in
-            self?.moveToEditPost()
+            self?.moveToEditProfile()
         }
         myProfileViewModel.onSignOutTap = { [weak self] in
             self?.onSignOutCompletion?()
@@ -381,6 +404,9 @@ extension MainFlow {
     }
     fileprivate var editProfileViewController: EditProfileViewController? {
         return mainSB.instantiateViewController(withIdentifier: EditProfileViewController.className) as? EditProfileViewController
+    }
+    fileprivate var editPostViewController: EditPostViewController? {
+        return mainSB.instantiateViewController(withIdentifier: EditPostViewController.className) as? EditPostViewController
     }
     fileprivate var deleteAccViewController: DeleteAccViewController? {
         return mainSB.instantiateViewController(withIdentifier: DeleteAccViewController.className) as? DeleteAccViewController

@@ -116,6 +116,11 @@
                                                         <constraint firstAttribute="height" constant="2" id="G8J-LW-yLF"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nn5-fU-UWm">
+                                                    <rect key="frame" x="255" y="0.0" width="78" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Edit post"/>
+                                                </button>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -155,6 +160,7 @@
                                             <outlet property="authorButton" destination="Fjh-Xw-veP" id="vM2-KN-OOc"/>
                                             <outlet property="authorLabel" destination="Qo6-UC-TSG" id="6bq-am-ZM0"/>
                                             <outlet property="dateLabel" destination="cjn-Mt-dyh" id="H3X-Y9-5At"/>
+                                            <outlet property="editPostButton" destination="nn5-fU-UWm" id="Djp-zP-CMK"/>
                                             <outlet property="favoriteButton" destination="NaC-r7-w1w" id="QD8-g3-d5f"/>
                                             <outlet property="favoritesLabel" destination="KZj-v1-bNb" id="9ix-w4-ugc"/>
                                             <outlet property="genreLabel" destination="xif-Dq-DFF" id="yle-cM-vht"/>
@@ -1930,6 +1936,83 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gQh-bB-PXk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-940" y="-1671.8140929535234"/>
+        </scene>
+        <!--Edit Post View Controller-->
+        <scene sceneID="hVq-G5-UGQ">
+            <objects>
+                <viewController storyboardIdentifier="EditPostViewController" id="L5j-RY-KYM" customClass="EditPostViewController" customModule="appoetry1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GlX-kv-jlN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="coK-Mp-zln">
+                                <rect key="frame" x="61" y="205" width="253" height="233"/>
+                                <color key="backgroundColor" white="1" alpha="0.34999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="233" id="b2u-rS-nXa"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OGU-53-AAr" customClass="Buttons" customModule="appoetry1" customModuleProvider="target">
+                                <rect key="frame" x="144" y="609" width="87" height="38"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="5Vc-fS-WhR"/>
+                                    <constraint firstAttribute="width" constant="87" id="zUp-qA-T41"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                <state key="normal" title="Edit post">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rounded">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="L5j-RY-KYM" eventType="touchUpInside" id="BJN-7s-MA9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YR6-kh-iyO">
+                                <rect key="frame" x="144" y="157" width="87" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="FF5-sg-Hix"/>
+                                    <constraint firstAttribute="width" constant="87" id="IIA-48-9u0"/>
+                                </constraints>
+                                <state key="normal" title="Delete post">
+                                    <color key="titleColor" red="0.84797350890000001" green="0.0079385206970000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="deletePostButtonPressed:" destination="L5j-RY-KYM" eventType="touchUpInside" id="k1b-ub-EUQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="coK-Mp-zln" firstAttribute="top" secondItem="GlX-kv-jlN" secondAttribute="top" constant="205" id="1Hx-PV-7nG"/>
+                            <constraint firstItem="dzg-VW-lnE" firstAttribute="bottom" secondItem="OGU-53-AAr" secondAttribute="bottom" constant="20" id="20v-kK-1rF"/>
+                            <constraint firstItem="coK-Mp-zln" firstAttribute="top" secondItem="YR6-kh-iyO" secondAttribute="bottom" constant="18" id="8zv-Ay-WI2"/>
+                            <constraint firstItem="coK-Mp-zln" firstAttribute="leading" secondItem="dzg-VW-lnE" secondAttribute="leading" constant="61" id="KqJ-Ov-1vw"/>
+                            <constraint firstItem="coK-Mp-zln" firstAttribute="centerX" secondItem="YR6-kh-iyO" secondAttribute="centerX" id="V80-a7-GMx"/>
+                            <constraint firstItem="OGU-53-AAr" firstAttribute="centerX" secondItem="YR6-kh-iyO" secondAttribute="centerX" id="arf-27-F5x"/>
+                            <constraint firstItem="coK-Mp-zln" firstAttribute="centerX" secondItem="GlX-kv-jlN" secondAttribute="centerX" id="nM7-iH-7D0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dzg-VW-lnE"/>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="coK-Mp-zln" id="jUa-Qb-KU3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IaE-CC-uey" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1496.8" y="-1674.5127436281859"/>
         </scene>
     </scenes>
     <resources>

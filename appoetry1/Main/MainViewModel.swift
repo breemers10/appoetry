@@ -13,6 +13,7 @@ class MainViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
     var onAuthorTap: ((String) -> Void)?
     var onPostTap: ((String) -> Void)?
+    var onEditPostTap: ((String) -> Void)?
     var onFavoriteButtonTap: (() -> Void)?
 
     var reloadAtIndex: ((Int) -> Void)?

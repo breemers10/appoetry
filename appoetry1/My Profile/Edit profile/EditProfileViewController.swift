@@ -176,7 +176,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBAction func deletePressed(_ sender: Any) {
         viewModel?.onDeleteButtonPressed?()
     }
-    
 }
 
 extension EditProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource {
