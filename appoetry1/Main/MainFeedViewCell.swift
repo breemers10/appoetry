@@ -7,13 +7,11 @@
 //
 
 import UIKit
-import Firebase
 import Kingfisher
 
 class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var favoriteButton: UIButton!
-    @IBOutlet weak var unfavoriteButton: UIButton!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favoritesLabel: UILabel!
@@ -21,8 +19,23 @@ class MainFeedViewCell: UICollectionViewCell {
     @IBOutlet weak var authorButton: UIButton!
     @IBOutlet weak var poemLabel: UILabel!
     
+    var onFavourite: (() -> Void)?
+    
     var postID: String!
     var viewModel: MainViewModel?
+    var isFavorited = false // {
+//        didSet {
+//            if isFavorited {
+//                favoriteButton.setImage(favoriteImage, for: UIControl.State.normal)
+//            } else {
+//               favoriteButton.setImage(unfavoriteImage, for: UIControl.State.normal)
+//            }
+//            isFavorited ? favoriteButton.setImage(favoriteImage, for: UIControl.State.normal) : favoriteButton.setImage(unfavoriteImage, for: UIControl.State.normal)
+//        }
+//    }
+
+    let favoriteImage = UIImage(named: "fav-1")
+    let unfavoriteImage = UIImage(named: "unfav-1")
     
     func configure(post: Post) {
         guard let url = URL(string: post.pathToImage!) else { return }
@@ -40,38 +53,47 @@ class MainFeedViewCell: UICollectionViewCell {
         self.poemLabel.addTrailing(with: "... ", moreText: "Read whole post", moreTextFont: readmoreFont!, moreTextColor: readmoreFontColor)
         poemLabel.roundCorners([.bottomLeft, .bottomRight], radius: 5)
         
-        for person in post.peopleFavorited {
-            if person == DatabaseService.instance.currentUserID {
-                favoriteButton.isHidden = true
-                unfavoriteButton.isHidden = false
-                break
-            }
+//        favoriteButton.setImage(favoriteImage, for: UIControl.State.normal)
+        let favourited = post.peopleFavorited.contains(DatabaseService.instance.currentUserID!)
+        isFavorited = favourited
+        if isFavorited {
+            favoriteButton.setImage(favoriteImage, for: UIControl.State.normal)
+        } else {
+            favoriteButton.setImage(unfavoriteImage, for: UIControl.State.normal)
         }
+        //        favoriteButton.isHidden = contains
+//        containsFavourite = contains
+//        if !isFavorited {
+//            favoriteButton.setImage(unfavoriteImage, for: UIControl.State.normal)
+//        }
+        //        unfavoriteButton.isHidden = !contains
+    }
+    
+    func favoritePost() {
+        viewModel?.favoritePost(postID: postID, with: { [weak self] (favorited) in
+            if favorited {
+                self?.isFavorited = true
+                guard let count = self?.viewModel?.databaseService?.count else { return }
+                self?.favoritesLabel.text = "\(count) Favorites"
+                self?.favoriteButton.setImage(self?.favoriteImage, for: UIControl.State.normal)
+
+            }
+        })
+    }
+    
+    func unfavoritePost() {
+        viewModel?.unfavoritePost(postID: postID, with: { [weak self] (unfavorited) in
+            if unfavorited {
+                self?.isFavorited = false
+                guard let count = self?.viewModel?.databaseService?.count else { return }
+                self?.favoritesLabel.text = "\(count) Favorites"
+                self?.favoriteButton.setImage(self?.unfavoriteImage, for: UIControl.State.normal)
+            }
+        })
     }
     
     @IBAction private func favoriteBttnPressed(_ sender: Any) {
-        favoriteButton.isHidden = false
-        viewModel?.favoritePost(postID: postID, with: { (favorited) in
-            if favorited {
-                guard let count = self.viewModel?.databaseService?.count else { return }
-                self.favoritesLabel.text = "\(count) Favorites"
-                self.favoriteButton.isHidden = true
-                self.unfavoriteButton.isHidden = false
-                self.favoriteButton.isEnabled = true
-            }
-        })
-    }
-    
-    @IBAction private func unfavoriteBttnPressed(_ sender: Any) {
-        unfavoriteButton.isEnabled = false
-        viewModel?.unfavoritePost(postID: postID, with: { (unfavorited) in
-            if unfavorited {
-                guard let count = self.viewModel?.databaseService?.count else { return }
-                self.favoritesLabel.text = "\(count) Favorites"
-                self.favoriteButton.isHidden = false
-                self.unfavoriteButton.isHidden = true
-                self.unfavoriteButton.isEnabled = true
-            }
-        })
+//        onFavourite?()
+        isFavorited ? unfavoritePost() : favoritePost()
     }
 }

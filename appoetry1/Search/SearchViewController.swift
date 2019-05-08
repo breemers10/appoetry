@@ -27,7 +27,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Candies"
+        searchController.searchBar.placeholder = "Search users"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         

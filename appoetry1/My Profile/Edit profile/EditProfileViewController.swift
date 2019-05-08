@@ -172,6 +172,11 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    @IBAction func deletePressed(_ sender: Any) {
+        viewModel?.onDeleteButtonPressed?()
+    }
+    
 }
 
 extension EditProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource {

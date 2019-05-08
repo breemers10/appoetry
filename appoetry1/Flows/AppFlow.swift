@@ -48,6 +48,10 @@ class AppFlow: PFlowController {
             self?.start()
         }
         
+        mainFlow.onSuccessfulDeletion = { [weak self] in
+            self?.start()
+        }
+        
         mainFlow.start()
         childFlow = mainFlow
     }

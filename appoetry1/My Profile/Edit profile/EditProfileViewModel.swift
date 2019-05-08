@@ -12,6 +12,7 @@ import Firebase
 class EditProfileViewModel: NSObject {
     
     var onEditProfileCompletion: (() -> Void)?
+    var onDeleteButtonPressed: (() -> Void)?
     var realGenre: Genre?
     
     var username: String?

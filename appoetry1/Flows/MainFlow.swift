@@ -16,6 +16,7 @@ class MainFlow: PFlowController {
     var onSuccessfullPost: (() -> ())?
     var onSuccessfullUnfavorite: (() -> ())?
     var onSuccessfulEdit: (() -> ())?
+    var onSuccessfulDeletion: (() -> ())?
     var userService: PUserService
     var databaseService: DatabaseService?
     fileprivate var childFlow: PFlowController?
@@ -80,9 +81,26 @@ class MainFlow: PFlowController {
             self?.onSuccessfulEdit?()
             self?.myProfileWrapper?.popViewController(animated: true)
         }
+        editProfileViewModel.onDeleteButtonPressed = { [weak self] in
+            self?.moveToDelete()
+        }
         editProfileVC.viewModel = editProfileViewModel
 
         myProfileWrapper?.pushViewController(editProfileVC, animated: false)
+    }
+    
+    func moveToDelete() {
+        
+        guard let deleteAccVC = deleteAccViewController else { return }
+        let deleteAccVM = DeleteAccViewModel(databaseService: databaseService!)
+        deleteAccVM.onSuccessfulDeletion = { [weak self] in
+            self?.onSuccessfulDeletion?()
+        }
+        deleteAccVM.onCancelTap = { [weak self] in
+            self?.myProfileWrapper?.popViewController(animated: true)
+        }
+        deleteAccVC.viewModel = deleteAccVM
+        myProfileWrapper?.pushViewController(deleteAccVC, animated: true)
     }
     
     func moveToProfiles(idx: String) {
@@ -363,6 +381,9 @@ extension MainFlow {
     }
     fileprivate var editProfileViewController: EditProfileViewController? {
         return mainSB.instantiateViewController(withIdentifier: EditProfileViewController.className) as? EditProfileViewController
+    }
+    fileprivate var deleteAccViewController: DeleteAccViewController? {
+        return mainSB.instantiateViewController(withIdentifier: DeleteAccViewController.className) as? DeleteAccViewController
     }
     fileprivate var postViewController: PostViewController? {
         return mainSB.instantiateViewController(withIdentifier: PostViewController.className) as? PostViewController

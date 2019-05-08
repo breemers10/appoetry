@@ -14,7 +14,7 @@ class DatabaseService {
     
     var ref = Database.database().reference()
     let storageRef = Storage.storage().reference(forURL : "gs://appoetry1.appspot.com")
-    let currentUserID = Auth.auth().currentUser!.uid
+    let currentUserID = Auth.auth().currentUser?.uid
     
     var mainPosts = [Post]()
     var favoritePosts = [Post]()
@@ -245,7 +245,7 @@ class DatabaseService {
             })
         })
     }
-
+    
     func loadMyProfileFeed(with completionHandler: @escaping (Bool) -> Void) {
         let uid = Auth.auth().currentUser?.uid
         
@@ -447,17 +447,29 @@ class DatabaseService {
     }
     
     func favoritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
-        let keyToPost = ref.child("posts").childByAutoId().key!
-        let keyToUsers = ref.child("users").childByAutoId().key!
         guard let id = Auth.auth().currentUser?.uid else { return }
         
+        let keyToPost = ref.child("posts").child(id).key!
+        let keyToUsers = ref.child("users").child(postID).key!
+        
+        var userUpdateDone = false
+        var postUpdateDone = false
+        
+        func checkIfDone() {
+            guard userUpdateDone && postUpdateDone else { return }
+            completionHandler(true)
+        }
+        
         ref.child("users").child(id).observeSingleEvent(of: .value, with: { (snap) in
+            
             if let _ = snap.value as? [String : AnyObject] {
                 let updateFavouritedPosts: [String : Any] = ["favouritedPosts/\(keyToUsers)" : postID]
                 self.ref.child("users").child(id).updateChildValues(updateFavouritedPosts, withCompletionBlock: { (error, ref) in
                     if error == nil {
                         print("all gucci")
-                        completionHandler(true)
+                        //                        completionHandler(true)
+                        userUpdateDone = true
+                        checkIfDone()
                     }
                 })
             }
@@ -476,7 +488,9 @@ class DatabaseService {
                                     
                                     let update = ["favourites" : count]
                                     self.ref.child("posts").child(postID).updateChildValues(update)
-                                    completionHandler(true)
+                                    postUpdateDone = true
+                                    checkIfDone()
+                                    //                                    completionHandler(true)
                                 }
                             }
                         })
@@ -485,64 +499,52 @@ class DatabaseService {
             }
         })
         ref.removeAllObservers()
-        completionHandler(false)
+        //        completionHandler(false)
     }
     
     func unfavoritePressed(postID: String, with completionHandler: @escaping (Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        ref.child("users").child(uid).observeSingleEvent(of: .value, with: { (snap) in
-            if let favoritedPosts = snap.value as? [String : AnyObject] {
-                if let favorites = favoritedPosts["favouritedPosts"] as? [String : AnyObject] {
-                    
-                    for (id, post) in favorites {
-                        if post as? String == postID {
-                            self.ref.child("users").child(uid).child("favouritedPosts").child(id).removeValue(completionBlock: { (error, ref) in
-                                if error == nil {
-                                    print("all gucci")
-                                    completionHandler(true)
-                                }
-                            })
-                        }
-                    }
-                }
+        var userUpdateDone = false
+        var postUpdateDone = false
+        
+        func checkIfDone() {
+            guard userUpdateDone && postUpdateDone else { return }
+            completionHandler(true)
+        }
+        
+        ref.child("users").child(uid).child("favouritedPosts").child(postID).removeValue(completionBlock: { (error, ref) in
+            userUpdateDone = true
+            checkIfDone()
+            if error == nil {
+                print("all gucci")
             }
         })
         
-        ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let properties = snapshot.value as? [String : AnyObject] {
-                if let peopleFavorited = properties["peopleFavourited"] as? [String : AnyObject] {
-                    
-                    for (id, person) in peopleFavorited {
-                        if person as? String == Auth.auth().currentUser!.uid {
-                            self.ref.child("posts").child(postID).child("peopleFavourited").child(id).removeValue(completionBlock: { (error, ref) in
-                                self.mainPosts.first(where: { $0.postID == postID})?.peopleFavorited.removeAll(where: { $0 == id})
-                                self.favoritePosts.removeAll(where: { $0.postID == postID})
-                                if error == nil {
-                                    self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
-                                        if let prop = snap.value as? [String : AnyObject] {
-                                            if let favorites = prop["peopleFavourited"] as? [String : AnyObject] {
-                                                let count = favorites.count
-                                                self.count = count
-                                                self.ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
-                                                self.count = 0
-                                                self.ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
-                                                completionHandler(true)
-                                                
-                                            }
-                                        }
-                                    })
-                                }
-                            })
-                            completionHandler(true)
+        ref.child("posts").child(postID).child("peopleFavourited").child(uid).removeValue(completionBlock: { (error, ref) in
+            self.mainPosts.first(where: { $0.postID == postID})?.peopleFavorited.removeAll(where: { $0 == uid})
+            self.favoritePosts.removeAll(where: { $0.postID == postID})
+            if error == nil {
+                self.ref.child("posts").child(postID).observeSingleEvent(of: .value, with: { (snap) in
+                    if let prop = snap.value as? [String : AnyObject] {
+                        if let favorites = prop["peopleFavourited"] as? [String : AnyObject] {
+                            let count = favorites.count
+                            self.count = count
+                            self.ref.child("posts").child(postID).updateChildValues(["favourites" : count]) } else {
+                            self.count = 0
+                            self.ref.child("posts").child(postID).updateChildValues(["favourites" : 0])
+                            postUpdateDone = true
+                            checkIfDone()
+                            
                         }
                     }
-                }
+                })
             }
         })
-        completionHandler(false)
+        ref.removeAllObservers()
+        //        completionHandler(false)
     }
+    
     
     func follow(idx: String, with completionHandler: @escaping (Bool) -> Void) {
         let key = DatabaseService.instance.ref.child("users").childByAutoId().key
@@ -585,5 +587,17 @@ class DatabaseService {
             }
         })
         DatabaseService.instance.ref.removeAllObservers()
+    }
+    
+    func deleteAccount() {
+        let user = Auth.auth().currentUser
+        
+        user?.delete(completion: { [weak self] (error) in
+            if let error = error {
+                print(error)
+            } else {
+                self?.ref.child("users").child((user?.uid)!).removeValue()
+            }
+        })
     }
 }

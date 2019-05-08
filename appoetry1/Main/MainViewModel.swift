@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class MainViewModel: NSObject {
     
@@ -16,6 +15,7 @@ class MainViewModel: NSObject {
     var onPostTap: ((String) -> Void)?
     var onFavoriteButtonTap: (() -> Void)?
 
+    var reloadAtIndex: ((Int) -> Void)?
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
@@ -24,6 +24,27 @@ class MainViewModel: NSObject {
 
     func createPost() {
         onCreatePostTap?()
+    }
+    
+    func toggleFavourite(at row: Int) {
+        let currentUser = DatabaseService.instance.currentUserID
+        let posts = databaseService?.mainPosts
+        guard posts?.indices.contains(row) == true else { return }
+        guard let post = posts?[row] else { return }
+        let isFavourite = post.peopleFavorited.contains(currentUser!) == true
+        guard let id = post.postID else { return }
+        
+        if isFavourite {
+            unfavoritePost(postID: id) { [weak self] (_) in
+                self?.reloadAtIndex?(row)
+            }
+        } else {
+            favoritePost(postID: id) { [weak self] (_) in
+                self?.reloadAtIndex?(row)
+            }
+            
+        }
+//        return databaseService?.mainPosts
     }
     
     func getMainFeed(with completionHandler: @escaping (Bool) -> Void) {

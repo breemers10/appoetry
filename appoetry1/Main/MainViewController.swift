@@ -27,6 +27,12 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
         checkIfChanged()
         
+        viewModel?.reloadAtIndex = { [weak self] index in
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+            }
+        }
+        
         if let flowLayout = UICollectionViewLayout() as? UICollectionViewFlowLayout,
             let collectionView = collectionView {
             let width = collectionView.frame.width - 20
@@ -78,7 +84,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (viewModel?.databaseService?.mainPosts.count)!
+        return viewModel?.databaseService?.mainPosts.count ?? 0
+//        return count > 0 ? 1 : 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -86,6 +93,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
         
         if let myCell = cell as? MainFeedViewCell {
+            myCell.onFavourite = { [weak self] in
+                self?.viewModel?.toggleFavourite(at: indexPath.row)
+            }
+            
             if let post = viewModel?.databaseService?.mainPosts[indexPath.row] {
                 myCell.configure(post: post)
                 myCell.viewModel = viewModel

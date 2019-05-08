@@ -25,6 +25,8 @@
 		636A57E92223D8DA0021D197 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 636A57E72223D8DA0021D197 /* Register.storyboard */; };
 		636A57EB2223D8DC0021D197 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 636A57EA2223D8DC0021D197 /* Assets.xcassets */; };
 		636A57EE2223D8DC0021D197 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 636A57EC2223D8DC0021D197 /* LaunchScreen.storyboard */; };
+		636D6AD52282E7D9002C83AE /* DeleteAccViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636D6AD42282E7D9002C83AE /* DeleteAccViewController.swift */; };
+		636D6AD72282E7F7002C83AE /* DeleteAccViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636D6AD62282E7F7002C83AE /* DeleteAccViewModel.swift */; };
 		637BE02D2223FF9E00B4E7CC /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE02C2223FF9E00B4E7CC /* AppFlow.swift */; };
 		637BE0312223FFB500B4E7CC /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE0302223FFB500B4E7CC /* LoginFlow.swift */; };
 		637BE0332223FFC000B4E7CC /* RegFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637BE0322223FFC000B4E7CC /* RegFlow.swift */; };
@@ -108,6 +110,8 @@
 		636A57EA2223D8DC0021D197 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		636A57ED2223D8DC0021D197 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		636A57EF2223D8DC0021D197 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		636D6AD42282E7D9002C83AE /* DeleteAccViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccViewController.swift; sourceTree = "<group>"; };
+		636D6AD62282E7F7002C83AE /* DeleteAccViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccViewModel.swift; sourceTree = "<group>"; };
 		637BE02C2223FF9E00B4E7CC /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		637BE0302223FFB500B4E7CC /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		637BE0322223FFC000B4E7CC /* RegFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegFlow.swift; sourceTree = "<group>"; };
@@ -266,6 +270,15 @@
 			path = appoetry1;
 			sourceTree = "<group>";
 		};
+		636D6AD32282E7AB002C83AE /* Delete account */ = {
+			isa = PBXGroup;
+			children = (
+				636D6AD42282E7D9002C83AE /* DeleteAccViewController.swift */,
+				636D6AD62282E7F7002C83AE /* DeleteAccViewModel.swift */,
+			);
+			path = "Delete account";
+			sourceTree = "<group>";
+		};
 		637BE02B2223FF8200B4E7CC /* Flows */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +319,7 @@
 			children = (
 				63C4687A2244E4BE00895153 /* EditProfileViewController.swift */,
 				63C4687C2244E4D200895153 /* EditProfileViewModel.swift */,
+				636D6AD32282E7AB002C83AE /* Delete account */,
 			);
 			path = "Edit profile";
 			sourceTree = "<group>";
@@ -692,7 +706,9 @@
 				63D60D552229215B000ECAA8 /* UserServices.swift in Sources */,
 				63A9182A222524E6008F0B68 /* RegisterStep3ViewModel.swift in Sources */,
 				63858D04225211BD0098A2CB /* PostViewController.swift in Sources */,
+				636D6AD72282E7F7002C83AE /* DeleteAccViewModel.swift in Sources */,
 				63B56347224A6F1C00B68AB2 /* DatabaseService.swift in Sources */,
+				636D6AD52282E7D9002C83AE /* DeleteAccViewController.swift in Sources */,
 				63F8575E223277F10096C9FA /* FavoritesViewModel.swift in Sources */,
 				630C7381222FCB440020C2FC /* DumbUserService.swift in Sources */,
 				637BE03A2224361200B4E7CC /* RegisterStep3ViewController.swift in Sources */,
