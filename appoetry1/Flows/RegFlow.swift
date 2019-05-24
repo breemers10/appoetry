@@ -8,43 +8,67 @@
 
 import UIKit
 
-class RegFlow: FlowController {
+final class RegFlow: PFlowController {
     
-    let rootController = UINavigationController()
+    var onFirstStepNextTap: (()->())?
+    var onSecondStepNextTap: (()->())?
+    var onThirdStepNextTap: (()->())?
+    var onBackButtonTap: (()->())?
     
-    private lazy var loginSB: UIStoryboard = {
-        return UIStoryboard(name: "Login", bundle: Bundle.main)
-    }()
+    private var navigationController: UINavigationController
+    var child: PFlowController?
+    var databaseService: DatabaseService?
     
-    private var registerViewController1: RegisterViewController? {
-        return loginSB.instantiateViewController(withIdentifier: "Register1VC") as? RegisterViewController
-    }
-    private var registerStep2ViewController: RegisterStep2ViewController? {
-        return loginSB.instantiateViewController(withIdentifier: "Register2VC") as? RegisterStep2ViewController
-    }
-    private var registerStep3ViewController: RegisterStep3ViewController? {
-        return loginSB.instantiateViewController(withIdentifier: "Register3VC") as? RegisterStep3ViewController
+    private var regSB = UIStoryboard.getStoryboard(with: StoryboardNames.register)
+    
+    init(navCtrllr: UINavigationController, databaseService: DatabaseService) {
+        navigationController = navCtrllr
+        self.databaseService = databaseService
     }
     
     func start() {
-        guard let vc = registerViewController1 else {
-            fatalError("Could not get register vc")
+        guard let vc = registerViewController else { return }
+        
+        let viewModel = RegisterViewModel(databaseService: databaseService!)
+        viewModel.onFirstStepCompletion = { [weak self] in
+            self?.moveToRegStep2()
         }
-        self.rootController.setViewControllers([vc], animated: false)
+        
+        vc.viewModel = viewModel
+        navigationController.pushViewController(vc, animated: true)
     }
     
-    func secondStep() {
-        guard let vc2 = registerStep2ViewController else {
-            fatalError("Could not get register vc")
-        }  
-        self.rootController.setViewControllers([vc2], animated: false)
+    func moveToRegStep2() {
+        guard let regStep2VC = registerStep2ViewController else { return }
+        let viewModel2 = RegisterStep2ViewModel(databaseService: databaseService!)
+        viewModel2.onThirdStep = { [weak self] in
+            self?.moveToRegStep3()
+        }
+        regStep2VC.viewModel = viewModel2
+        navigationController.pushViewController(regStep2VC, animated: false)
     }
-
-func thirdStep() {
-    guard let vc3 = registerStep3ViewController else {
-        fatalError("Could not get register vc")
+    
+    func moveToRegStep3() {
+        guard let regStep3VC = registerStep3ViewController else { return }
+        let viewModel3 = RegisterStep3ViewModel(databaseService: databaseService!)
+        viewModel3.onMainScreen = { [weak self] in
+            self?.onThirdStepNextTap?()
+        }
+        regStep3VC.viewModel = viewModel3
+        navigationController.pushViewController(regStep3VC, animated: false)
     }
-    self.rootController.setViewControllers([vc3], animated: false)
-}
 }
 
+extension RegFlow {
+    private var registerViewController: RegisterViewController? {
+        return regSB.instantiateViewController(withIdentifier: String.className(RegisterViewController.self)) as? RegisterViewController
+    }
+    
+    private var registerStep2ViewController: RegisterStep2ViewController? {
+        return regSB.instantiateViewController(withIdentifier: String.className(RegisterStep2ViewController.self)) as? RegisterStep2ViewController
+    }
+    
+    private var registerStep3ViewController: RegisterStep3ViewController? {
+        return regSB.instantiateViewController(withIdentifier: String.className(RegisterStep3ViewController.self)) as? RegisterStep3ViewController
+    }
+}

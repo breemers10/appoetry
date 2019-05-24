@@ -8,87 +8,64 @@
 
 import UIKit
 
-protocol FlowController: class {
-    var window: UIWindow?? { get }
-    func start()
-}
-
-extension FlowController {
-    var window: UIWindow?? {
-        return UIApplication.shared.delegate!.window
-    }
-}
-
-class AppFlow: FlowController {
-    fileprivate var childFlow: FlowController?
-    init() {
-        goToLogin()
-        goToMain()
-        goToReg()
-        goToRegStep2()
-        goToRegStep3()
+final class AppFlow: PFlowController {
+    
+    var window: UIWindow
+    
+    fileprivate var childFlow: PFlowController?
+    var databaseService: PDatabaseService
+    
+    private var mainSB = UIStoryboard.getStoryboard(with: StoryboardNames.main)
+    
+    init(with window: UIWindow) {
+        self.window = window
+        databaseService = DatabaseService()
     }
     
     func start() {
-        let loginFlow = LoginFlow()
-        window??.rootViewController = loginFlow.rootController
+        databaseService.isLoggedIn ? showMainScreen(useTransition: false) : showLoginScreen(useTransition: false)
         
-        loginFlow.start()
-        childFlow = loginFlow
     }
     
-    private func goToMain() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToMain), name: Notification.Name("goToMain"), object: nil)
-    }
-    
-    private func goToLogin() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToLogin), name: Notification.Name("goToLogin"), object: nil)
-    }
-    
-    @objc func moveToLogin() {
-                start()
-    }
-    
-    @objc func moveToMain() {
-        let mainFlow = MainFlow()
-        window??.rootViewController = mainFlow.rootController
+    private func showMainScreen(useTransition: Bool) {
+        let mainFlow = MainFlow(databaseService: databaseService)
+        mainFlow.onMainStart = { [weak self] rootController in
+            self?.window.rootViewController = rootController
+            self?.window.makeKeyAndVisible()
+
+        }
+        
+        mainFlow.onSignOutCompletion = { [weak self] in
+            self?.showLoginScreen(useTransition: false)
+        }
+        
+        mainFlow.onSuccessfulDeletion = { [weak self] in
+            self?.showLoginScreen(useTransition: false)
+        }
         
         mainFlow.start()
         childFlow = mainFlow
     }
     
-    private func goToReg() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToReg), name: Notification.Name("goToReg"), object: nil)
-    }
-    
-    @objc func moveToReg() {
-        let regFlow = RegFlow()
-        window??.rootViewController = regFlow.rootController
+    private func showLoginScreen(useTransition: Bool) {
+        let loginFlow = LoginFlow(databaseService: databaseService)
+
+        loginFlow.onLoginStart = {[weak self] rootController in
+            self?.window.rootViewController = rootController
+            self?.window.makeKeyAndVisible()
+        }
         
-        regFlow.start()
-        childFlow = regFlow
+        loginFlow.onSuccessfullLogin = {[weak self] in
+            self?.showMainScreen(useTransition: false)
+            debugPrint("LoginFlow completed with successful login")
+        }
+        loginFlow.start()
+        childFlow = loginFlow
+    }
 }
-    private func goToRegStep2() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToRegStep2), name: Notification.Name("goToRegStep2"), object: nil)
-    }
-    
-    @objc func moveToRegStep2() {
-        let regFlow = RegFlow()
-        window??.rootViewController = regFlow.rootController
-        
-        regFlow.secondStep()
-        childFlow = regFlow
-    }
-    
-    private func goToRegStep3() {
-        NotificationCenter.default.addObserver(self, selector: #selector(moveToRegStep3), name: Notification.Name("goToRegStep3"), object: nil)
-    }
-    
-    @objc func moveToRegStep3() {
-        let regFlow = RegFlow()
-        window??.rootViewController = regFlow.rootController
-        
-        regFlow.thirdStep()
-        childFlow = regFlow
+
+extension AppFlow {
+    fileprivate var mainViewController: MainViewController? {
+        return mainSB.instantiateViewController(withIdentifier: String.className(MainViewController.self)) as? MainViewController
     }
 }

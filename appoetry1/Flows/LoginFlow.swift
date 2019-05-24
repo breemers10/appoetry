@@ -8,37 +8,55 @@
 
 import UIKit
 
-class LoginFlow:  FlowController {
+final class LoginFlow:  PFlowController {
+    fileprivate var childFlow: PFlowController?
+    
+    var onSuccessfullLogin: (() -> ())?
+    var onRegistrationTap: (()->())?
+    var onLoginStart: ((UINavigationController) -> Void)?
+
+    private var presenterVC: UINavigationController?
+    private var databaseService: PDatabaseService?
+    private var child: PFlowController?
+    
+    private var loginSB = UIStoryboard.getStoryboard(with: StoryboardNames.login)
+    
+    init(databaseService: PDatabaseService) {
+        self.databaseService = databaseService as! DatabaseService
+    }
+    
     func start() {
-        guard let vc = loginViewController else {
-            fatalError("Could not get login vc")
-        }
+        guard let vc = loginViewController else { return }
         
-        vc.showMeAgain = { [weak self] in
-            self?.pushAgain()
-        }
+        let viewModel = LoginViewModel(databaseService: databaseService!)
         
-        self.rootController.setViewControllers([vc], animated: false)
-    }
-    func pushAgain() {
-        
-        guard let vc = loginViewController else {
-            fatalError("Could not push to login vc")
+        viewModel.onCompletion = { [weak self] in
+            self?.onSuccessfullLogin?()
         }
-        
-        vc.showMeAgain = { [weak self] in
-            self?.pushAgain()
+        viewModel.onSignUp = { [weak self] in
+            self?.getToRegistrationScreen()
         }
-        self.rootController.pushViewController(vc, animated: true)
+        vc.viewModel = viewModel
+        presenterVC = UINavigationController(rootViewController: vc)
+        guard let loginVC = presenterVC else { return }
+        self.onLoginStart?(loginVC)
     }
     
-    let rootController = UINavigationController()
-    
-    private lazy var mainSB: UIStoryboard = {
-        return UIStoryboard(name: "Login", bundle: Bundle.main)
-    }()
-    
-    private var loginViewController: LoginViewController? {
-        return mainSB.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController
+    private func getToRegistrationScreen() {
+        guard let regVC = presenterVC else { return }
+
+        let regFlow = RegFlow(navCtrllr: regVC, databaseService: databaseService as! DatabaseService)
+        
+        regFlow.onThirdStepNextTap = { [weak self] in
+            self?.onSuccessfullLogin?()
+        }
+        regFlow.start()
+        childFlow = regFlow
+    }
+}
+
+extension LoginFlow {
+    fileprivate var loginViewController: LoginViewController? {
+        return loginSB.instantiateViewController(withIdentifier: String.className(LoginViewController.self)) as? LoginViewController
     }
 }
