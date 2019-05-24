@@ -6,9 +6,9 @@
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
-import UIKit
+import Kingfisher
 
-class FollowingTableViewCell: UITableViewCell {
+final class FollowingTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!

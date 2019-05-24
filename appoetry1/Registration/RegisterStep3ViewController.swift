@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterStep3ViewController: UIViewController {
+final class RegisterStep3ViewController: UIViewController {
     
     @IBOutlet weak var firstGenreTextField: UITextField!
     @IBOutlet weak var secondGenreTextField: UITextField!
@@ -33,14 +33,17 @@ class RegisterStep3ViewController: UIViewController {
     func createGenrePicker() {
         genrePicker1.delegate = self
         firstGenreTextField.inputView = genrePicker1
+        firstGenreTextField.text = Genres.none.selectedGenre
         genrePicker1.backgroundColor = .white
         
         genrePicker2.delegate = self
         secondGenreTextField.inputView = genrePicker2
+        secondGenreTextField.text = Genres.none.selectedGenre
         genrePicker2.backgroundColor = .white
         
         genrePicker3.delegate = self
         thirdGenreTextField.inputView = genrePicker3
+        thirdGenreTextField.text = Genres.none.selectedGenre
         genrePicker3.backgroundColor = .white
     }
     
@@ -83,30 +86,24 @@ extension RegisterStep3ViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Genre.count
+        return Genres.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Genre(rawValue: row)?.selectedGenre
+        return Genres(rawValue: row)?.selectedGenre
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == genrePicker1 {
-            viewModel?.realGenre = Genre(rawValue: row)
+            viewModel?.realGenre = Genres(rawValue: row)
             firstGenreTextField.text = viewModel?.realGenre?.selectedGenre
             
         } else if pickerView == genrePicker2 {
-            viewModel!.realGenre = Genre(rawValue: row)
+            viewModel!.realGenre = Genres(rawValue: row)
             secondGenreTextField.text = viewModel?.realGenre?.selectedGenre
         } else if pickerView == genrePicker3 {
-            viewModel?.realGenre = Genre(rawValue: row)
+            viewModel?.realGenre = Genres(rawValue: row)
             thirdGenreTextField.text = viewModel?.realGenre?.selectedGenre
         }
-    }
-}
-
-extension RegisterStep3ViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }

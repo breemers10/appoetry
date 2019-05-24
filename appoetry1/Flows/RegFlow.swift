@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegFlow: PFlowController {
+final class RegFlow: PFlowController {
     
     var onFirstStepNextTap: (()->())?
     var onSecondStepNextTap: (()->())?
@@ -18,6 +18,8 @@ class RegFlow: PFlowController {
     private var navigationController: UINavigationController
     var child: PFlowController?
     var databaseService: DatabaseService?
+    
+    private var regSB = UIStoryboard.getStoryboard(with: StoryboardNames.register)
     
     init(navCtrllr: UINavigationController, databaseService: DatabaseService) {
         navigationController = navCtrllr
@@ -38,7 +40,7 @@ class RegFlow: PFlowController {
     
     func moveToRegStep2() {
         guard let regStep2VC = registerStep2ViewController else { return }
-        let viewModel2 = RegisterStep2ViewModel()
+        let viewModel2 = RegisterStep2ViewModel(databaseService: databaseService!)
         viewModel2.onThirdStep = { [weak self] in
             self?.moveToRegStep3()
         }
@@ -58,20 +60,15 @@ class RegFlow: PFlowController {
 }
 
 extension RegFlow {
-    
-    private var regSB: UIStoryboard {
-        return UIStoryboard(name: Storyboard.register.rawValue, bundle: Bundle.main)
-    }
-    
     private var registerViewController: RegisterViewController? {
-        return regSB.instantiateViewController(withIdentifier: RegisterViewController.className) as? RegisterViewController
+        return regSB.instantiateViewController(withIdentifier: String.className(RegisterViewController.self)) as? RegisterViewController
     }
     
     private var registerStep2ViewController: RegisterStep2ViewController? {
-        return regSB.instantiateViewController(withIdentifier: RegisterStep2ViewController.className) as? RegisterStep2ViewController
+        return regSB.instantiateViewController(withIdentifier: String.className(RegisterStep2ViewController.self)) as? RegisterStep2ViewController
     }
     
     private var registerStep3ViewController: RegisterStep3ViewController? {
-        return regSB.instantiateViewController(withIdentifier: RegisterStep3ViewController.className) as? RegisterStep3ViewController
+        return regSB.instantiateViewController(withIdentifier: String.className(RegisterStep3ViewController.self)) as? RegisterStep3ViewController
     }
 }

@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import Firebase
 
-class SearchViewModel: NSObject {
+final class SearchViewModel: NSObject {
     var onCreatePostTap: (() -> Void)?
     var onCellTap: ((String) -> Void)?
     

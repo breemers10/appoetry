@@ -7,20 +7,18 @@
 //
 
 import UIKit
-import Firebase
 
-class CreatePostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    @IBOutlet weak var postButton: UIButton!
-    @IBOutlet weak var selectPhotoButton: UIButton!
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var previewImage: UIImageView!
-    @IBOutlet weak var genreField: UITextField!
+final class CreatePostViewController: UIViewController {
+    @IBOutlet private weak var postButton: UIButton!
+    @IBOutlet private weak var selectPhotoButton: UIButton!
+    @IBOutlet private weak var textView: UITextView!
+    @IBOutlet private weak var previewImage: UIImageView!
+    @IBOutlet private weak var genreField: UITextField!
     
     var viewModel: CreatePostViewModel?
-    var registerStep3VM: RegisterStep3ViewModel?
-    var picker = UIImagePickerController()
-    var post = Post()
-    var username: String?
+    private var picker = UIImagePickerController()
+    private var post = Post()
+    private var username: String?
     
     fileprivate let genrePicker = UIPickerView()
     
@@ -32,7 +30,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         createToolbar()
         createGenrePicker()
         
-        previewImage.image = UIImage(named: "default_beach")
+        previewImage.image = UIImage.post_default
     }
     
     override func viewDidLayoutSubviews() {
@@ -43,6 +41,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         
         genrePicker.delegate = self
         genreField.inputView = genrePicker
+        genreField.text = Genres.none.selectedGenre
         genrePicker.backgroundColor = .white
     }
     
@@ -61,15 +60,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         toolBar.backgroundColor = .white
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.previewImage.image = image
-            selectPhotoButton.isHidden = true
-            postButton.isHidden = false
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    
+
     @IBAction private func selectPhotoButtonPressed(_ sender: Any) {
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
@@ -82,7 +73,7 @@ class CreatePostViewController: UIViewController, UIImagePickerControllerDelegat
         
         viewModel?.storePost(author: self.username, poem: self.textView.text, genre: self.genreField.text, data: data)
         
-        self.viewModel?.onMainScreen?()
+        viewModel?.onMainScreen?()
     }
     
     @objc private func dismissKeyboard() {
@@ -96,23 +87,29 @@ extension CreatePostViewController: UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Genre.count
+        return Genres.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Genre(rawValue: row)?.selectedGenre
+        return Genres(rawValue: row)?.selectedGenre
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == genrePicker {
-            viewModel?.realGenre = Genre(rawValue: row)
+            viewModel?.realGenre = Genres(rawValue: row)
             genreField.text = viewModel?.realGenre?.selectedGenre
         }
     }
 }
 
-extension CreatePostViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
+extension CreatePostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            previewImage.image = image
+            selectPhotoButton.isHidden = true
+            postButton.isHidden = false
+        }
+        self.dismiss(animated: true, completion: nil)
     }
 }

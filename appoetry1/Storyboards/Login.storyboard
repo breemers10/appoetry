@@ -32,22 +32,12 @@
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yk9-LU-muG">
-                                <rect key="frame" x="222" y="397" width="96" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Zj6-25-4DY"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="20"/>
-                                <state key="normal" title="REGISTER">
-                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="pressRegister:" destination="X5X-1N-tt4" eventType="touchUpInside" id="Xzu-jf-aF3"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ca8-9M-rhi">
-                                <rect key="frame" x="55" y="399" width="70" height="40"/>
+                                <rect key="frame" x="152.5" y="368" width="70" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="C6F-PE-gvG"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="20"/>
                                 <state key="normal" title="LOG IN">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -71,33 +61,45 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Appoetry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6y-gR-rdu">
-                                <rect key="frame" x="82" y="55" width="211" height="64.5"/>
-                                <fontDescription key="fontDescription" name="SnellRoundhand-Bold" family="Snell Roundhand" pointSize="51"/>
+                                <rect key="frame" x="104.5" y="55" width="166.5" height="55"/>
+                                <fontDescription key="fontDescription" name="SnellRoundhand-Bold" family="Snell Roundhand" pointSize="43"/>
                                 <color key="textColor" red="0.43137254899999999" green="0.1450980392" blue="0.1450980392" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yk9-LU-muG">
+                                <rect key="frame" x="139.5" y="440" width="96" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="5DF-1y-Mbe"/>
+                                    <constraint firstAttribute="width" constant="96" id="S13-5K-psh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="20"/>
+                                <state key="normal" title="REGISTER">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="pressRegister:" destination="X5X-1N-tt4" eventType="touchUpInside" id="Xzu-jf-aF3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Fme-ch-NMm" firstAttribute="trailing" secondItem="24i-ps-1D6" secondAttribute="trailing" id="2Dd-Nq-i9T"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="00b-Ho-xmK" secondAttribute="trailing" constant="16" id="3JY-g0-YxJ"/>
-                            <constraint firstItem="zSF-Xi-SiR" firstAttribute="bottom" secondItem="yk9-LU-muG" secondAttribute="bottom" constant="226" id="IGI-VK-Ma0"/>
+                            <constraint firstItem="ca8-9M-rhi" firstAttribute="top" secondItem="00b-Ho-xmK" secondAttribute="bottom" constant="42" id="KPB-34-yoX"/>
                             <constraint firstItem="Fme-ch-NMm" firstAttribute="trailing" secondItem="EGY-i2-onF" secondAttribute="trailing" id="LsB-Ce-Fg9"/>
-                            <constraint firstItem="ca8-9M-rhi" firstAttribute="top" secondItem="EGY-i2-onF" secondAttribute="bottom" constant="73" id="NcE-uY-iU5"/>
                             <constraint firstItem="J6y-gR-rdu" firstAttribute="top" secondItem="zSF-Xi-SiR" secondAttribute="top" constant="35" id="OYd-8y-uKx"/>
                             <constraint firstItem="00b-Ho-xmK" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="16" id="Qxa-KO-ZDA"/>
-                            <constraint firstItem="yk9-LU-muG" firstAttribute="leading" secondItem="ca8-9M-rhi" secondAttribute="trailing" constant="97" id="RKL-Ho-sxH"/>
-                            <constraint firstItem="J6y-gR-rdu" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="82" id="SWB-Ih-FYh"/>
                             <constraint firstItem="Fme-ch-NMm" firstAttribute="leading" secondItem="24i-ps-1D6" secondAttribute="leading" id="WMc-EN-ojf"/>
-                            <constraint firstItem="yk9-LU-muG" firstAttribute="top" secondItem="EGY-i2-onF" secondAttribute="bottom" constant="71" id="ZlI-Ij-nhA"/>
+                            <constraint firstItem="yk9-LU-muG" firstAttribute="centerX" secondItem="v5g-Ch-Ic4" secondAttribute="centerX" id="Yyr-E0-gLv"/>
                             <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="24i-ps-1D6" secondAttribute="trailing" constant="16" id="aGX-7D-hCp"/>
                             <constraint firstItem="24i-ps-1D6" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="16" id="aWd-bd-KzM"/>
+                            <constraint firstItem="24i-ps-1D6" firstAttribute="top" secondItem="v5g-Ch-Ic4" secondAttribute="top" constant="255" id="dBq-8x-wFu"/>
+                            <constraint firstItem="J6y-gR-rdu" firstAttribute="centerX" secondItem="v5g-Ch-Ic4" secondAttribute="centerX" id="e1L-9T-LyR"/>
+                            <constraint firstItem="yk9-LU-muG" firstAttribute="top" secondItem="ca8-9M-rhi" secondAttribute="bottom" constant="32" id="fy3-By-C4S"/>
                             <constraint firstItem="Fme-ch-NMm" firstAttribute="leading" secondItem="EGY-i2-onF" secondAttribute="leading" id="iY8-6O-vM3"/>
                             <constraint firstItem="00b-Ho-xmK" firstAttribute="top" secondItem="24i-ps-1D6" secondAttribute="bottom" constant="21" id="n2B-8A-0vI"/>
-                            <constraint firstItem="zSF-Xi-SiR" firstAttribute="trailing" secondItem="J6y-gR-rdu" secondAttribute="trailing" constant="82" id="nS7-1g-4Q8"/>
+                            <constraint firstItem="ca8-9M-rhi" firstAttribute="centerX" secondItem="v5g-Ch-Ic4" secondAttribute="centerX" id="qsz-Xe-HsR"/>
                             <constraint firstItem="EGY-i2-onF" firstAttribute="top" secondItem="00b-Ho-xmK" secondAttribute="bottom" constant="-1" id="s4S-nd-qju"/>
-                            <constraint firstItem="ca8-9M-rhi" firstAttribute="leading" secondItem="zSF-Xi-SiR" secondAttribute="leading" constant="55" id="sLG-IB-Jnf"/>
-                            <constraint firstItem="zSF-Xi-SiR" firstAttribute="bottom" secondItem="ca8-9M-rhi" secondAttribute="bottom" constant="228" id="v5L-T8-ksQ"/>
                             <constraint firstItem="Fme-ch-NMm" firstAttribute="top" secondItem="24i-ps-1D6" secondAttribute="bottom" id="zlj-Kx-cP3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zSF-Xi-SiR"/>

@@ -8,62 +8,64 @@
 
 import UIKit
 
-class AppFlow: PFlowController {
+final class AppFlow: PFlowController {
     
     var window: UIWindow
     
     fileprivate var childFlow: PFlowController?
-    var userService: PUserService
-    var databaseService: DatabaseService
+    var databaseService: PDatabaseService
+    
+    private var mainSB = UIStoryboard.getStoryboard(with: StoryboardNames.main)
     
     init(with window: UIWindow) {
         self.window = window
-        userService = UserService()
         databaseService = DatabaseService()
     }
     
     func start() {
-        let loginFlow = LoginFlow(userService: userService, databaseService: databaseService)
+        databaseService.isLoggedIn ? showMainScreen(useTransition: false) : showLoginScreen(useTransition: false)
         
+    }
+    
+    private func showMainScreen(useTransition: Bool) {
+        let mainFlow = MainFlow(databaseService: databaseService)
+        mainFlow.onMainStart = { [weak self] rootController in
+            self?.window.rootViewController = rootController
+            self?.window.makeKeyAndVisible()
+
+        }
+        
+        mainFlow.onSignOutCompletion = { [weak self] in
+            self?.showLoginScreen(useTransition: false)
+        }
+        
+        mainFlow.onSuccessfulDeletion = { [weak self] in
+            self?.showLoginScreen(useTransition: false)
+        }
+        
+        mainFlow.start()
+        childFlow = mainFlow
+    }
+    
+    private func showLoginScreen(useTransition: Bool) {
+        let loginFlow = LoginFlow(databaseService: databaseService)
+
         loginFlow.onLoginStart = {[weak self] rootController in
             self?.window.rootViewController = rootController
             self?.window.makeKeyAndVisible()
         }
         
         loginFlow.onSuccessfullLogin = {[weak self] in
-            self?.showMainScreen()
+            self?.showMainScreen(useTransition: false)
             debugPrint("LoginFlow completed with successful login")
         }
         loginFlow.start()
         childFlow = loginFlow
     }
-    
-    private func showMainScreen() {
-        let mainFlow = MainFlow(userService: userService, databaseService: databaseService)
-        mainFlow.onMainStart = { [weak self] rootController in
-            self?.window.rootViewController = rootController
-        }
-        
-        mainFlow.onSignOutCompletion = { [weak self] in
-            self?.start()
-        }
-        
-        mainFlow.onSuccessfulDeletion = { [weak self] in
-            self?.start()
-        }
-        
-        mainFlow.start()
-        childFlow = mainFlow
-    }
 }
 
 extension AppFlow {
-    
-    fileprivate var mainSB: UIStoryboard {
-        return UIStoryboard(name: Storyboard.main.rawValue, bundle: Bundle.main)
-    }
-    
     fileprivate var mainViewController: MainViewController? {
-        return mainSB.instantiateViewController(withIdentifier: MainViewController.className) as? MainViewController
+        return mainSB.instantiateViewController(withIdentifier: String.className(MainViewController.self)) as? MainViewController
     }
 }

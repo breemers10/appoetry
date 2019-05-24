@@ -7,13 +7,12 @@
 //
 
 import UIKit
-import Firebase
 
-class EditProfileViewModel: NSObject {
+final class EditProfileViewModel: NSObject {
     
     var onEditProfileCompletion: (() -> Void)?
     var onDeleteButtonPressed: (() -> Void)?
-    var realGenre: Genre?
+    var realGenre: Genres?
     
     var username: String?
     var email: String?
@@ -29,17 +28,6 @@ class EditProfileViewModel: NSObject {
         self.databaseService = databaseService
     }
     
-    func addChangedCredentials(imageUrl: String?, username: String, fullName: String, email: String, firstGenre: String, secondGenre: String, thirdGenre: String, dateOfBirth: String) {
-        DatabaseService.instance.userInfo.imageUrl = imageUrl
-        DatabaseService.instance.userInfo.username = username
-        DatabaseService.instance.userInfo.fullName = fullName
-        DatabaseService.instance.userInfo.email = email
-        DatabaseService.instance.userInfo.firstGenre = firstGenre
-        DatabaseService.instance.userInfo.secondGenre = secondGenre
-        DatabaseService.instance.userInfo.thirdGenre = thirdGenre
-        DatabaseService.instance.userInfo.dateOfBirth = dateOfBirth
-    }
-    
     func getUserInfo(with completionHandler: @escaping (Bool) -> Void) {
         databaseService?.getMyProfileInfo(with: { (loaded) in
             if loaded {
@@ -48,8 +36,7 @@ class EditProfileViewModel: NSObject {
         })
     }
     
-    func editCredentials() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        DatabaseService.instance.ref.child("users").child(uid).setValue(DatabaseService.instance.userInfo.sendData())
+    func editCredentials(fullname: String, email: String, firstGenre: String, secondGenre: String, thirdGenre: String, imageUrl: String) {
+        databaseService?.editCredentials(fullname: fullname, email: email, firstGenre: firstGenre, secondGenre: secondGenre, thirdGenre: thirdGenre, imageUrl: imageUrl)
     }
 }

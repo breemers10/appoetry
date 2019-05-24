@@ -8,17 +8,16 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class SearchViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var noUsersLabel: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var noUsersLabel: UILabel!
     
-    let searchController = UISearchController(searchResultsController: nil)
+    private let searchController = UISearchController(searchResultsController: nil)
     
-    var filteredNames: [UserInfo]?
+    private var filteredNames: [UserInfo]?
     
     var viewModel: SearchViewModel?
-    let createPostButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +31,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         definesPresentationContext = true
         
         setupNavigationBarItems()
-        addingTargetToCreatePostVC()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         retrieveUsers()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -48,15 +51,15 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
     }
     
-    func searchBarIsEmpty() -> Bool {
+    private func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func isFiltering() -> Bool {
+    private func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
     
-    func filterContentForSearchText(_ searchText: String) {
+    private func filterContentForSearchText(_ searchText: String) {
         let names = viewModel?.databaseService?.userInfoArr
         filteredNames = names!.filter({( name : UserInfo ) -> Bool in
             return name.fullName!.lowercased().contains(searchText.lowercased()) || name.username!.lowercased().contains(searchText.lowercased())
@@ -64,6 +67,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         tableView.reloadData()
     }
+    
+    private func setupNavigationBarItems() {
+        let imageView = UIImageView(image: UIImage.logo)
+        imageView.contentMode = .scaleAspectFit
+        navigationItem.titleView = imageView
+        
+        navigationItem.title = "Search"
+    }
+}
+
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
@@ -95,7 +109,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.onCellTap?((viewModel?.databaseService?.userInfoArr[indexPath.row].userID)!)
+        guard let userID = viewModel?.databaseService?.userInfoArr[indexPath.row].userID else { return }
+        viewModel?.onCellTap?(userID)
+        
+        tableView.reloadData()
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -107,42 +125,15 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return viewModel?.databaseService?.userInfoArr.count ?? 0
         } else if filteredNames != nil {
             noUsersLabel.isHidden = true
-            return (filteredNames?.count)!
+            return filteredNames?.count ?? 0
         } else {
             noUsersLabel.isHidden = true
             return viewModel?.databaseService?.userInfoArr.count ?? 0
         }
     }
-    
-    @objc private func createPostButtonPressed(sender: UIButton) {
-        viewModel?.createPost()
-    }
-    
-    private func addingTargetToCreatePostVC() {
-        createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
-    }
-    
-    private func setupNavigationBarItems() {
-        
-        createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
-        
-        let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
-        
-        navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
-        navigationItem.title = "Appoetry"
-    }
 }
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
-    }
-}
-
-extension SearchViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }

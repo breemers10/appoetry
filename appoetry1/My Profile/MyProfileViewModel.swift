@@ -7,22 +7,17 @@
 //
 
 import UIKit
-import Firebase
 
-class MyProfileViewModel: NSObject {
+final class MyProfileViewModel {
+    
     var onEditProfileTap: (() -> Void)?
     var onSignOutTap: (() -> Void)?
+    var onEditPostTap: ((String) -> Void)?
     var onFollowersButtonTap: ((String) -> Void)?
-    var onFollowingButtonTap:((String) -> Void)?
-    
-    var username: String?
-    var email: String?
-    var fullName: String?
-    var firstGenre: String?
-    var secondGenre: String?
-    var thirdGenre: String?
-    var imageUrl: String?
-    
+    var onFollowingButtonTap: ((String) -> Void)?
+    var onPostTap: ((String) -> Void)?
+    var reloadAtIndex: ((Int) -> Void)?
+
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
@@ -61,11 +56,19 @@ class MyProfileViewModel: NSObject {
         })
     }
     
+    func checkIfChanged(with completionHandler: @escaping (Int) -> Void) {
+        databaseService?.postChildChanged()
+        databaseService?.onProfileFeedChange = { idx in
+            completionHandler(idx)
+        }
+    }
+    
     func toEditProfile() {
         onEditProfileTap?()
     }
     
     func signOut() {
+        databaseService?.signOut()
         onSignOutTap?()
     }
 }

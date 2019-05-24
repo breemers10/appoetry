@@ -8,8 +8,8 @@
 
 import UIKit
 
-class CreatePostViewModel {
-    var realGenre: Genre?
+final class CreatePostViewModel {
+    var realGenre: Genres?
     var onMainScreen: (() -> Void)?
     var databaseService: DatabaseService?
     

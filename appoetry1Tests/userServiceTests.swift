@@ -12,16 +12,18 @@ import XCTest
 
 class UserServiceTests: XCTestCase {
     
-    var userService: DumbUserService?
+//    var userService: Dumb/UserService?
+    var databaseService: DatabaseService?
     var loginViewModel: LoginViewModel?
     
     override func setUp() {
-        userService = DumbUserService()
-        loginViewModel = LoginViewModel(userService: userService!)
+//        userService = DumbUserService()
+        databaseService = DatabaseService()
+        loginViewModel = LoginViewModel(databaseService: databaseService!)
     }
     
     override func tearDown() {
-        userService = nil
+        databaseService = nil
         loginViewModel = nil
     }
 
@@ -88,7 +90,7 @@ class UserServiceTests: XCTestCase {
         XCTAssertFalse(EmailValidator.isValid(email: "abc@"), "Email is not valid")
         XCTAssertFalse(EmailValidator.isValid(email: ""), "Email is not valid")
         XCTAssertFalse(EmailValidator.isValid(email: ".lv"), "Email is not valid")
-//        XCTAssertFalse(EmailValidator.isValid(email: "abc@abc.lv."), "Email is not valid")
+        XCTAssertFalse(EmailValidator.isValid(email: "abc@abc.lv."), "Email is not valid")
         XCTAssertFalse(EmailValidator.isValid(email: "abc@abc@abc.lv"), "Email is not valid")
         XCTAssertFalse(EmailValidator.isValid(email: "abc@.email.co.om"), "Email is not valid")
     }

@@ -7,31 +7,39 @@
 //
 
 import UIKit
-import Firebase
 
-class RegisterViewModel {
+final class RegisterViewModel {
     
     var onFirstStepCompletion: (() -> Void)?
     var onLogin: (() -> Void)?
-    var databaseService: DatabaseService?
+    private var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
         self.databaseService = databaseService
     }
     
-    func addCredentials(email: String, password: String, imageUrl: String) {
-        DatabaseService.instance.userRegister.email = email
-        DatabaseService.instance.userRegister.password = password
-        DatabaseService.instance.userRegister.imageUrl = imageUrl
+    func addCredentials(email: String, password: String) {
+        DatabaseService.instance.userInfo.email = email
+        DatabaseService.instance.userInfo.password = password
     }
     
     func secondStep() {
         onFirstStepCompletion?()
     }
     
-    func storeUsersPhoto(data: Data, with completionHandler: @escaping (URL) -> Void) {
-        databaseService?.storeUsersPhoto(data: data, with: { (url) in
-            completionHandler(url)
+//    func storeUsersPhoto(data: Data, with completionHandler: @escaping (URL) -> Void) {
+//        databaseService?.storeUsersPhoto(data: data, with: { (url) in
+//            completionHandler(url)
+//        })
+//    }
+    
+    func checkIfEmailIsTaken(emailAddressString: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.isEmailAlreadyTaken(emailAddressString: emailAddressString, with: { (isTaken) in
+            if isTaken {
+                completionHandler(true)
+            } else {
+                completionHandler(false)
+            }
         })
     }
 }

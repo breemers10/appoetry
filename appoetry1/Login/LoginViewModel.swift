@@ -7,33 +7,32 @@
 //
 
 import UIKit
-import Firebase
 
-class LoginViewModel {
+final class LoginViewModel {
     
     var onCompletion: (() -> Void)?
     var onSignUp: (() -> Void)?
     var wrongCredentials: (()->Void)?
-    var userService: PUserService?
+    var databaseService: PDatabaseService?
     var error: String?
     
     func signUp() {
         onSignUp?()
     }
     
-    init(userService: PUserService) {
-        self.userService = userService
+    init(databaseService: PDatabaseService) {
+        self.databaseService = databaseService
     }
     
     func signIn(email: String?, password: String?) {
         self.error = "Not good homie"
         guard email?.isEmpty != true, password?.isEmpty != true else { return }
-        userService?.loginWithEmailAndPassword(with: email!, with: password!, with: { user, error  in
+        databaseService?.loginWithEmailAndPassword(with: email!, with: password!, with: { [weak self] user, error  in
             if error != nil {
-                self.wrongCredentials?()
+                self?.wrongCredentials?()
             } else {
-                self.onCompletion?()
-                self.error = "All gucci senjor"
+                self?.onCompletion?()
+                self?.error = "All gucci senjor"
             }
         })
     }

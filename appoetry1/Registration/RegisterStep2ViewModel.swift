@@ -8,15 +8,30 @@
 
 import UIKit
 
-class RegisterStep2ViewModel {
+final class RegisterStep2ViewModel {
     
     var onThirdStep: (() -> Void)?
     var onFirstStep: (() -> Void)?
+    private var databaseService: DatabaseService?
+    
+    init(databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
     
     func addSecondStepCredentials(username: String, fullName: String, dateOfBirth: String?) {
-        DatabaseService.instance.userRegister.username = username
-        DatabaseService.instance.userRegister.fullName = fullName
-        DatabaseService.instance.userRegister.dateOfBirth = dateOfBirth
+        DatabaseService.instance.userInfo.username = username
+        DatabaseService.instance.userInfo.fullName = fullName
+        DatabaseService.instance.userInfo.dateOfBirth = dateOfBirth
+    }
+    
+    func checkIfUsernameIsUsed(username: String, with completionHandler: @escaping (Bool) -> Void) {
+        databaseService?.isUsernameAlreadyTaken(username: username, with: { (isTaken) in
+            if isTaken {
+                completionHandler(true)
+            } else {
+                completionHandler(false)
+            }
+        })
     }
     
     func toThirdStep() {

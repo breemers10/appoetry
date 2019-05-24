@@ -8,17 +8,17 @@
 
 import UIKit
 
-class FavoritesViewModel: NSObject {
+final class FavoritesViewModel {
     
     var onCreatePostTap: (() -> Void)?
     var onAuthorTap: ((String) -> Void)?
     var onUnfavoriteButtonTap: (() -> Void)?
-    
+    var onPostTap: ((String) -> Void)?
+
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
         self.databaseService = databaseService
-        
     }
     
     func createPost() {
@@ -33,12 +33,11 @@ class FavoritesViewModel: NSObject {
         })
     }
     
-    func checkIfChanged(with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.postChildChanged(with: { (isChanged) in
-            if isChanged {
-                completionHandler(true)
-            }
-        })
+    func checkIfChanged(with completionHandler: @escaping (Int) -> Void) {
+        databaseService?.postChildChanged()
+        databaseService?.onFavoriteFeedChange = { idx in
+            completionHandler(idx)
+        }
     }
     
     func favoritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {

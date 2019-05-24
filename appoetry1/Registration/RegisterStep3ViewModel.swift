@@ -8,9 +8,9 @@
 
 import UIKit
 
-class RegisterStep3ViewModel {
+final class RegisterStep3ViewModel {
     
-    var realGenre: Genre?
+    var realGenre: Genres?
     var onMainScreen: (() -> Void)?
     
     var databaseService: DatabaseService?
@@ -20,9 +20,9 @@ class RegisterStep3ViewModel {
     }
     
     func addThirdStepCredentials(firstGenre: String?, secondGenre: String?, thirdGenre: String?) {
-        DatabaseService.instance.userRegister.firstGenre = firstGenre
-        DatabaseService.instance.userRegister.secondGenre = secondGenre
-        DatabaseService.instance.userRegister.thirdGenre = thirdGenre
+        DatabaseService.instance.userInfo.firstGenre = firstGenre
+        DatabaseService.instance.userInfo.secondGenre = secondGenre
+        DatabaseService.instance.userInfo.thirdGenre = thirdGenre
     }
     
     func toMainScreen() {

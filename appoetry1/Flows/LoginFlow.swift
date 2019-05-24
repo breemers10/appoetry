@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginFlow:  PFlowController {
+final class LoginFlow:  PFlowController {
     fileprivate var childFlow: PFlowController?
     
     var onSuccessfullLogin: (() -> ())?
@@ -16,19 +16,19 @@ class LoginFlow:  PFlowController {
     var onLoginStart: ((UINavigationController) -> Void)?
 
     private var presenterVC: UINavigationController?
-    private var userService: PUserService
-    private var databaseService: DatabaseService?
+    private var databaseService: PDatabaseService?
     private var child: PFlowController?
     
-    init(userService: PUserService, databaseService: DatabaseService) {
-        self.userService = userService
-        self.databaseService = databaseService
+    private var loginSB = UIStoryboard.getStoryboard(with: StoryboardNames.login)
+    
+    init(databaseService: PDatabaseService) {
+        self.databaseService = databaseService as! DatabaseService
     }
     
     func start() {
         guard let vc = loginViewController else { return }
         
-        let viewModel = LoginViewModel(userService: userService)
+        let viewModel = LoginViewModel(databaseService: databaseService!)
         
         viewModel.onCompletion = { [weak self] in
             self?.onSuccessfullLogin?()
@@ -45,7 +45,7 @@ class LoginFlow:  PFlowController {
     private func getToRegistrationScreen() {
         guard let regVC = presenterVC else { return }
 
-        let regFlow = RegFlow(navCtrllr: regVC, databaseService: databaseService!)
+        let regFlow = RegFlow(navCtrllr: regVC, databaseService: databaseService as! DatabaseService)
         
         regFlow.onThirdStepNextTap = { [weak self] in
             self?.onSuccessfullLogin?()
@@ -56,11 +56,7 @@ class LoginFlow:  PFlowController {
 }
 
 extension LoginFlow {
-    fileprivate var loginSB: UIStoryboard {
-        return UIStoryboard(name: Storyboard.login.rawValue, bundle: Bundle.main)
-    }
-    
     fileprivate var loginViewController: LoginViewController? {
-        return loginSB.instantiateViewController(withIdentifier: LoginViewController.className) as? LoginViewController
+        return loginSB.instantiateViewController(withIdentifier: String.className(LoginViewController.self)) as? LoginViewController
     }
 }

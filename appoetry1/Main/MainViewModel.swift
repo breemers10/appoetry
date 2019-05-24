@@ -8,31 +8,31 @@
 
 import UIKit
 
-class MainViewModel: NSObject {
+final class MainViewModel {
     
     var onCreatePostTap: (() -> Void)?
     var onAuthorTap: ((String) -> Void)?
     var onPostTap: ((String) -> Void)?
     var onEditPostTap: ((String) -> Void)?
     var onFavoriteButtonTap: (() -> Void)?
-
+    
     var reloadAtIndex: ((Int) -> Void)?
     var databaseService: DatabaseService?
     
     init(databaseService: DatabaseService) {
         self.databaseService = databaseService
     }
-
+    
     func createPost() {
         onCreatePostTap?()
     }
     
     func toggleFavourite(at row: Int) {
-        let currentUser = DatabaseService.instance.currentUserID
+        guard let currentUser = databaseService?.getCurrentUID() else { return }
         let posts = databaseService?.mainPosts
         guard posts?.indices.contains(row) == true else { return }
         guard let post = posts?[row] else { return }
-        let isFavourite = post.peopleFavorited.contains(currentUser!) == true
+        let isFavourite = post.peopleFavorited.contains(currentUser) == true
         guard let id = post.postID else { return }
         
         if isFavourite {
@@ -45,7 +45,6 @@ class MainViewModel: NSObject {
             }
             
         }
-//        return databaseService?.mainPosts
     }
     
     func getMainFeed(with completionHandler: @escaping (Bool) -> Void) {
@@ -56,12 +55,11 @@ class MainViewModel: NSObject {
         })
     }
     
-    func checkIfChanged(with completionHandler: @escaping (Bool) -> Void) {
-        databaseService?.postChildChanged(with: { (isChanged) in
-            if isChanged {
-                completionHandler(true)
-            }
-        })
+    func checkIfChanged(with completionHandler: @escaping (Int) -> Void) {
+        databaseService?.postChildChanged()
+        databaseService?.onMainFeedChange = { idx in
+            completionHandler(idx)
+        }
     }
     
     func favoritePost(postID: String, with completionHandler: @escaping (Bool) -> Void) {
@@ -78,5 +76,9 @@ class MainViewModel: NSObject {
                 completionHandler(true)
             }
         })
+    }
+    
+    func checkIfCurrentUser() -> String? {
+        return databaseService?.getCurrentUID()
     }
 }

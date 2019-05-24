@@ -8,13 +8,14 @@
 
 import UIKit
 
-class RegisterStep2ViewController: UIViewController {
+final class RegisterStep2ViewController: UIViewController {
     @IBOutlet weak var fullName: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var dateOfBirth: UITextField!
     
     var viewModel: RegisterStep2ViewModel?
-    let datePicker = UIDatePicker()
+    private let datePicker = UIDatePicker()
+    private var isUsernameUsed = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,29 +59,43 @@ class RegisterStep2ViewController: UIViewController {
             let date = dateOfBirth.text
             else { return }
         
-        let isUsernameValid = isValidUsername(testStr: username)
+        let isFullNameValid = isValidFullName(fullName: fullName)
+        let isUsernameValid = isValidUsername(username: username)
         
-        if fullName.isEmpty == true {
-            displayAlertMessage(messageToDisplay: "Full name field is empty!")
-            return
+        if !isFullNameValid {
+            displayAlertMessage(messageToDisplay: "Fullname is not valid!")
         }
         
-        if isUsernameValid {
-            print("Username is valid")
-            
+        if !isUsernameValid {
+            displayAlertMessage(messageToDisplay: "Username is not valid!")
         } else {
-            print("Username is not valid")
-            displayAlertMessage(messageToDisplay: "Username is not valid. Required at least 4 characters!")
+            
+            viewModel?.checkIfUsernameIsUsed(username: username) { [weak self] isTaken in
+                if isTaken {
+                    self?.isUsernameUsed = true
+                    self?.displayAlertMessage(messageToDisplay: "User with this username already exists!")
+                    
+                } else {
+                    self?.isUsernameUsed = false
+                    self?.viewModel?.addSecondStepCredentials(username: username, fullName: fullName, dateOfBirth: date)
+                    self?.viewModel?.toThirdStep()
+                }
+            }
         }
-        viewModel?.addSecondStepCredentials(username: username, fullName: fullName, dateOfBirth: date)
-        viewModel?.toThirdStep()
     }
     
-    func isValidUsername(testStr:String?) -> Bool {
-        guard testStr != nil else { return false }
+    func isValidFullName(fullName: String?) -> Bool {
+        guard fullName != nil else { return false }
         
-        let usernameTest = NSPredicate(format: "SELF MATCHES %@", "([A-Z0-9a-z._]).{4,}")
-        return usernameTest.evaluate(with: testStr)
+        let fullNameRegEx = NSPredicate(format: "SELF MATCHES %@", "([A-Z0-9a-z._]).{1,20}")
+        return fullNameRegEx.evaluate(with: fullName)
+    }
+    
+    func isValidUsername(username: String?) -> Bool {
+        guard username != nil else { return false }
+        
+        let usernameRegEx = NSPredicate(format: "SELF MATCHES %@", "([A-Z0-9a-z._]).{4,12}")
+        return usernameRegEx.evaluate(with: username)
     }
     
     func displayAlertMessage(messageToDisplay: String) {
@@ -92,11 +107,5 @@ class RegisterStep2ViewController: UIViewController {
         
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion:nil)
-    }
-}
-
-extension RegisterStep2ViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }

@@ -8,12 +8,12 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
-    @IBOutlet weak var emailLogin: UITextField!
-    @IBOutlet weak var passwordLogin: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var forgetPasswordButton: UIButton!
+final class LoginViewController: UIViewController {
+    @IBOutlet private weak var emailLogin: UITextField!
+    @IBOutlet private weak var passwordLogin: UITextField!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var registerButton: UIButton!
+    @IBOutlet private weak var forgetPasswordButton: UIButton!
     
     var viewModel: LoginViewModel?
     
@@ -36,10 +36,7 @@ class LoginViewController: UIViewController {
     private func displayAlertMessage(messageToDisplay: String) {
         let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
         
-        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-            
-            print("Ok button tapped");
-        }
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in }
         alertController.addAction(OKAction)
         
         self.present(alertController, animated: true, completion:nil)
@@ -47,11 +44,5 @@ class LoginViewController: UIViewController {
     
     @IBAction private func pressRegister(_ sender: Any) {
         viewModel?.signUp()
-    }
-}
-
-extension LoginViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }

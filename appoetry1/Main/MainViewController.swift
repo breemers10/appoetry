@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import Firebase
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+final class MainViewController: UIViewController {
     
     var viewModel: MainViewModel?
-    let createPostButton = UIButton(type: .system)
+    private let createPostButton = UIButton(type: .system)
+    private let transparentButton = UIButton(type: .system)
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +24,11 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.delegate = self
         collectionView.dataSource = self
         fetchPosts()
-
         checkIfChanged()
         
-        viewModel?.reloadAtIndex = { [weak self] index in
+        viewModel?.reloadAtIndex = { idx in
             DispatchQueue.main.async { [weak self] in
-                self?.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+                self?.collectionView.reloadItems(at: [IndexPath(item: idx, section: 0)])
             }
         }
         
@@ -41,19 +40,19 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         self.view.applyGradient()
     }
-
+    
     func fetchPosts() {
-        viewModel?.getMainFeed(with: { (fetched) in
+        viewModel?.getMainFeed(with: { [weak self] (fetched) in
             if fetched {
-                self.collectionView.reloadData()
+                self?.collectionView.reloadData()
             }
         })
     }
     
     func checkIfChanged() {
-        viewModel?.checkIfChanged(with: { (isChanged) in
-            if isChanged {
-                self.collectionView.reloadData()
+        viewModel?.checkIfChanged(with: { idx in
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadItems(at: [IndexPath(item: idx, section: 0)])
             }
         })
     }
@@ -68,16 +67,43 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     private func setupNavigationBarItems() {
         
-        createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        createPostButton.setImage(UIImage.create_new?.withRenderingMode(.alwaysOriginal), for: .normal)
         createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
+        transparentButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: transparentButton)
         
-        let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
+        let imageView = UIImageView(image: UIImage.logo)
+        imageView.contentMode = .scaleAspectFit
+        navigationItem.titleView = imageView
         
-        navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
-        navigationItem.title = "Appoetry"
+        navigationItem.title = "Main"
     }
+    
+    @objc private func tapFunction(sender: UITapGestureRecognizer) {
+        guard let postId = viewModel?.databaseService?.mainPosts[(sender.view?.tag)!].postID else { return }
+        
+        viewModel?.onPostTap?(postId)
+    }
+    
+    @objc private func authorButtonPressed(button: UIButton) {
+        let id = button.tag
+        
+        guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }
+        viewModel?.onAuthorTap?(userId)
+    }
+    
+    @objc private func editPostButtonPressed(button: UIButton) {
+        let id = button.tag
+        
+        guard let postId = viewModel?.databaseService?.mainPosts[id].postID else { return }
+        viewModel?.onEditPostTap?(postId)
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -85,7 +111,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel?.databaseService?.mainPosts.count ?? 0
-//        return count > 0 ? 1 : 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -104,8 +129,11 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 myCell.authorButton.tag = indexPath.row
                 myCell.authorButton.addTarget(self, action: #selector(authorButtonPressed), for: .touchUpInside)
                 
-                myCell.editPostButton.tag = indexPath.row
-                myCell.editPostButton.addTarget(self, action: #selector(editPostButtonPressed), for: .touchUpInside)
+                if viewModel?.databaseService?.mainPosts[indexPath.row].userID == viewModel?.checkIfCurrentUser() {
+                    myCell.enableButton()
+                    myCell.editPostButton.tag = indexPath.row
+                    myCell.editPostButton.addTarget(self, action: #selector(editPostButtonPressed), for: .touchUpInside)
+                }
                 
                 myCell.poemLabel.tag = indexPath.row
                 myCell.poemLabel.isUserInteractionEnabled = true
@@ -114,34 +142,5 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         return cell
-    }
-    
-    @objc private func tapFunction(sender: UITapGestureRecognizer) {
-        print("it works")
-        guard let postId = viewModel?.databaseService?.mainPosts[(sender.view?.tag)!].postID else { return }
-        
-        viewModel?.onPostTap?(postId)
-    }
-    
-    @objc private func authorButtonPressed(button: UIButton) {
-        let id = button.tag
-        
-        guard let userId = viewModel?.databaseService?.mainPosts[id].userID else { return }
-        viewModel?.onAuthorTap?(userId)
-    }
-    
-    @objc private func editPostButtonPressed(button: UIButton) {
-        print("it works")
-
-        let id = button.tag
-        
-        guard let postId = viewModel?.databaseService?.mainPosts[id].postID else { return }
-        viewModel?.onEditPostTap?(postId)
-    }
-}
-
-extension MainViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }

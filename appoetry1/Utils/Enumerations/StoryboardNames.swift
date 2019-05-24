@@ -1,5 +1,5 @@
 //
-//  Storyboard.swift
+//  StoryboardNames.swift
 //  appoetry1
 //
 //  Created by Kristaps Brēmers on 28.02.19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum Storyboard: String {
+enum StoryboardNames: String {
     case login = "Login"
     case main = "Main"
     case register = "Register"

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DeleteAccViewModel {
+final class DeleteAccViewModel {
     
     var onSuccessfulDeletion: (() -> Void)?
     var onCancelTap: (() -> Void)?

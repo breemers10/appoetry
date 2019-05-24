@@ -8,11 +8,12 @@
 
 import UIKit
 
-class ProfilesViewModel {
+final class ProfilesViewModel {
     var onCreatePostTap: (() -> Void)?
     var onSignOutTap: (() -> Void)?
     var onFollowersButtonTap: (() -> Void)?
     var onFollowingButtonTap: (() -> Void)?
+    var onPostTap: ((String) -> Void)?
 
     var idx: String
     
@@ -79,6 +80,10 @@ class ProfilesViewModel {
                 completionHandler(false)
             }
         })
+    }
+    
+    func checkIfCurrentUser() -> String? {
+        return databaseService?.getCurrentUID()
     }
     
     func createPost() {

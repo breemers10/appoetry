@@ -8,25 +8,28 @@
 
 import UIKit
 
-class FollowersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+final class FollowersViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var noUsersLabel: UILabel!
     
     var viewModel: FollowersViewModel?
-    let createPostButton = UIButton(type: .system)
+    private let searchController = UISearchController(searchResultsController: nil)
     
-    var username: String?
-    var fullName: String?
-    var imageUrl: String?
-    var userID: String?
+    private var filteredNames: [UserInfo]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search users"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
                 
         setupNavigationBarItems()
-        addingTargetToCreatePostVC()
         retrieveUsers()
     }
     
@@ -35,12 +38,41 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func retrieveUsers() {
-        viewModel?.fetchFollowers(with: { (fetched) in
+        viewModel?.fetchFollowers(with: { [weak self] (fetched) in
             if fetched {
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         })
     }
+    
+    private func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    private func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        let names = viewModel?.databaseService?.userInfoArr
+        filteredNames = names!.filter({( name : UserInfo ) -> Bool in
+            return name.fullName!.lowercased().contains(searchText.lowercased()) || name.username!.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+    }
+    
+    private func setupNavigationBarItems() {
+        
+        let imageView = UIImageView(image: UIImage.logo)
+        imageView.contentMode = .scaleAspectFit
+        navigationItem.titleView = imageView
+        
+        navigationItem.title = "Followers"
+    }
+}
+
+extension FollowersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
@@ -54,8 +86,18 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "followersUserCell", for: indexPath)
         
         if let myCell = cell as? FollowersTableViewCell {
-            if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
-                myCell.configure(userInfo: userInfo)
+            if filteredNames?.isEmpty ?? false {
+                if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+                    myCell.configure(userInfo: userInfo)
+                }
+            } else if filteredNames != nil{
+                if let userInfo = filteredNames?[indexPath.row] {
+                    myCell.configure(userInfo: userInfo)
+                }
+            } else {
+                if let userInfo = viewModel?.databaseService?.userInfoArr[indexPath.row] {
+                    myCell.configure(userInfo: userInfo)
+                }
             }
         }
         return cell
@@ -67,34 +109,24 @@ class FollowersViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (viewModel?.databaseService?.userInfoArr.count)!
-    }
-    
-    @objc private func createPostButtonPressed(sender: UIButton) {
-        viewModel?.onCreatePostTap?()
-    }
-    
-    private func addingTargetToCreatePostVC() {
-        createPostButton.addTarget(self, action: #selector(self.createPostButtonPressed(sender:)), for: .touchUpInside)
-    }
-    
-    private func setupNavigationBarItems() {
-        
-        createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
-        
-        let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
-        
-        navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
-        navigationItem.title = "Appoetry"
+        if isFiltering() && filteredNames?.isEmpty ?? false {
+            noUsersLabel.isHidden = false
+            return 0
+        } else if filteredNames?.isEmpty ?? false {
+            noUsersLabel.isHidden = true
+            return viewModel?.databaseService?.userInfoArr.count ?? 0
+        } else if filteredNames != nil {
+            noUsersLabel.isHidden = true
+            return (filteredNames?.count)!
+        } else {
+            noUsersLabel.isHidden = true
+            return viewModel?.databaseService?.userInfoArr.count ?? 0
+        }
     }
 }
 
-extension FollowersViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
+extension FollowersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
 }
-

@@ -8,28 +8,29 @@
 
 import UIKit
 
-class ProfilesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+final class ProfilesViewController: UIViewController {
     
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var usernameLabel: UILabel!
+    @IBOutlet private weak var fullNameLabel: UILabel!
+    @IBOutlet private weak var emailLabel: UILabel!
+    @IBOutlet private weak var firstGenreLabel: UILabel!
+    @IBOutlet private weak var secondGenreLabel: UILabel!
+    @IBOutlet private weak var thirdGenreLabel: UILabel!
+    @IBOutlet private weak var favoriteGenresLabel: UILabel!
+    @IBOutlet private weak var firstNumberLabel: UILabel!
+    @IBOutlet private weak var secondNumberLabel: UILabel!
+    @IBOutlet private weak var thirdNumberLabel: UILabel!
+    @IBOutlet private weak var profilePicture: UIImageView!
+    @IBOutlet private weak var followButton: UIButton!
+    @IBOutlet private weak var unfollowButton: UIButton!
+    @IBOutlet private weak var followersButton: UIButton!
+    @IBOutlet private weak var followingButton: UIButton!
+    
+    private let createPostButton = UIButton(type: .system)
+    private let signOutButton = UIButton(type: .system)
+
     var viewModel: ProfilesViewModel?
-    @IBOutlet weak var collectionView: UICollectionView!
-    let createPostButton = UIButton(type: .system)
-    let signOutButton = UIButton(type: .system)
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var fullNameLabel: UILabel!
-    @IBOutlet weak var emailLabel: UILabel!
-    @IBOutlet weak var firstGenreLabel: UILabel!
-    @IBOutlet weak var secondGenreLabel: UILabel!
-    @IBOutlet weak var thirdGenreLabel: UILabel!
-    @IBOutlet weak var favoriteGenresLabel: UILabel!
-    @IBOutlet weak var firstNumberLabel: UILabel!
-    @IBOutlet weak var secondNumberLabel: UILabel!
-    @IBOutlet weak var thirdNumberLabel: UILabel!
-    
-    @IBOutlet weak var profilePicture: UIImageView!
-    @IBOutlet weak var followButton: UIButton!
-    @IBOutlet weak var unfollowButton: UIButton!
-    @IBOutlet weak var followersButton: UIButton!
-    @IBOutlet weak var followingButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,36 +52,36 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     private func fetchUsersInfo() {
-        viewModel?.getUserInfo(with: { (fetched) in
+        viewModel?.getUserInfo(with: { [weak self] (fetched) in
             if fetched {
-                guard let userInfo = self.viewModel?.databaseService?.userInfo else { return }
+                guard let userInfo = self?.viewModel?.databaseService?.userInfo else { return }
                 guard let imageUrl = userInfo.imageUrl else { return }
                 let url = URL(string: imageUrl)
                 
-                self.usernameLabel.text = userInfo.username
-                self.fullNameLabel.text = userInfo.fullName
-                self.emailLabel.text = userInfo.email
-                self.firstGenreLabel.text = userInfo.firstGenre
-                self.secondGenreLabel.text = userInfo.secondGenre
-                self.thirdGenreLabel.text = userInfo.thirdGenre
-                self.favoriteGenresLabel.text = "Favorite genres:"
-                self.firstNumberLabel.text = "1."
-                self.secondNumberLabel.text = "2."
-                self.thirdNumberLabel.text = "3."
-                self.profilePicture.kf.setImage(with: url)
+                self?.usernameLabel.text = userInfo.username
+                self?.fullNameLabel.text = userInfo.fullName
+                self?.emailLabel.text = userInfo.email
+                self?.firstGenreLabel.text = userInfo.firstGenre
+                self?.secondGenreLabel.text = userInfo.secondGenre
+                self?.thirdGenreLabel.text = userInfo.thirdGenre
+                self?.favoriteGenresLabel.text = "Favorite genres:"
+                self?.firstNumberLabel.text = "1."
+                self?.secondNumberLabel.text = "2."
+                self?.thirdNumberLabel.text = "3."
+                self?.profilePicture.kf.setImage(with: url)
                 
-                if (self.viewModel?.databaseService?.isCurrentUser)! {
-                    self.followButton.isHidden = true
-                    self.unfollowButton.isHidden = true
+                if userInfo.userID == self?.viewModel?.checkIfCurrentUser() {
+                    self?.followButton.isHidden = true
+                    self?.unfollowButton.isHidden = true
                 }
             }
         })
     }
     
     private func fetchPosts() {
-        viewModel?.getProfilesFeed(with: { (fetched) in
+        viewModel?.getProfilesFeed(with: { [weak self] (fetched) in
             if fetched {
-                self.collectionView.reloadData()
+                self?.collectionView.reloadData()
             }
         })
     }
@@ -135,40 +136,50 @@ class ProfilesViewController: UIViewController, UICollectionViewDelegate, UIColl
         viewModel?.createPost()
     }
     
-    private func setupNavigationBarItems() {
-        createPostButton.setImage(UIImage(named: "create_new")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+    @objc private func tapFunction(sender: UITapGestureRecognizer) {
+        guard let postId = viewModel?.databaseService?.profilePosts[(sender.view?.tag)!].postID else { return }
         
+        viewModel?.onPostTap?(postId)
+    }
+    
+    private func setupNavigationBarItems() {
+        
+        createPostButton.setImage(UIImage.create_new?.withRenderingMode(.alwaysOriginal), for: .normal)
+        createPostButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+                
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createPostButton)
         
-        let titleTextAttributed: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(displayP3Red: 110/255, green: 37/255, blue: 37/255, alpha: 0.85), .font: UIFont(name: "SnellRoundhand-Bold", size: 30) as Any]
+        let imageView = UIImageView(image: UIImage.logo)
+        imageView.contentMode = .scaleAspectFit
+        self.navigationItem.titleView = imageView
         
-        navigationController?.navigationBar.titleTextAttributes = titleTextAttributed
-        navigationItem.title = "Appoetry"
+        navigationItem.title = "Profile"
     }
+}
+
+extension ProfilesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (viewModel?.databaseService?.profilesPosts.count)!
+        return viewModel?.databaseService?.profilePosts.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profilesPostCell", for: indexPath)
         if let myCell = cell as? ProfilesFeedCell {
-            if let post = viewModel?.databaseService?.profilesPosts[indexPath.row] {
+            if let post = viewModel?.databaseService?.profilePosts[indexPath.row] {
                 myCell.configure(post: post)
                 myCell.viewModel = viewModel
+                
+                myCell.poemLabel.tag = indexPath.row
+                myCell.poemLabel.isUserInteractionEnabled = true
+                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+                myCell.poemLabel.addGestureRecognizer(tap)
             }
         }
         return cell
-    }
-}
-
-extension ProfilesViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }

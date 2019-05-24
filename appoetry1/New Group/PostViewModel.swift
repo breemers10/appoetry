@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostViewModel: NSObject {
+final class PostViewModel: NSObject {
     var onAuthorTap: ((String) -> Void)?
     
     var idx: String

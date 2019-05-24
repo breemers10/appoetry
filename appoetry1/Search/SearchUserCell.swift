@@ -6,17 +6,17 @@
 //  Copyright © 2019. g. Chili. All rights reserved.
 //
 
-import UIKit
 import Kingfisher
 
-class SearchUserCell: UITableViewCell {
+final class SearchUserCell: UITableViewCell {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var fullNameLabel: UILabel!
     
     func configure(userInfo: UserInfo) {
-        guard let url = URL(string: userInfo.imageUrl!) else { return }
+        guard let imageUrl = userInfo.imageUrl else { return }
+        guard let url = URL(string: imageUrl) else { return }
         userImage.kf.setImage(with: url)
         usernameLabel.text = userInfo.username
         fullNameLabel.text = userInfo.fullName

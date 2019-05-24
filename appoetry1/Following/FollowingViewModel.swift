@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FollowingViewModel {
+final class FollowingViewModel {
     var onCreatePostTap: (() -> Void)?
     var onCellTap: ((String) -> Void)?
     

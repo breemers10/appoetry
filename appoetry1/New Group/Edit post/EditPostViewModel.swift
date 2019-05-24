@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditPostViewModel {
+final class EditPostViewModel {
     
     var onSuccessfulDeletion: (() -> Void)?
     var onSuccessfulEdit: (() -> Void)?
@@ -36,4 +36,3 @@ class EditPostViewModel {
         databaseService?.deletePost(postID: postID)
     }
 }
-

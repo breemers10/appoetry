@@ -8,29 +8,20 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class RegisterViewController: UIViewController {
     
     @IBOutlet weak var registerEmail: UITextField!
     @IBOutlet weak var registerPassword: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var uploadButton: UIButton!
     
     var viewModel: RegisterViewModel?
-    var picker = UIImagePickerController()
-    var user: [UserInfo] = []
-    var isEmailUsed = true
+    private var picker = UIImagePickerController()
+    private var user: [UserInfo] = []
+    private var isEmailUsed = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        picker.delegate = self
-        
-        imageView.image = UIImage(named: "user-default")
-        imageView.layer.cornerRadius = imageView.frame.size.width / 2
-        imageView.clipsToBounds = true
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
-        imageView.isUserInteractionEnabled = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -41,63 +32,44 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.imageView.image = image
-            uploadButton.isHidden = true
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func uploadPhotoButtonPressed(_ sender: Any) {
-        picker.allowsEditing = true
-        picker.sourceType = .photoLibrary
-        
-        self.present(picker, animated: true, completion: nil)
-    }
-    
     @IBAction func nextFromFirstStep(_ sender: Any) {
         let providedEmailAddress = registerEmail.text
         let providedPassword = registerPassword.text
         
         let isEmailAddressValid = isValidEmailAddress(emailAddressString: providedEmailAddress!)
-        let isPasswordValid = isValidPassword(testStr: providedPassword)
+        let isPasswordValid = isValidPassword(password: providedPassword)
         
         if !isEmailAddressValid {
-            print("Email address is not valid")
             displayAlertMessage(messageToDisplay: "Email address is not valid")
+            return
         }
         
-        isEmailAlreadyTaken(emailAddressString: providedEmailAddress!) { [weak self] (isTaken) in
+        viewModel?.checkIfEmailIsTaken(emailAddressString: providedEmailAddress!) { [weak self] (isTaken) in
             if isTaken {
                 self?.isEmailUsed = true
                 self?.displayAlertMessage(messageToDisplay: "User with this email already exists!")
             } else {
                 self?.isEmailUsed = false
-            }
-        }
-        
-        if !isPasswordValid {
-            displayAlertMessage(messageToDisplay: "Password is not valid")
-        }
-        
-        if self.confirmPassword.text == self.registerPassword.text {
-            guard
-                let email = registerEmail.text,
-                let password = registerPassword.text
-                else { return }
-            
-            guard let data = imageView.image!.jpegData(compressionQuality: 0.6) else { return }
-            
-            viewModel?.storeUsersPhoto(data: data, with: { [weak self] (url) in
-                guard let self = self else { return }
-                self.viewModel?.addCredentials(email: email, password: password, imageUrl: url.absoluteString)
-                if !(self.isEmailUsed) {
-                    self.viewModel?.secondStep()
+                
+                if !isPasswordValid {
+                    self?.displayAlertMessage(messageToDisplay: "Password is not valid")
+                    return
                 }
-            })
-        } else {
-            displayAlertMessage(messageToDisplay: "Passwords does not match!")
+                
+                if self?.confirmPassword.text == self?.registerPassword.text {
+                    guard
+                        let email = self?.registerEmail.text,
+                        let password = self?.registerPassword.text
+                        else { return }
+                    
+                    self?.viewModel?.addCredentials(email: email, password: password)
+                    if !(self?.isEmailUsed)! {
+                        self?.viewModel?.secondStep()
+                    }
+                } else {
+                    self?.displayAlertMessage(messageToDisplay: "Passwords does not match!")
+                }
+            }
         }
     }
     
@@ -122,25 +94,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         return returnValue
     }
     
-    func isEmailAlreadyTaken(emailAddressString: String, with completionHandler: @escaping (Bool) -> Void) {
-        
-        DatabaseService.instance.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-            var isAlreadyUsed = false
-            let value = snapshot.value as! [String : AnyObject]
-            value.forEach({ (key, value) in
-                guard let email = value["email"] as? String else { return }
-                if email == emailAddressString {
-                    isAlreadyUsed = true
-                }
-            })
-            completionHandler(isAlreadyUsed)
-        })
-    }
-    
-    func isValidPassword(testStr:String?) -> Bool {
-        guard testStr != nil else { return false }
-        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
-        return passwordTest.evaluate(with: testStr)
+    func isValidPassword(password: String?) -> Bool {
+        guard password != nil else { return false }
+        let passwordRegEx = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
+        return passwordRegEx.evaluate(with: password)
     }
     
     func displayAlertMessage(messageToDisplay: String) {
@@ -152,11 +109,5 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion:nil)
-    }
-}
-
-extension RegisterViewController: ClassName {
-    static var className: String {
-        return String(describing: self)
     }
 }
